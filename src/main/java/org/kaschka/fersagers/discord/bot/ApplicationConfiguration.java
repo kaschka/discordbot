@@ -13,7 +13,10 @@ public class ApplicationConfiguration {
     public static void main(String[] args) {
         if(args.length > 1) {
             throw new IllegalArgumentException("To many args!");
+        } else if (args.length == 0) {
+            throw new IllegalArgumentException("Api Key Required!");
         }
+
         CLIENT_TOKEN = args[0];
 
         ShardManager shardManager = getShardManager();
