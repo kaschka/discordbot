@@ -2,8 +2,8 @@ package org.kaschka.fersagers.discord.bot;
 
 import javax.security.auth.login.LoginException;
 
-import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
-import net.dv8tion.jda.bot.sharding.ShardManager;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import org.kaschka.fersagers.discord.bot.listener.ChatListener;
 
 public class ApplicationConfiguration {

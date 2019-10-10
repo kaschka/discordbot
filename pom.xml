@@ -11,7 +11,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jda.version>3.8.3_462</jda.version>
+        <jda.version>4.0.0_51</jda.version>
     </properties>
 
     <dependencies>

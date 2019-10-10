@@ -2,10 +2,10 @@ package org.kaschka.fersagers.discord.bot.listener;
 
 import java.util.regex.Pattern;
 
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.kaschka.fersagers.discord.bot.utils.ChatLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
