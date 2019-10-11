@@ -11,7 +11,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jda.version>4.0.0_51</jda.version>
+        <jda.version>4.0.0_50</jda.version>
     </properties>
 
     <dependencies>
@@ -19,6 +19,13 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>${jda.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
         </dependency>
     </dependencies>
 
