@@ -2,6 +2,7 @@ package org.kaschka.fersagers.discord.bot;
 
 import javax.security.auth.login.LoginException;
 
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.kaschka.fersagers.discord.bot.listener.ChatListener;
@@ -25,7 +26,11 @@ public class ApplicationConfiguration {
 
     private static ShardManager getShardManager() {
         try {
-            return new DefaultShardManagerBuilder().setToken(CLIENT_TOKEN).build();
+            return new DefaultShardManagerBuilder()
+                    .setToken(CLIENT_TOKEN)
+                    .setActivity(Activity.playing("Beep, Boop, I am a bot!"))
+                    .setAutoReconnect(true)
+                    .build();
         } catch (LoginException e) {
             e.printStackTrace();
         }
