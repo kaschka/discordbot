@@ -56,6 +56,13 @@ public class ChatListener extends ListenerAdapter {
         logger.debug("Replaced XD from: " + event.getAuthor().getName() + "@" + event.getGuild().getName() + "@" + event.getChannel().getName());
     }
 
+    private void handleMusicChannelMessage(MessageReceivedEvent event) {
+        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw())) {
+            event.getMessage().delete().queue();
+            event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName())).queue());
+        }
+    }
+
     private boolean containsXD(String string) {
         return XD_REGEX.matcher(string).find();
     }

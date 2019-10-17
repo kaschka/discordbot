@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
+import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 public class CommandHandlerImpl implements CommandHandler {
 
@@ -53,9 +54,9 @@ public class CommandHandlerImpl implements CommandHandler {
             Thread.sleep(500);
             for (int i = 0; i < 5; i++) {
                 Thread.sleep(500);
-                guild.moveVoiceMember(member, newChannel).complete();
+                guild.moveVoiceMember(member, newChannel).queue();
                 Thread.sleep(500);
-                guild.moveVoiceMember(member, channelBefore).complete();
+                guild.moveVoiceMember(member, channelBefore).queue();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -67,7 +68,7 @@ public class CommandHandlerImpl implements CommandHandler {
     private Member getMemberByName(MessageReceivedEvent event, String name) {
         List<Member> membersByName = event.getGuild().getMembersByName(name, true);
         if(membersByName.isEmpty()) {
-            event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage(String.format("User '%s' does not exist", name)).queue());
+            MessageUtils.sendMessageToUser(event.getAuthor(), String.format("User '%s' does not exist", name));
             throw new RuntimeException();
         }
         return membersByName.get(0);
@@ -101,17 +102,17 @@ public class CommandHandlerImpl implements CommandHandler {
 
     private void assertFuckCommand(String[] args, MessageReceivedEvent event) {
         if (!hasPermissions("Bot Permissions", event.getMember())) {
-            event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage("No permissions").queue());
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Required permissions are missing!");
             throw new RuntimeException();
         } else if (args.length != 2) {
-            event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage("Invalid args.\n Use /fuck [Name] [Name]").queue());
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /fuck [Name] [Name]");
             throw new RuntimeException();
         }
     }
 
     private void assertUserIsInChannel(User author, String memberName, VoiceChannel voiceChannel) {
         if (voiceChannel == null) {
-            author.openPrivateChannel().queue((channel) -> channel.sendMessage(String.format("User '%s' is not in a voicechannel", memberName)).queue());
+            MessageUtils.sendMessageToUser(author, String.format("User '%s' is not in a voicechannel", memberName));
             throw new RuntimeException();
         }
     }
