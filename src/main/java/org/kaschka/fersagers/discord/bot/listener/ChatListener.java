@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.handler.CommandHandler;
 import org.kaschka.fersagers.discord.bot.handler.CommandHandlerImpl;
 import org.kaschka.fersagers.discord.bot.utils.ChatLogger;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 public class ChatListener extends ListenerAdapter {
 
     private static final Pattern XD_REGEX = Pattern.compile("(?!(xD(?!\\w)))\\b((x|X)+(d|D)+)+", Pattern.MULTILINE);
+
+    private static final String MUSIC_CHANNEL = "musik";
 
     private Logger logger = LoggerFactory.getLogger("ChatListener");
     private ChatLogger chatLogger = new ChatLogger();
@@ -27,12 +30,12 @@ public class ChatListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        chatLogger.logChatMessage(event);
-
         if(event.isFromType(ChannelType.TEXT) && !event.getAuthor().isBot()) {
+            chatLogger.logChatMessage(event);
             if(!isCommand(event)) {
-
-                if(containsXD(event.getMessage().getContentRaw())) {
+                if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {
+                    handleMusicChannelMessage(event);
+                } else if(containsXD(event.getMessage().getContentRaw())) {
                     editMessage(event);
                 }
             }
