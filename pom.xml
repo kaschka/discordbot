@@ -55,7 +55,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.kaschka.fersagers.discord.bot.ApplicationConfiguration</mainClass>
+                            <mainClass>org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -75,7 +75,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.kaschka.fersagers.discord.bot.ApplicationConfiguration</mainClass>
+                            <mainClass>org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

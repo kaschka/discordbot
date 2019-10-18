@@ -1,4 +1,4 @@
-package org.kaschka.fersagers.discord.bot;
+package org.kaschka.fersagers.discord.bot.configuration;
 
 import javax.security.auth.login.LoginException;
 
@@ -11,7 +11,7 @@ public class ApplicationConfiguration {
 
     private static String CLIENT_TOKEN;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         if(args.length > 1) {
             throw new IllegalArgumentException("To many args!");
         } else if (args.length == 0) {
@@ -21,7 +21,12 @@ public class ApplicationConfiguration {
         CLIENT_TOKEN = args[0];
 
         ShardManager shardManager = getShardManager();
+        addEventListeners(shardManager);
+    }
+
+    private static void addEventListeners(ShardManager shardManager) {
         shardManager.addEventListener(new ChatListener());
+        shardManager.addEventListener(new JDAReadyListener());
     }
 
     private static ShardManager getShardManager() {

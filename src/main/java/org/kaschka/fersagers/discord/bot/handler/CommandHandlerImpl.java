@@ -11,9 +11,12 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
+import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 public class CommandHandlerImpl implements CommandHandler {
+
+    private final static Logger logger = Logger.getInstance();
 
     public boolean handle(String message, MessageReceivedEvent event) {
         if(StringUtils.isEmpty(message)) {
@@ -33,6 +36,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     private void handleFuck(String[] args, MessageReceivedEvent event) {
+        logger.logChatMessage(event);
         event.getMessage().delete().complete();
         assertFuckCommand(args, event);
 
@@ -69,6 +73,8 @@ public class CommandHandlerImpl implements CommandHandler {
         List<Member> membersByName = event.getGuild().getMembersByName(name, true);
         if(membersByName.isEmpty()) {
             MessageUtils.sendMessageToUser(event.getAuthor(), String.format("User '%s' does not exist", name));
+            logger.log(String.format("User '%s' does not exist", name));
+
             throw new RuntimeException();
         }
         return membersByName.get(0);
@@ -103,9 +109,11 @@ public class CommandHandlerImpl implements CommandHandler {
     private void assertFuckCommand(String[] args, MessageReceivedEvent event) {
         if (!hasPermissions("Bot Permissions", event.getMember())) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Required permissions are missing!");
+            logger.log("Required permissions are missing!");
             throw new RuntimeException();
         } else if (args.length != 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /fuck [Name] [Name]");
+            logger.log("Invalid args.\n Use /fuck [Name] [Name]");
             throw new RuntimeException();
         }
     }
@@ -113,6 +121,7 @@ public class CommandHandlerImpl implements CommandHandler {
     private void assertUserIsInChannel(User author, String memberName, VoiceChannel voiceChannel) {
         if (voiceChannel == null) {
             MessageUtils.sendMessageToUser(author, String.format("User '%s' is not in a voicechannel", memberName));
+            logger.log("User '%s' is not in a voicechannel");
             throw new RuntimeException();
         }
     }
