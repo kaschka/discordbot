@@ -3,6 +3,7 @@ package org.kaschka.fersagers.discord.bot.handler;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -37,7 +38,7 @@ public class CommandHandlerImpl implements CommandHandler {
 
     private void handleFuck(String[] args, MessageReceivedEvent event) {
         logger.logChatMessage(event);
-        event.getMessage().delete().complete();
+        event.getMessage().delete().queue();
         assertFuckCommand(args, event);
 
         Guild guild = event.getGuild();
@@ -54,19 +55,12 @@ public class CommandHandlerImpl implements CommandHandler {
                 .setParent(channelBefore.getParent())
                 .complete();
 
-        try {
-            Thread.sleep(500);
-            for (int i = 0; i < 5; i++) {
-                Thread.sleep(500);
-                guild.moveVoiceMember(member, newChannel).queue();
-                Thread.sleep(500);
-                guild.moveVoiceMember(member, channelBefore).queue();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            newChannel.delete().queue();
+        for (int i = 0; i < 5; i++) {
+            guild.moveVoiceMember(member, newChannel).completeAfter(500, TimeUnit.MILLISECONDS);
+            guild.moveVoiceMember(member, channelBefore).completeAfter(500, TimeUnit.MILLISECONDS);
         }
+
+        newChannel.delete().queue();
     }
 
     private Member getMemberByName(MessageReceivedEvent event, String name) {
