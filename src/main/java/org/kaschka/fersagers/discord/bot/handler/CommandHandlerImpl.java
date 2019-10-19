@@ -73,7 +73,6 @@ public class CommandHandlerImpl implements CommandHandler {
         List<Member> membersByName = event.getGuild().getMembersByName(name, true);
         if(membersByName.isEmpty()) {
             MessageUtils.sendMessageToUser(event.getAuthor(), String.format("User '%s' does not exist", name));
-            logger.log(String.format("User '%s' does not exist", name));
 
             throw new RuntimeException();
         }
@@ -109,11 +108,9 @@ public class CommandHandlerImpl implements CommandHandler {
     private void assertFuckCommand(String[] args, MessageReceivedEvent event) {
         if (!hasPermissions("Bot Permissions", event.getMember())) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Required permissions are missing!");
-            logger.log("Required permissions are missing!");
             throw new RuntimeException();
         } else if (args.length != 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /fuck [Name] [Name]");
-            logger.log("Invalid args.\n Use /fuck [Name] [Name]");
             throw new RuntimeException();
         }
     }
@@ -121,7 +118,6 @@ public class CommandHandlerImpl implements CommandHandler {
     private void assertUserIsInChannel(User author, String memberName, VoiceChannel voiceChannel) {
         if (voiceChannel == null) {
             MessageUtils.sendMessageToUser(author, String.format("User '%s' is not in a voicechannel", memberName));
-            logger.log("User '%s' is not in a voicechannel");
             throw new RuntimeException();
         }
     }
