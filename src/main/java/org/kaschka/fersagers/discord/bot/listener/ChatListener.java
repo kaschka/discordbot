@@ -63,7 +63,9 @@ public class ChatListener extends ListenerAdapter {
     }
 
     private void handleMusicChannelMessage(MessageReceivedEvent event) {
-        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw())) {
+        String musicExceptionCase = event.getMessage().getContentRaw().split("\\s+")[0];
+
+        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!musik")) {
             event.getMessage().delete().queue();
 
             MessageUtils.sendMessageToUser(event.getAuthor(), String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName()));
