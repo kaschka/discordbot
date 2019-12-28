@@ -30,6 +30,9 @@ public class ChatListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
+        if(event.isFromType(ChannelType.PRIVATE) && !event.getAuthor().isBot()) {
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
+        }
         if(event.isFromType(ChannelType.TEXT) && !event.getAuthor().isBot()) {
             if(!isCommand(event)) {
                 if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {

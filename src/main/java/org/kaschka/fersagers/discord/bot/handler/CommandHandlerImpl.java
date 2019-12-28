@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.commons.lang3.StringUtils;
+import org.kaschka.fersagers.discord.bot.soundplayer.PlayerManager;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -32,8 +35,36 @@ public class CommandHandlerImpl implements CommandHandler {
             handleFuck(args, event);
             return true;
         }
+        if(command.equals("/play")) {
+            return handlePlay(args, event);
+        }
+        if(command.equals("/leave")) {
+            event.getGuild().getAudioManager().closeAudioConnection();
+            PlayerManager.getInstance().stop(event.getGuild());
+            return true;
+        }
 
         return false;
+    }
+
+    private boolean handlePlay(String[] args, MessageReceivedEvent event) {
+        logger.logChatMessage(event);
+        event.getMessage().delete().queue();
+
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        VoiceChannel voiceChannel = getCurrentVoiceChannel(event.getMember());
+        assertUserIsInChannel(event.getAuthor(), event.getAuthor().getName(), voiceChannel);
+
+        if (audioManager.isConnected()) {
+            MessageUtils.sendMessageToUser(event.getAuthor(),"I'm already connected to a channel. Queueing Song");
+        } else {
+            audioManager.openAudioConnection(voiceChannel);
+        }
+
+        PlayerManager manager = PlayerManager.getInstance();
+        manager.loadAndPlay(getCurrentVoiceChannel(getMemberByName(event, event.getAuthor().getName())), args[0]);
+        manager.getGuildMusicManager(event.getGuild()).player.setVolume(100);
+        return true;
     }
 
     private void handleFuck(String[] args, MessageReceivedEvent event) {
@@ -74,15 +105,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     private VoiceChannel getCurrentVoiceChannel(Member member) {
-        Guild guild = member.getGuild();
-        List<VoiceChannel> voiceChannels = guild.getVoiceChannels();
-
-        for (VoiceChannel voiceChannel : voiceChannels) {
-            if(voiceChannel.getMembers().contains(member)) {
-                return voiceChannel;
-            }
-        }
-        return null;
+        return member.getVoiceState().getChannel();
     }
 
     private boolean hasPermissions(String requiredRole, Member member) {
