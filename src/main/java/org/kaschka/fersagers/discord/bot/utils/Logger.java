@@ -39,6 +39,16 @@ public class Logger {
         );
     }
 
+    public void logPrivateMessage(MessageReceivedEvent message) {
+        logFormatted(
+                String.format(
+                        "[Private] %s: %s",
+                        message.getAuthor().getName(),
+                        message.getMessage()
+                )
+        );
+    }
+
     public void setLogChannel(TextChannel channel) {
         if(logChannel == null) {
             logChannel = channel;

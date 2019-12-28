@@ -53,7 +53,7 @@ public class ChatListener extends ListenerAdapter {
         if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {
             String musicExceptionCase = event.getMessage().getContentRaw().split("\\s+")[0];
 
-            if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!-musik")) {
+            if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!musik")) {
                 event.getMessage().delete().queue();
 
                 MessageUtils.sendMessageToUser(event.getAuthor(), String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName()));
@@ -71,6 +71,7 @@ public class ChatListener extends ListenerAdapter {
 
     private boolean answerOnDirectMessage(MessageReceivedEvent event) {
         if(event.isFromType(ChannelType.PRIVATE)) {
+            logger.logPrivateMessage(event);
             MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
             return true;
         }

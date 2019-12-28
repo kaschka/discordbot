@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
+    private final static String PREFIX = "/";
 
     private final Map<String, Command> commands = new HashMap<>();
 
@@ -34,9 +35,9 @@ public class CommandHandler {
     }
 
     public void handleCommand(MessageReceivedEvent event) {
-        final String prefix = "/";
 
-        final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "").split("\\s+");
+
+        final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(PREFIX), "").split("\\s+");
         final String invoke = split[0].toLowerCase();
 
         if (commands.containsKey(invoke)) {
