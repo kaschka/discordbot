@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.SkipCommand;
 
 public class CommandHandler {
     private final static String PREFIX = "/";
@@ -18,6 +22,8 @@ public class CommandHandler {
         addCommand(new FuckCommand());
         addCommand(new PlayCommand());
         addCommand(new LeaveCommand());
+        addCommand(new ShowCommand());
+        addCommand(new SkipCommand());
     }
 
     private void addCommand(Command command) {
@@ -35,8 +41,6 @@ public class CommandHandler {
     }
 
     public void handleCommand(MessageReceivedEvent event) {
-
-
         final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(PREFIX), "").split("\\s+");
         final String invoke = split[0].toLowerCase();
 

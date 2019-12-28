@@ -12,7 +12,7 @@ public class DiscordUtils {
         return member.getVoiceState().getChannel();
     }
 
-    public static void assertUserIsInChannel(User author, String memberName, VoiceChannel voiceChannel) {
+    public static void assertVoiceChannelNotNull(User author, String memberName, VoiceChannel voiceChannel) {
         if (voiceChannel == null) {
             MessageUtils.sendMessageToUser(author, String.format("User '%s' is not in a voicechannel", memberName));
             throw new RuntimeException();
@@ -33,5 +33,16 @@ public class DiscordUtils {
             throw new RuntimeException();
         }
         return member.getRoles().stream().anyMatch(role -> role.getName().equals(requiredRole));
+    }
+
+    public static void assertPermissions(String requiredRole, Member member) {
+        if(!hasPermissions(requiredRole, member)) {
+            MessageUtils.sendMessageToUser(member.getUser(), "Required permissions are missing!");
+            throw new RuntimeException();
+        }
+    }
+
+    public static boolean isInVoiceChannel(Member member, VoiceChannel channel) {
+        return channel.getMembers().contains(member);
     }
 }

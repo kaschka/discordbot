@@ -13,6 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
+
     private final BlockingQueue<AudioTrack> queue;
 
     private final Guild guild;
@@ -50,5 +51,9 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
         Logger.getInstance().log("stuck");
+    }
+
+    public BlockingQueue<AudioTrack> getQueue() {
+        return queue;
     }
 }

@@ -11,7 +11,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertUserIsInChannel;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertVoiceChannelNotNull;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getCurrentVoiceChannel;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getMemberByName;
 
@@ -20,6 +21,7 @@ public class FuckCommand implements Command {
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
         MessageUtils.logAndDeleteMessage(event);
+        assertPermissions("Bot Permissions", event.getMember());
         assertFuckCommand(args, event);
 
         Guild guild = event.getGuild();
@@ -29,7 +31,7 @@ public class FuckCommand implements Command {
         Member member = getMemberByName(event, memberName);
 
         VoiceChannel channelBefore = getCurrentVoiceChannel(member);
-        assertUserIsInChannel(event.getAuthor(), memberName, channelBefore);
+        assertVoiceChannelNotNull(event.getAuthor(), memberName, channelBefore);
 
         VoiceChannel newChannel = guild
                 .createVoiceChannel(channelName)
@@ -45,10 +47,7 @@ public class FuckCommand implements Command {
     }
 
     private void assertFuckCommand(List<String> args, MessageReceivedEvent event) {
-        if (!DiscordUtils.hasPermissions("Bot Permissions", event.getMember())) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Required permissions are missing!");
-            throw new RuntimeException();
-        } else if (args.size() != 2) {
+        if (args.size() != 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /fuck [Name] [Name]");
             throw new RuntimeException();
         }
