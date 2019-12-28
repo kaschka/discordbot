@@ -31,25 +31,28 @@ public class CommandHandlerImpl implements CommandHandler {
         String command = messages[0];
         String[] args = Arrays.copyOfRange(messages, 1, messages.length);
 
-        if(command.equals("/fuck")) {
-            handleFuck(args, event);
-            return true;
-        }
-        if(command.equals("/play")) {
-            return handlePlay(args, event);
-        }
-        if(command.equals("/leave")) {
-            event.getGuild().getAudioManager().closeAudioConnection();
-            PlayerManager.getInstance().stop(event.getGuild());
-            return true;
+        switch (command) {
+            case "/fuck":
+                return handleFuck(args, event);
+            case "/play":
+                return handlePlay(args, event);
+            case "/leave":
+                return handleLeave(event);
         }
 
         return false;
     }
 
+    private boolean handleLeave(MessageReceivedEvent event) {
+        logAndDeleteMessage(event);
+
+        event.getGuild().getAudioManager().closeAudioConnection();
+        PlayerManager.getInstance().stop(event.getGuild());
+        return true;
+    }
+
     private boolean handlePlay(String[] args, MessageReceivedEvent event) {
-        logger.logChatMessage(event);
-        event.getMessage().delete().queue();
+        logAndDeleteMessage(event);
 
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = getCurrentVoiceChannel(event.getMember());
@@ -67,9 +70,8 @@ public class CommandHandlerImpl implements CommandHandler {
         return true;
     }
 
-    private void handleFuck(String[] args, MessageReceivedEvent event) {
-        logger.logChatMessage(event);
-        event.getMessage().delete().queue();
+    private boolean handleFuck(String[] args, MessageReceivedEvent event) {
+        logAndDeleteMessage(event);
         assertFuckCommand(args, event);
 
         Guild guild = event.getGuild();
@@ -92,6 +94,12 @@ public class CommandHandlerImpl implements CommandHandler {
         }
 
         newChannel.delete().queue();
+        return true;
+    }
+
+    private void logAndDeleteMessage(MessageReceivedEvent event) {
+        logger.logChatMessage(event);
+        event.getMessage().delete().queue();
     }
 
     private Member getMemberByName(MessageReceivedEvent event, String name) {
@@ -112,14 +120,7 @@ public class CommandHandlerImpl implements CommandHandler {
         if(member == null || requiredRole == null) {
             throw new RuntimeException();
         }
-
-        List<Role> roles = member.getRoles();
-        for(Role role : roles) {
-            if(role.getName().equals(requiredRole)) {
-                return true;
-            }
-        }
-        return false;
+        return member.getRoles().stream().anyMatch(role -> role.getName().equals(requiredRole));
     }
 
     private void assertFuckCommand(String[] args, MessageReceivedEvent event) {
