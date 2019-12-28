@@ -8,8 +8,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.validator.routines.UrlValidator;
-import org.kaschka.fersagers.discord.bot.handler.CommandHandler;
-import org.kaschka.fersagers.discord.bot.handler.CommandHandlerImpl;
+import org.kaschka.fersagers.discord.bot.commands.CommandHandler;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -21,39 +20,68 @@ public class ChatListener extends ListenerAdapter {
 
     private final static Logger logger = Logger.getInstance();
 
-    private CommandHandler commandHandler;
+    private CommandHandler commandManager;
 
     public ChatListener() {
-        commandHandler = new CommandHandlerImpl();
+        commandManager = new CommandHandler();
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
-        if(event.isFromType(ChannelType.PRIVATE) && !event.getAuthor().isBot()) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
-        }
-        if(event.isFromType(ChannelType.TEXT) && !event.getAuthor().isBot()) {
-            if(!isCommand(event)) {
-                if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {
-                    handleMusicChannelMessage(event);
-                } else if(containsXD(event.getMessage().getContentRaw())) {
-                    editMessage(event);
-                }
+
+        if(!event.getAuthor().isBot()) {
+            if(answerOnDirectMessage(event)) return;
+
+            if(event.isFromType(ChannelType.TEXT)) {
+                if(handleMusicChannel(event)) return;
+                if(handleXDMessage(event)) return;
+                commandManager.handleCommand(event);
             }
         }
     }
 
-    private boolean isCommand(MessageReceivedEvent event) {
-        return commandHandler.handle(event.getMessage().getContentRaw(), event);
+    private boolean handleXDMessage(MessageReceivedEvent event) {
+        if(containsXD(event.getMessage().getContentRaw())) {
+              fixXDCase(event);
+              return true;
+        }
+        return false;
     }
 
-    private void editMessage(MessageReceivedEvent event) {
+    private boolean handleMusicChannel(MessageReceivedEvent event) {
+        if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {
+            String musicExceptionCase = event.getMessage().getContentRaw().split("\\s+")[0];
+
+            if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!-musik")) {
+                event.getMessage().delete().queue();
+
+                MessageUtils.sendMessageToUser(event.getAuthor(), String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName()));
+                logger.log(String.format("User %s@%s@%s wrote in %s Channel: %s",
+                        event.getAuthor().getName(),
+                        event.getGuild().getName(),
+                        event.getChannel().getName(),
+                        event.getChannel().getName(),
+                        event.getMessage().getContentRaw()));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean answerOnDirectMessage(MessageReceivedEvent event) {
+        if(event.isFromType(ChannelType.PRIVATE)) {
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
+            return true;
+        }
+        return false;
+    }
+
+    private void fixXDCase(MessageReceivedEvent event) {
         MessageChannel channel = event.getChannel();
 
         String newMessage = String.format("```\n%s\n``` \nFTFY %s",
-                event.getMessage().getContentRaw()
-                        .replaceAll(XD_REGEX.toString(), "xD"),
+                event.getMessage().getContentRaw().replaceAll(XD_REGEX.toString(), "xD"),
                 event.getAuthor());
 
         channel.deleteMessageById(event.getMessageId()).queue();
@@ -63,22 +91,6 @@ public class ChatListener extends ListenerAdapter {
                 event.getAuthor().getName(),
                 event.getGuild().getName(),
                 event.getChannel().getName()));
-    }
-
-    private void handleMusicChannelMessage(MessageReceivedEvent event) {
-        String musicExceptionCase = event.getMessage().getContentRaw().split("\\s+")[0];
-
-        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!musik")) {
-            event.getMessage().delete().queue();
-
-            MessageUtils.sendMessageToUser(event.getAuthor(), String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName()));
-            logger.log(String.format("User %s@%s@%s wrote in %s Channel: %s",
-                    event.getAuthor().getName(),
-                    event.getGuild().getName(),
-                    event.getChannel().getName(),
-                    event.getChannel().getName(),
-                    event.getMessage().getContentRaw()));
-        }
     }
 
     private boolean containsXD(String string) {

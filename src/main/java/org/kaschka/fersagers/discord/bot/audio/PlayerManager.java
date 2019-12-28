@@ -1,4 +1,4 @@
-package org.kaschka.fersagers.discord.bot.soundplayer;
+package org.kaschka.fersagers.discord.bot.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -8,7 +8,6 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
 
@@ -43,7 +42,7 @@ public class PlayerManager {
     }
 
     public void stop(Guild guild) {
-        musicManagers.get(guild.getIdLong()).player.stopTrack();
+        musicManagers.get(guild.getIdLong()).scheduler.stop();
     }
 
     public void loadAndPlay(VoiceChannel channel, String trackUrl) {
@@ -62,7 +61,6 @@ public class PlayerManager {
                 if (firstTrack == null) {
                     firstTrack = playlist.getTracks().get(0);
                 }
-
 
                 play(musicManager, firstTrack);
             }
@@ -86,7 +84,6 @@ public class PlayerManager {
         if (INSTANCE == null) {
             INSTANCE = new PlayerManager();
         }
-
         return INSTANCE;
     }
 }

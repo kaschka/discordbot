@@ -9,16 +9,18 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Logger {
 
-    private static final Logger instance = new Logger();
-
+    private static Logger INSTANCE;
     private static TextChannel logChannel;
 
     private static ThreadLocal<String> logSessionId = new ThreadLocal<>();
 
     private Logger(){}
 
-    public static Logger getInstance() {
-        return instance;
+    public static synchronized Logger getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new Logger();
+        }
+        return INSTANCE;
     }
 
     public void log(String string) {

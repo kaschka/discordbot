@@ -1,4 +1,4 @@
-package org.kaschka.fersagers.discord.bot.soundplayer;
+package org.kaschka.fersagers.discord.bot.audio;
 
 import java.nio.ByteBuffer;
 
@@ -10,9 +10,6 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
     private final AudioPlayer audioPlayer;
     private AudioFrame lastFrame;
 
-    /**
-     * @param audioPlayer Audio player to wrap.
-     */
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
     }

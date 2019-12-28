@@ -11,7 +11,7 @@ public class ApplicationConfiguration {
 
     private static String CLIENT_TOKEN;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         if(args.length > 1) {
             throw new IllegalArgumentException("To many args!");
         } else if (args.length == 0) {

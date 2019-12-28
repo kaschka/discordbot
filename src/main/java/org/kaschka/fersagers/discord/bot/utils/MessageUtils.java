@@ -1,6 +1,7 @@
 package org.kaschka.fersagers.discord.bot.utils;
 
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public final class MessageUtils {
 
@@ -9,5 +10,10 @@ public final class MessageUtils {
     public static void sendMessageToUser(User user, String string) {
         user.openPrivateChannel().queue((channel) -> channel.sendMessage(string).queue());
         logger.log(string);
+    }
+
+    public static void logAndDeleteMessage(MessageReceivedEvent event) {
+        logger.logChatMessage(event);
+        event.getMessage().delete().queue();
     }
 }
