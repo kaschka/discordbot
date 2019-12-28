@@ -14,6 +14,7 @@ public class JDAReadyListener implements EventListener {
     public void onEvent(GenericEvent event) {
         if(event instanceof ReadyEvent) {
             Logger.getInstance().setLogChannel(event.getJDA().getTextChannelById(LOG_CHANNEL_ID));
+            Logger.getInstance().log("----------------Started!--------------------");
         }
     }
 }
