@@ -30,7 +30,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack() {
-        player.startTrack(queue.poll(), false);
+        player.startTrack(queue.poll(), true);
     }
 
     public void stop() {

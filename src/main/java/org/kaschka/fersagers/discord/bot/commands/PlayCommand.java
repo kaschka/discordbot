@@ -30,7 +30,6 @@ public class PlayCommand implements Command {
 
         PlayerManager manager = PlayerManager.getInstance();
         manager.loadAndPlay(getCurrentVoiceChannel(getMemberByName(event, event.getAuthor().getName())), args.get(0));
-        manager.getGuildMusicManager(event.getGuild()).player.setVolume(50);
     }
 
     @Override
