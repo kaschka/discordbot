@@ -28,16 +28,16 @@ public class SkipCommand implements Command {
         }
     }
 
-    @Override
-    public String getInvoke() {
-        return "skip";
-    }
-
     private void assertConnectedChannel(VoiceChannel connectedChannel, User user) {
         if(connectedChannel == null) {
             MessageUtils.sendMessageToUser(user, "Bot is not in a Channel!");
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public String getInvoke() {
+        return "skip";
     }
 
     @Override

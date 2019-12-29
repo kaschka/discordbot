@@ -23,13 +23,17 @@ public class HelpCommand implements Command {
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
         logAndDeleteMessage(event);
-        assertPermissions("Bot Permissions", event.getMember());
 
         MessageUtils.sendMessageToUser(event.getAuthor(), "Commands: " + commands.stream()
                 .map(e -> "\n-> " + e.getHelp())
                 .collect(Collectors.joining()
                 )
         );
+    }
+
+    @Override
+    public boolean isDirectMessageEnabled() {
+        return true;
     }
 
     @Override

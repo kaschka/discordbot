@@ -31,13 +31,10 @@ public class ChatListener extends ListenerAdapter {
         logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
 
         if(!event.getAuthor().isBot()) {
-            if(answerOnDirectMessage(event)) return;
+            if(commandManager.handleCommand(event)) return;
+            if(handleMusicChannel(event)) return;
+            if(handleXDMessage(event)) return;
 
-            if(event.isFromType(ChannelType.TEXT)) {
-                if(commandManager.handleCommand(event)) return;
-                if(handleMusicChannel(event)) return;
-                if(handleXDMessage(event)) return;
-            }
         }
     }
 
@@ -64,15 +61,6 @@ public class ChatListener extends ListenerAdapter {
                         event.getChannel().getName(),
                         event.getMessage().getContentRaw()));
             }
-            return true;
-        }
-        return false;
-    }
-
-    private boolean answerOnDirectMessage(MessageReceivedEvent event) {
-        if(event.isFromType(ChannelType.PRIVATE)) {
-            logger.logPrivateMessage(event);
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
             return true;
         }
         return false;

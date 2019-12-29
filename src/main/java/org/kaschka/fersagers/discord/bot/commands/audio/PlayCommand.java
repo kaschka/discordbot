@@ -5,6 +5,7 @@ import java.util.List;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
@@ -21,6 +22,11 @@ public class PlayCommand implements Command {
         MessageUtils.logAndDeleteMessage(event);
         assertPlayCommand(args, event);
         assertPermissions("Bot Permissions", event.getMember());
+
+        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw())) {
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
+            return;
+        }
 
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = getCurrentVoiceChannel(event.getMember());

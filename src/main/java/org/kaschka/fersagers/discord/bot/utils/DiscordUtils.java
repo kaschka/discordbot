@@ -28,7 +28,7 @@ public class DiscordUtils {
         return membersByName.get(0);
     }
 
-    public static boolean hasPermissions(String requiredRole, Member member) {
+    public static boolean hasPermission(String requiredRole, Member member) {
         if(member == null || requiredRole == null) {
             throw new RuntimeException();
         }
@@ -36,7 +36,7 @@ public class DiscordUtils {
     }
 
     public static void assertPermissions(String requiredRole, Member member) {
-        if(!hasPermissions(requiredRole, member)) {
+        if(!hasPermission(requiredRole, member)) {
             MessageUtils.sendMessageToUser(member.getUser(), "Required permissions are missing!");
             throw new RuntimeException();
         }

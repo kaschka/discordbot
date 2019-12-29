@@ -28,11 +28,11 @@ public class ShowCommand implements Command {
         if(!isInVoiceChannel(event.getMember(), connectedChannel)) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "You are not in the same voicechannel as the Bot!");
         } else {
-
             BlockingQueue<AudioTrack> queue = PlayerManager.getInstance().getGuildMusicManager(event.getGuild()).scheduler.getQueue();
 
             String current = PlayerManager.getInstance().getGuildMusicManager(event.getGuild()).player.getPlayingTrack().getInfo().title;
             String queueString =  "No Songs in Queue!";
+
             if(queue.size() != 0) {
                 queueString = queue.stream()
                         .map(track -> "\n-> " + track.getInfo().title)
