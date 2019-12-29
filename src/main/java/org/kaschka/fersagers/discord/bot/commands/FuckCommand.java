@@ -57,4 +57,9 @@ public class FuckCommand implements Command {
     public String getInvoke() {
         return "fuck";
     }
+
+    @Override
+    public String getHelp() {
+        return "/fuck [Nickname] [ChannelName]: User fucks the given Channel";
+    }
 }

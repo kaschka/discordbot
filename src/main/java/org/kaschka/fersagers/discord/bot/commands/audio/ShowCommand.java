@@ -56,4 +56,9 @@ public class ShowCommand implements Command {
     public String getInvoke() {
         return "show";
     }
+
+    @Override
+    public String getHelp() {
+        return "/show: Shows the current playlist";
+    }
 }

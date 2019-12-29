@@ -8,4 +8,5 @@ public interface Command {
 
     void handle(List<String> args, MessageReceivedEvent event);
     String getInvoke();
+    String getHelp();
 }

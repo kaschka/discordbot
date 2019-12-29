@@ -47,4 +47,9 @@ public class PlayCommand implements Command {
     public String getInvoke() {
         return "play";
     }
+
+    @Override
+    public String getHelp() {
+        return "/play [URL]: Plays the sound of the given url";
+    }
 }

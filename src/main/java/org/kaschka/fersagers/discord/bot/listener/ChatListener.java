@@ -34,9 +34,9 @@ public class ChatListener extends ListenerAdapter {
             if(answerOnDirectMessage(event)) return;
 
             if(event.isFromType(ChannelType.TEXT)) {
+                if(commandManager.handleCommand(event)) return;
                 if(handleMusicChannel(event)) return;
                 if(handleXDMessage(event)) return;
-                commandManager.handleCommand(event);
             }
         }
     }

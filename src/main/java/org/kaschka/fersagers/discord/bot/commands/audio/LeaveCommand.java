@@ -36,4 +36,9 @@ public class LeaveCommand implements Command {
     public String getInvoke() {
         return "leave";
     }
+
+    @Override
+    public String getHelp() {
+        return "/leave: Stops the current track";
+    }
 }

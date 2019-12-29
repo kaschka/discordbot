@@ -39,4 +39,9 @@ public class SkipCommand implements Command {
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public String getHelp() {
+        return "/skip: Skips the current track";
+    }
 }
