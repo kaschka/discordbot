@@ -46,9 +46,9 @@ public class PlayCommand implements Command {
         int loops = 1;
         if(args.size() == 2) {
             int integer = Integer.parseInt(args.get(1));
-            loops = integer <= 0 || integer >= 100 ? 1 : integer;
+            loops = integer <= 0 || integer >= 10 ? 1 : integer;
         }
-        for (int i = 0; i <= loops; i++) {
+        for (int i = 0; i < loops; i++) {
             PlayerManager.getInstance().loadAndPlay(getCurrentVoiceChannel(member), args.get(0));
         }
     }

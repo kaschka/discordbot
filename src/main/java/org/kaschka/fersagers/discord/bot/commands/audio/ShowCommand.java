@@ -40,15 +40,16 @@ public class ShowCommand implements Command {
             String current = PlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
             String queueString =  "No Songs in Queue!";
 
-            if(queue.size() != 0) {
+            if(queue.size() > 0) {
                 queueString = queue.stream()
                         .map(track -> "\n-> " + track.getInfo().title)
                         .collect(Collectors.joining()
                         );
             }
 
+            current +=  "\n" + queueString;
             MessageUtils.sendMessageToUser(user, "Current playing: " + current);
-            MessageUtils.sendMessageToUser(user, "Queue: " + queueString);
+
         }
     }
 
