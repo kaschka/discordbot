@@ -23,7 +23,7 @@ public class PlayCommand implements Command {
         assertPlayCommand(args, event);
         assertPermissions("Bot Permissions", event.getMember());
 
-        if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw())) {
+        if(!UrlValidator.getInstance().isValid(args.get(0))) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
             return;
         }

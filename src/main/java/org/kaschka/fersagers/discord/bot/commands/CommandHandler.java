@@ -1,7 +1,6 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.regex.Pattern;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.commands.audio.HelpCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.ClearCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
@@ -30,6 +29,7 @@ public class CommandHandler {
         addCommand(new LeaveCommand());
         addCommand(new SkipCommand());
         addCommand(new ShowCommand());
+        addCommand(new ClearCommand());
         addCommand(new FuckCommand());
         addCommand(new HelpCommand(commands));
     }

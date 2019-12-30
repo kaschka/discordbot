@@ -28,6 +28,13 @@ public class PlayerManager {
         AudioSourceManagers.registerLocalSource(playerManager);
     }
 
+    public synchronized void clear() {
+        musicManagers.values().parallelStream().forEach(e -> e.scheduler.getQueue().clear());
+        musicManagers.values().parallelStream().forEach(e -> e.player.stopTrack());
+        musicManagers.values().parallelStream().forEach(e -> e.guild.getAudioManager().closeAudioConnection());
+        musicManagers.clear();
+    }
+
     public synchronized GuildMusicManager getGuildMusicManager(Guild guild) {
         long guildId = guild.getIdLong();
         GuildMusicManager musicManager = musicManagers.get(guildId);

@@ -32,11 +32,11 @@ public class Logger {
     public void logChatMessage(MessageReceivedEvent message) {
         switch (message.getChannelType()) {
             case PRIVATE: logFormatted(
-                            String.format(
-                                    "[Private] %s: %s",
-                                    message.getAuthor().getName(),
-                                    message.getMessage()
-                            )); break;
+                    String.format(
+                            "[Private] %s: %s",
+                            message.getAuthor().getName(),
+                            message.getMessage()
+                    )); break;
 
             case TEXT: logFormatted(
                     String.format(

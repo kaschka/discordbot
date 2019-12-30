@@ -28,7 +28,7 @@ public class LeaveCommand implements Command {
     private void assertConnectedChannel(VoiceChannel connectedChannel, User user) {
         if(connectedChannel == null) {
             MessageUtils.sendMessageToUser(user, "Bot is not in a Channel!");
-            throw new RuntimeException();
+            throw new RuntimeException("Command was run while Bot was not in a Channel");
         }
     }
 
