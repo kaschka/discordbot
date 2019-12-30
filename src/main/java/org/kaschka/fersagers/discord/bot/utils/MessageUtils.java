@@ -10,7 +10,7 @@ public final class MessageUtils {
 
     public static void sendMessageToUser(User user, String string) {
         user.openPrivateChannel().queue((channel) -> channel.sendMessage(string).queue());
-        logger.log(string);
+        logger.log("Bot -> " + user.getName() + ": " + string);
     }
 
     public static void logAndDeleteMessage(MessageReceivedEvent event) {
