@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -23,7 +24,7 @@ public class ShowCommand implements Command {
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
         MessageUtils.logAndDeleteMessage(event);
-        assertPermissions("Bot Permissions", event.getMember());
+        assertPermissions(Role.BOT_PERMISSIONS, event.getMember());
 
         Guild guild = event.getGuild();
         Member member = event.getMember();

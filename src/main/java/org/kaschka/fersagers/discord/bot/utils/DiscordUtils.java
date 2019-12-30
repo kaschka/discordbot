@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
 public class DiscordUtils {
     public static VoiceChannel getCurrentVoiceChannel(Member member) {
@@ -29,15 +30,15 @@ public class DiscordUtils {
         return membersByName.get(0);
     }
 
-    public static boolean hasPermission(String requiredRole, Member member) throws RuntimeException{
-        if(member == null || requiredRole == null) {
+    public static boolean hasPermission(Role role, Member member) throws RuntimeException{
+        if(member == null || role == null) {
             throw new RuntimeException();
         }
-        return member.getRoles().stream().anyMatch(role -> role.getName().equals(requiredRole));
+        return member.getRoles().stream().anyMatch(e -> e.getIdLong() == role.getId());
     }
 
-    public static void assertPermissions(String requiredRole, Member member) throws RuntimeException {
-        if(!hasPermission(requiredRole, member)) {
+    public static void assertPermissions(Role role, Member member) throws RuntimeException {
+        if(!hasPermission(role, member)) {
             MessageUtils.sendMessageToUser(member.getUser(), "Required permissions are missing!");
             throw new RuntimeException();
         }

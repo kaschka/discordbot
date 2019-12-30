@@ -4,6 +4,7 @@ import java.util.List;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
@@ -13,7 +14,7 @@ public class LeaveCommand implements Command {
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
         logAndDeleteMessage(event);
-        assertPermissions("Bot Permissions", event.getMember());
+        assertPermissions(Role.BOT_PERMISSIONS, event.getMember());
         getBotAndUserVoiceChannel(event.getMember());
 
         event.getGuild().getAudioManager().closeAudioConnection();
