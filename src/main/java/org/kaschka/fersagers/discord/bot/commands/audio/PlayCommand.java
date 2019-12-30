@@ -9,20 +9,20 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertVoiceChannelNotNull;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getCurrentVoiceChannel;
 
 public class PlayCommand implements Command {
 
     @Override
+    @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
         MessageUtils.logAndDeleteMessage(event);
         assertPlayCommand(args, event);
-        assertPermissions(Role.BOT_PERMISSIONS, event.getMember());
 
         if(!UrlValidator.getInstance().isValid(args.get(0))) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");

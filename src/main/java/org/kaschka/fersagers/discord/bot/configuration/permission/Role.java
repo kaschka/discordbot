@@ -1,15 +1,16 @@
 package org.kaschka.fersagers.discord.bot.configuration.permission;
 
 public enum Role {
-    BOT_PERMISSIONS(631956468731609119L);
+    BOT_PERMISSIONS("Bot Permissions"),
+    NO_ROLE("");
 
-    private long id;
+    private String name;
 
-    Role(long id) {
-        this.id = id;
+    Role(String name) {
+        this.name = name;
     }
 
-    public long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 }

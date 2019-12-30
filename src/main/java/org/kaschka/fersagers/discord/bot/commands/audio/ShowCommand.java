@@ -12,19 +12,19 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.isInVoiceChannel;
 
 public class ShowCommand implements Command {
 
     @Override
+    @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
         MessageUtils.logAndDeleteMessage(event);
-        assertPermissions(Role.BOT_PERMISSIONS, event.getMember());
 
         Guild guild = event.getGuild();
         Member member = event.getMember();

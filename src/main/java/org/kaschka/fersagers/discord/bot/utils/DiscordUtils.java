@@ -34,14 +34,7 @@ public class DiscordUtils {
         if(member == null || role == null) {
             throw new RuntimeException();
         }
-        return member.getRoles().stream().anyMatch(e -> e.getIdLong() == role.getId());
-    }
-
-    public static void assertPermissions(Role role, Member member) throws RuntimeException {
-        if(!hasPermission(role, member)) {
-            MessageUtils.sendMessageToUser(member.getUser(), "Required permissions are missing!");
-            throw new RuntimeException();
-        }
+        return member.getRoles().stream().anyMatch(e -> e.getName().equals(role.getName()));
     }
 
     public static boolean isInVoiceChannel(Member member, VoiceChannel channel) {
