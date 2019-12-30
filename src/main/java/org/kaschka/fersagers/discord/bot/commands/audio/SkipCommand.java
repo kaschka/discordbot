@@ -10,6 +10,7 @@ import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.isInVoiceChannel;
 
 public class SkipCommand implements Command {
@@ -18,20 +19,12 @@ public class SkipCommand implements Command {
         MessageUtils.logAndDeleteMessage(event);
         assertPermissions("Bot Permissions", event.getMember());
 
-        VoiceChannel connectedChannel = event.getGuild().getAudioManager().getConnectedChannel();
-        assertConnectedChannel(connectedChannel, event.getAuthor());
+        VoiceChannel connectedChannel = getBotAndUserVoiceChannel(event.getMember());
 
         if(!isInVoiceChannel(event.getMember(), connectedChannel)) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "You are not in the same voicechannel as the Bot!");
         } else {
             PlayerManager.getInstance().getGuildMusicManager(event.getGuild()).player.stopTrack();
-        }
-    }
-
-    private void assertConnectedChannel(VoiceChannel connectedChannel, User user) {
-        if(connectedChannel == null) {
-            MessageUtils.sendMessageToUser(user, "Bot is not in a Channel!");
-            throw new RuntimeException();
         }
     }
 

@@ -1,15 +1,12 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
 import java.util.List;
-
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
-import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertPermissions;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
 import static org.kaschka.fersagers.discord.bot.utils.MessageUtils.logAndDeleteMessage;
 
 public class LeaveCommand implements Command {
@@ -17,20 +14,12 @@ public class LeaveCommand implements Command {
     public void handle(List<String> args, MessageReceivedEvent event) {
         logAndDeleteMessage(event);
         assertPermissions("Bot Permissions", event.getMember());
-
-        VoiceChannel connectedChannel = event.getGuild().getAudioManager().getConnectedChannel();
-        assertConnectedChannel(connectedChannel, event.getAuthor());
+        getBotAndUserVoiceChannel(event.getMember());
 
         event.getGuild().getAudioManager().closeAudioConnection();
         PlayerManager.getInstance().stop(event.getGuild());
     }
 
-    private void assertConnectedChannel(VoiceChannel connectedChannel, User user) {
-        if(connectedChannel == null) {
-            MessageUtils.sendMessageToUser(user, "Bot is not in a Channel!");
-            throw new RuntimeException("Command was run while Bot was not in a Channel");
-        }
-    }
 
     @Override
     public String getInvoke() {
