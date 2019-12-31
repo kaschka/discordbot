@@ -13,10 +13,10 @@ import static org.kaschka.fersagers.discord.bot.utils.MessageUtils.logAndDeleteM
 
 public class HelpCommand implements Command {
 
-    private List<Command> commands;
+    private List<String> commands;
 
-    public HelpCommand(Map<String, Command> commands) {
-        this.commands = new ArrayList(commands.values());
+    public HelpCommand(List<String> commands) {
+        this.commands = commands;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class HelpCommand implements Command {
         logAndDeleteMessage(event);
 
         MessageUtils.sendMessageToUser(event.getAuthor(), "Commands: " + commands.stream()
-                .map(e -> "\n-> " + e.getHelp())
+                .map(e -> "\n-> " + e)
                 .collect(Collectors.joining()
                 )
         );

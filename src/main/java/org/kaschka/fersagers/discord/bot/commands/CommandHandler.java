@@ -1,5 +1,6 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,21 +24,23 @@ public class CommandHandler {
     private final static Logger logger = Logger.getInstance();
 
     private final Map<String, Command> commands = new HashMap<>();
+    private final List<String> orderedHelp = new ArrayList<>();
 
     public CommandHandler() {
+        addCommand(new HelpCommand(orderedHelp));
         addCommand(new PlayCommand());
         addCommand(new LeaveCommand());
-        addCommand(new SkipCommand());
         addCommand(new ShowCommand());
+        addCommand(new SkipCommand());
         addCommand(new ClearCommand());
         addCommand(new FuckCommand());
-        addCommand(new HelpCommand(commands));
     }
 
     private void addCommand(Command command) {
         if (!commands.containsKey(command.getInvoke())) {
             commands.put(command.getInvoke(), command);
         }
+        orderedHelp.add(command.getHelp());
     }
 
     public boolean isDirectMessageEnabled(String commandName) {
