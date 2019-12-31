@@ -1,7 +1,5 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,13 +10,11 @@ import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermis
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-import static org.kaschka.fersagers.discord.bot.utils.MessageUtils.logAndDeleteMessage;
-
 public class ClearCommand implements Command {
 
     @Override
-    @RequiredPermission(value = Role.NO_ROLE, allowedIds = {407250792756674561L, 138025874384486400L})
     @LogAndRemoveMessage
+    @RequiredPermission(value = Role.NO_ROLE) //allowedIds = {407250792756674561L, 138025874384486400L})
     public void handle(List<String> args, MessageReceivedEvent event) {
         PlayerManager.getInstance().clear();
         MessageUtils.sendMessageToUser(event.getAuthor(), "Cleared Track Queue!");

@@ -6,11 +6,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclarePrecedence;
 import org.aspectj.lang.annotation.Pointcut;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 @Aspect
+@DeclarePrecedence("org.kaschka.fersagers.discord.bot.configuration.LogAndRemoveMessageImpl, org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermissionsImpl")
 public class RequiredPermissionsImpl {
 
     @Pointcut("@annotation(permission)")

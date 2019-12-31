@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclarePrecedence;
 import org.aspectj.lang.annotation.Pointcut;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermission;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
@@ -16,7 +17,6 @@ import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 public class LogAndRemoveMessageImpl {
 
     private static Logger logger = Logger.getInstance();
-
 
     @Pointcut("@annotation(message)")
     public void callAt(LogAndRemoveMessage message) {
