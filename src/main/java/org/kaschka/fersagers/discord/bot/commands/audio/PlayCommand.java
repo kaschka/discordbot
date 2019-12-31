@@ -52,7 +52,7 @@ public class PlayCommand implements Command {
     }
 
     private void assertPlayCommand(List<String> args, MessageReceivedEvent event) {
-        if (args.size() == 1) {
+        if (args.size() != 1) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /play [URL]");
             throw new RuntimeException();
         }
