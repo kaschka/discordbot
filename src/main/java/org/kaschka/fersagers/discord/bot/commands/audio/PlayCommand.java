@@ -43,19 +43,17 @@ public class PlayCommand implements Command {
     }
 
     private void putInQueue(List<String> args, Member member) {
-        int loops = 1;
-        if(args.size() == 2) {
-            int integer = Integer.parseInt(args.get(1));
-            loops = integer <= 0 || integer >= 10 ? 1 : integer;
-        }
-        for (int i = 0; i < loops; i++) {
-            PlayerManager.getInstance().loadAndPlay(getCurrentVoiceChannel(member), args.get(0));
-        }
+            try {
+                PlayerManager.getInstance().loadAndPlay(getCurrentVoiceChannel(member), args.get(0));
+            } catch (RuntimeException e) {
+                MessageUtils.sendMessageToUser(member.getUser(), "Queue is full! Please delete Tracks or wait.");
+                throw e;
+            }
     }
 
     private void assertPlayCommand(List<String> args, MessageReceivedEvent event) {
-        if (args.size() < 1) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /play [URL] [Number between 1 and 100]");
+        if (args.size() == 1) {
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /play [URL]");
             throw new RuntimeException();
         }
     }
@@ -67,6 +65,6 @@ public class PlayCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "/play [URL] [Number between 1 and 100]: Plays the sound of the given url";
+        return "/play [URL]: Plays the sound of the given url";
     }
 }

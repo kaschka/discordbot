@@ -14,7 +14,7 @@ public class ClearCommand implements Command {
 
     @Override
     @LogAndRemoveMessage
-    @RequiredPermission(value = Role.NO_ROLE) //allowedIds = {407250792756674561L, 138025874384486400L})
+    @RequiredPermission(value = Role.NO_ROLE, allowedIds = {407250792756674561L, 138025874384486400L})
     public void handle(List<String> args, MessageReceivedEvent event) {
         PlayerManager.getInstance().clear();
         MessageUtils.sendMessageToUser(event.getAuthor(), "Cleared Track Queue!");

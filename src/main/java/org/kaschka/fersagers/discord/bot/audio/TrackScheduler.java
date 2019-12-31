@@ -26,9 +26,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
-            if(queue.size() <= 100) {
-                queue.offer(track);
-            }
+            queue.offer(track);
         }
     }
 
@@ -37,8 +35,8 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void stop() {
-        player.stopTrack();
         queue.clear();
+        player.stopTrack();
     }
 
     @Override

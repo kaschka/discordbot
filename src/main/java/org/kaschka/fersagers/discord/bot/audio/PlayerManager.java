@@ -10,12 +10,14 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import org.kaschka.fersagers.discord.bot.utils.Logger;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerManager {
+    private static final Logger logger = Logger.getInstance();
     private static PlayerManager INSTANCE;
     private final AudioPlayerManager playerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
@@ -53,8 +55,12 @@ public class PlayerManager {
         musicManagers.get(guild.getIdLong()).scheduler.stop();
     }
 
-    public void loadAndPlay(VoiceChannel channel, String trackUrl) {
+    public void loadAndPlay(VoiceChannel channel, String trackUrl) throws RuntimeException {
         GuildMusicManager musicManager = getGuildMusicManager(channel.getGuild());
+        if(musicManager.scheduler.getQueue().size() >= 10) {
+            logger.log("Queue is full!");
+            throw new RuntimeException("Full queue");
+        }
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override

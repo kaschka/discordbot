@@ -2,7 +2,7 @@ package org.kaschka.fersagers.discord.bot.configuration.permission;
 
 public enum Role {
     BOT_PERMISSIONS("Bot Permissions"),
-    NO_ROLE("");
+    NO_ROLE("no-role");
 
     private String name;
 
