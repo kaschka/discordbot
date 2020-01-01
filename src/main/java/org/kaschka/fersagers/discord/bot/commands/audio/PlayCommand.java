@@ -21,7 +21,6 @@ public class PlayCommand implements Command {
     @Override
     @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
-        MessageUtils.logAndDeleteMessage(event);
         assertPlayCommand(args, event);
 
         if(!UrlValidator.getInstance().isValid(args.get(0))) {

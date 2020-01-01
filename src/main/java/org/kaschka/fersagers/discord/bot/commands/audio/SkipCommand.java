@@ -18,8 +18,6 @@ public class SkipCommand implements Command {
     @Override
     @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
-        MessageUtils.logAndDeleteMessage(event);
-
         VoiceChannel connectedChannel = getBotAndUserVoiceChannel(event.getMember());
 
         if(!isInVoiceChannel(event.getMember(), connectedChannel)) {

@@ -12,7 +12,7 @@ import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 @Aspect
-@DeclarePrecedence("org.kaschka.fersagers.discord.bot.configuration.LogAndRemoveMessageImpl, org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermissionsImpl")
+@DeclarePrecedence("org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermissionsImpl")
 public class RequiredPermissionsImpl {
 
     @Pointcut("@annotation(permission)")

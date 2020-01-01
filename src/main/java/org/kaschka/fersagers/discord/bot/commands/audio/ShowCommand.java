@@ -24,8 +24,6 @@ public class ShowCommand implements Command {
     @Override
     @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
-        MessageUtils.logAndDeleteMessage(event);
-
         Guild guild = event.getGuild();
         Member member = event.getMember();
         User user = event.getAuthor();

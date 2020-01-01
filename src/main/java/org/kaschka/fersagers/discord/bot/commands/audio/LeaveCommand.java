@@ -8,20 +8,17 @@ import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermis
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
-import static org.kaschka.fersagers.discord.bot.utils.MessageUtils.logAndDeleteMessage;
 
 public class LeaveCommand implements Command {
 
     @Override
     @RequiredPermission(Role.BOT_PERMISSIONS)
     public void handle(List<String> args, MessageReceivedEvent event) {
-        logAndDeleteMessage(event);
         getBotAndUserVoiceChannel(event.getMember());
 
         event.getGuild().getAudioManager().closeAudioConnection();
         PlayerManager.getInstance().stop(event.getGuild());
     }
-
 
     @Override
     public String getInvoke() {
