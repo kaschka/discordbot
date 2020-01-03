@@ -1,5 +1,7 @@
 package org.kaschka.fersagers.discord.bot.listener;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -15,7 +17,10 @@ public class ChatListener extends ListenerAdapter {
 
     private final CommandHandler commandHandler;
 
+    private final static String PREFIX = "/";
     private static final Pattern XD_REGEX = Pattern.compile("(?!(xD(?!\\w)))\\b(([xX])+([dD])+)+", Pattern.MULTILINE);
+    private static final String PATTERN_QUOTE = Pattern.quote(PREFIX);
+
     private static final String MUSIC_CHANNEL = "musik";
     private final static Logger logger = Logger.getInstance();
 
@@ -28,12 +33,17 @@ public class ChatListener extends ListenerAdapter {
         logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
 
         if(!event.getAuthor().isBot()) {
-            if(commandHandler.handleCommand(event)) {
+            final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + PATTERN_QUOTE, "").split("\\s+");
+            final String invoke = split[0].toLowerCase();
+            final List<String> args = Arrays.asList(split).subList(1, split.length);
+
+            if(commandHandler.isCommand(invoke)) {
                 MessageUtils.logAndDeleteMessage(event);
-                return;
+                commandHandler.handleCommand(event, invoke, args);
+            } else {
+                if(handleMusicChannel(event)) return;
+                handleXDMessage(event);
             }
-            if(handleMusicChannel(event)) return;
-            if(handleXDMessage(event)) return;
         }
     }
 

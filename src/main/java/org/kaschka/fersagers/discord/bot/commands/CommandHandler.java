@@ -19,8 +19,6 @@ import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 public class CommandHandler {
 
-    private final static String PREFIX = "/";
-
     private final static Logger logger = Logger.getInstance();
 
     private final Map<String, Command> commands = new HashMap<>();
@@ -43,30 +41,20 @@ public class CommandHandler {
         orderedHelp.add(command.getHelp());
     }
 
+    public boolean isCommand(String key) {
+        return commands.containsKey(key);
+    }
+
     public boolean isDirectMessageEnabled(String commandName) {
         return commands.get(commandName).isDirectMessageEnabled();
     }
 
-    public Command getCommand(String name) {
-        return commands.get(name);
-    }
-
-    public boolean handleCommand(MessageReceivedEvent event) {
-        final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(PREFIX), "").split("\\s+");
-        final String invoke = split[0].toLowerCase();
-
-        boolean invoked = false;
-        if (commands.containsKey(invoke)) {
-            final List<String> args = Arrays.asList(split).subList(1, split.length);
-
-            if(event.isFromType(ChannelType.PRIVATE) && !isDirectMessageEnabled(invoke)) {
-                answerOnDirectMessage(event);
-            } else {
-                commands.get(invoke).handle(args, event);
-                invoked = true;
-            }
+    public void handleCommand(MessageReceivedEvent event, String invoke, List<String> args) {
+        if(event.isFromType(ChannelType.PRIVATE) && !isDirectMessageEnabled(invoke)) {
+            answerOnDirectMessage(event);
+        } else {
+            commands.get(invoke).handle(args, event);
         }
-        return invoked;
     }
 
     private void answerOnDirectMessage(MessageReceivedEvent event) {
