@@ -3,6 +3,7 @@ package org.kaschka.fersagers.discord.bot.commands;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -25,23 +26,34 @@ public class FuckCommand implements Command {
         Guild guild = event.getGuild();
         String memberName = args.get(0);
         String channelName = args.get(1);
-
         Member member = getMemberByName(event, memberName);
 
         VoiceChannel channelBefore = getCurrentVoiceChannel(member);
         assertVoiceChannelNotNull(event.getAuthor(), memberName, channelBefore);
+        VoiceChannel newChannel = getChannel(guild, channelBefore.getParent(), channelName);
 
-        VoiceChannel newChannel = guild
-                .createVoiceChannel(channelName)
-                .setParent(channelBefore.getParent())
-                .complete();
+        new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                guild.moveVoiceMember(member, newChannel).completeAfter(500, TimeUnit.MILLISECONDS);
+                guild.moveVoiceMember(member, channelBefore).completeAfter(500, TimeUnit.MILLISECONDS);
+            }
+        }).start();
+    }
 
-        for (int i = 0; i < 5; i++) {
-            guild.moveVoiceMember(member, newChannel).completeAfter(500, TimeUnit.MILLISECONDS);
-            guild.moveVoiceMember(member, channelBefore).completeAfter(500, TimeUnit.MILLISECONDS);
+    private VoiceChannel getChannel(Guild guild, Category parent, String name) {
+        List<VoiceChannel> voiceChannelsByName = guild.getVoiceChannelsByName(name, true);
+        VoiceChannel newVoiceChannel;
+
+        if (!voiceChannelsByName.isEmpty()) {
+            newVoiceChannel = voiceChannelsByName.get(0);
+        } else {
+            newVoiceChannel = guild
+                    .createVoiceChannel(name)
+                    .setParent(parent)
+                    .complete();
+            newVoiceChannel.delete().queueAfter(15, TimeUnit.SECONDS);
         }
-
-        newChannel.delete().queue();
+        return newVoiceChannel;
     }
 
     private void assertFuckCommand(List<String> args, MessageReceivedEvent event) {

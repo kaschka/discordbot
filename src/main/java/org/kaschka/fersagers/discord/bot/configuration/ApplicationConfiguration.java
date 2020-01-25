@@ -10,6 +10,9 @@ import org.kaschka.fersagers.discord.bot.listener.ChatListener;
 public class ApplicationConfiguration {
 
     private static String CLIENT_TOKEN;
+    public static ShardManager SHARD_MANAGER;
+
+    public static final String STATUS = "Beep, Boop, I am a bot!";
 
     public static void main(String[] args) {
         if(args.length > 1) {
@@ -20,8 +23,8 @@ public class ApplicationConfiguration {
 
         CLIENT_TOKEN = args[0];
 
-        ShardManager shardManager = getShardManager();
-        addEventListeners(shardManager);
+        SHARD_MANAGER = getShardManager();
+        addEventListeners(SHARD_MANAGER);
     }
 
     private static void addEventListeners(ShardManager shardManager) {
@@ -33,7 +36,7 @@ public class ApplicationConfiguration {
         try {
             return new DefaultShardManagerBuilder()
                     .setToken(CLIENT_TOKEN)
-                    .setActivity(Activity.playing("Beep, Boop, I am a bot!"))
+                    .setActivity(Activity.playing(STATUS))
                     .setAutoReconnect(true)
                     .build();
         } catch (LoginException e) {
