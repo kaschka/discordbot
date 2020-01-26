@@ -1,11 +1,9 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -22,10 +20,10 @@ public class CommandHandler {
     private final static Logger logger = Logger.getInstance();
 
     private final Map<String, Command> commands = new HashMap<>();
-    private final List<String> orderedHelp = new ArrayList<>();
+    private final List<String> orderedInvoke = new ArrayList<>();
 
     public CommandHandler() {
-        addCommand(new HelpCommand(orderedHelp));
+        addCommand(new HelpCommand(orderedInvoke, commands));
         addCommand(new PlayCommand());
         addCommand(new LeaveCommand());
         addCommand(new ShowCommand());
@@ -38,7 +36,7 @@ public class CommandHandler {
         if (!commands.containsKey(command.getInvoke())) {
             commands.put(command.getInvoke(), command);
         }
-        orderedHelp.add(command.getHelp());
+        orderedInvoke.add(command.getInvoke());
     }
 
     public boolean isCommand(String key) {

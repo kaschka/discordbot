@@ -15,7 +15,7 @@ public class Permissions {
     public Permissions() {
         this.roles = new ArrayList<>(0);
         this.ids = new ArrayList<>(0);
-        roles.add(Role.NO_ROLE);
+        roles.add(Role.EVERYONE);
     }
 
     public boolean hasPermission(Long id) {
@@ -26,18 +26,22 @@ public class Permissions {
         return roles.contains(role);
     }
 
-    public static boolean hasPermission(Permissions permissions, Member member) throws RuntimeException{
-        if(member == null || permissions == null) {
-            throw new RuntimeException();
+    public static boolean hasPermission(Permissions permissions, Member member) {
+        if(member == null) {
+            return false;
         }
 
-        List<String> hasRoles = new ArrayList<>();
-        member.getRoles().forEach(e -> hasRoles.add(e.getName()));
-        hasRoles.add(Role.NO_ROLE.getName());
-        List<String> requiredRole = new ArrayList<>();
-        permissions.roles.forEach(e -> requiredRole.add(e.getName()));
+        boolean role = false;
 
-        boolean role = !CollectionUtils.intersection(hasRoles, requiredRole).isEmpty();
+        if(!permissions.roles.contains(Role.NO_ONE_BUT_ID)) {
+            List<String> hasRoles = new ArrayList<>();
+            member.getRoles().forEach(e -> hasRoles.add(e.getName()));
+            hasRoles.add(Role.EVERYONE.getName());
+            List<String> requiredRole = new ArrayList<>();
+            permissions.roles.forEach(e -> requiredRole.add(e.getName()));
+            role = !CollectionUtils.intersection(hasRoles, requiredRole).isEmpty();
+        }
+
         boolean id = permissions.hasPermission(member.getIdLong());
 
         return role || id;
@@ -53,14 +57,14 @@ public class Permissions {
 
     public void addRoles(Role... roles) {
         if(roles != null) {
-            this.roles.remove(Role.NO_ROLE);
+            this.roles.remove(Role.EVERYONE);
             this.roles.addAll(Arrays.asList(roles));
         }
     }
 
     public void addIds(long... ids) {
         if(roles != null) {
-            this.roles.remove(Role.NO_ROLE);
+            this.roles.remove(Role.EVERYONE);
             this.ids.addAll(Arrays.asList(ArrayUtils.toObject(ids)));
         }
     }

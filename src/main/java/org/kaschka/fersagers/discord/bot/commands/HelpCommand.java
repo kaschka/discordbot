@@ -1,29 +1,37 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import static org.kaschka.fersagers.discord.bot.configuration.permission.Permissions.hasPermission;
 
 
 public class HelpCommand implements Command {
 
-    private List<String> commands;
+    private List<String> orderedCommandStrings;
+    private Map<String, Command> commands;
 
-    public HelpCommand(List<String> commands) {
+    public HelpCommand(List<String> orderedCommandStrings, Map<String, Command> commands) {
+        this.orderedCommandStrings = orderedCommandStrings;
         this.commands = commands;
     }
 
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
-        MessageUtils.sendMessageToUser(event.getAuthor(), "Commands: " + commands.stream()
+        String helpString = orderedCommandStrings.stream()
+                .filter(e -> hasPermission(commands.get(e).requiredPermissions(), event.getMember()) ||
+                                           commands.get(e).requiredPermissions().hasPermission(Role.EVERYONE) ||
+                                           commands.get(e).requiredPermissions().hasPermission(event.getAuthor().getIdLong()))
+                .map(e-> commands.get(e).getHelp())
                 .map(e -> "\n-> " + e)
-                .collect(Collectors.joining()
-                )
-        );
+                .collect(Collectors.joining());
+
+        MessageUtils.sendMessageToUser(event.getAuthor(), "Commands: " + helpString);
     }
 
     @Override
