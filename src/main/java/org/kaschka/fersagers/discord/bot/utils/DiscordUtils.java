@@ -30,13 +30,6 @@ public class DiscordUtils {
         return membersByName.get(0);
     }
 
-    public static boolean hasPermission(Role role, Member member) throws RuntimeException{
-        if(member == null || role == null) {
-            throw new RuntimeException();
-        }
-        return member.getRoles().stream().anyMatch(e -> e.getName().equals(role.getName()));
-    }
-
     public static boolean isInVoiceChannel(Member member, VoiceChannel channel) {
         return channel.getMembers().contains(member);
     }

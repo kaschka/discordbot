@@ -8,7 +8,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermission;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -19,7 +20,7 @@ import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getMemberByNa
 public class FuckCommand implements Command {
 
     @Override
-    @RequiredPermission(Role.BOT_PERMISSIONS)
+    @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertFuckCommand(args, event);
 
@@ -71,5 +72,12 @@ public class FuckCommand implements Command {
     @Override
     public String getHelp() {
         return "/fuck [Nickname] [ChannelName]: User fucks the given Channel";
+    }
+
+    @Override
+    public Permissions requiredPermissions() {
+        Permissions permissions = new Permissions();
+        permissions.addRole(Role.BOT_PERMISSIONS);
+        return permissions;
     }
 }

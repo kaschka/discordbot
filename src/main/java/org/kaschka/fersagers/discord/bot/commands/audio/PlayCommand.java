@@ -9,7 +9,8 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
-import org.kaschka.fersagers.discord.bot.configuration.permission.RequiredPermission;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -19,10 +20,9 @@ import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getCurrentVoi
 public class PlayCommand implements Command {
 
     @Override
-    @RequiredPermission(Role.BOT_PERMISSIONS)
+    @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertPlayCommand(args, event);
-
         if(!UrlValidator.getInstance().isValid(args.get(0))) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
             return;
@@ -65,5 +65,12 @@ public class PlayCommand implements Command {
     @Override
     public String getHelp() {
         return "/play [URL]: Plays the sound of the given url";
+    }
+
+    @Override
+    public Permissions requiredPermissions() {
+        Permissions permissions = new Permissions();
+        permissions.addRole(Role.BOT_PERMISSIONS);
+        return permissions;
     }
 }

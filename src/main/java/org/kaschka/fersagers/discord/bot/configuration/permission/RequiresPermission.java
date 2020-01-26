@@ -7,7 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface RequiredPermission {
-    Role value();
-    long[] allowedIds() default {};
+public @interface RequiresPermission {
 }
