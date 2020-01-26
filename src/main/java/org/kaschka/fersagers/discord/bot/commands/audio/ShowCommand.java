@@ -37,7 +37,7 @@ public class ShowCommand implements Command {
             BlockingQueue<AudioTrack> queue = PlayerManager.getInstance().getGuildMusicManager(guild).scheduler.getQueue();
 
             String current = PlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
-            String queueString =  "No Songs in Queue!";
+            String queueString =  "";
 
             if(queue.size() > 0) {
                 queueString = queue.stream()
@@ -46,7 +46,7 @@ public class ShowCommand implements Command {
                         );
             }
 
-            current +=  "\n" + queueString;
+            current +=  queueString;
             MessageUtils.sendMessageToUser(user, "Current playing: " + current);
 
         }
