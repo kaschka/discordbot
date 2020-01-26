@@ -17,8 +17,8 @@ import static org.kaschka.fersagers.discord.bot.configuration.permission.Permiss
 @DeclarePrecedence("org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermissionsImpl")
 public class RequiresPermissionsImpl {
 
-    @Pointcut("@annotation(permission)")
-    public void callAt(RequiresPermission permission) {
+    @Pointcut("@annotation(rp)")
+    public void callAt(RequiresPermission rp) {
     }
 
     @Around("callAt(rp)")

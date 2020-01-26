@@ -12,6 +12,7 @@ import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.SkipCommand;
+import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -57,6 +58,6 @@ public class CommandHandler {
 
     private void answerOnDirectMessage(MessageReceivedEvent event) {
             logger.logChatMessage(event);
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Beep, Boop, I am a bot!");
+            MessageUtils.sendMessageToUser(event.getAuthor(), ApplicationConfiguration.STATUS);
     }
 }
