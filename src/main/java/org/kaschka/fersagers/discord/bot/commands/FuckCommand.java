@@ -52,7 +52,7 @@ public class FuckCommand implements Command {
                     .createVoiceChannel(name)
                     .setParent(parent)
                     .complete();
-            newVoiceChannel.delete().queueAfter(15, TimeUnit.SECONDS);
+            newVoiceChannel.delete().queueAfter(20, TimeUnit.SECONDS);
         }
         return newVoiceChannel;
     }
