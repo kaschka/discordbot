@@ -5,15 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.kaschka</groupId>
-    <artifactId>fersagersdiscordbot</artifactId>
+    <artifactId>db</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <modules>
-        <module>discordbot</module>
-        <module>db</module>
-    </modules>
-    <properties>
-        <jdk.version>1.8</jdk.version>
-        <jda.version>4.1.0_88</jda.version>
-        <aspectj.version>1.9.4</aspectj.version>
-    </properties>
+
+    
 </project>
