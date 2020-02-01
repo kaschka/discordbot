@@ -2,6 +2,7 @@ package org.kaschka.fersagers.discord.bot.listener.handler;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.kaschka.fersagers.discord.bot.db.DbService;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -9,11 +10,16 @@ public class MusicHandler implements ChatHandler {
 
     private final static Logger logger = Logger.getInstance();
 
-    private static final String MUSIC_CHANNEL = "musik";
+    private DbService dbService;
+
+    public MusicHandler() {
+        this.dbService = new DbService();
+    }
 
     @Override
     public boolean handle(MessageReceivedEvent event) {
-        if(event.getChannel().getName().equals(MUSIC_CHANNEL)) {
+
+        if(event.getChannel().getIdLong() == dbService.getMusicChannel(event.getGuild().getIdLong())) {
             String musicExceptionCase = event.getMessage().getContentRaw().split("\\s+")[0];
 
             if(!UrlValidator.getInstance().isValid(event.getMessage().getContentRaw()) && !musicExceptionCase.startsWith("!musik")) {

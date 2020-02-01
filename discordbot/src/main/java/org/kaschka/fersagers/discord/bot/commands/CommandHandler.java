@@ -31,6 +31,7 @@ public class CommandHandler {
         addCommand(new SkipCommand());
         addCommand(new ClearCommand());
         addCommand(new FuckCommand());
+        addCommand(new NewGuildCommand());
     }
 
     private void addCommand(Command command) {
