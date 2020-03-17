@@ -51,6 +51,7 @@ public class PlayerManager {
 
     public void stop(Guild guild) {
         musicManagers.get(guild.getIdLong()).scheduler.stop();
+        guild.getAudioManager().closeAudioConnection();
     }
 
     public void loadAndPlay(VoiceChannel channel, String trackUrl) throws RuntimeException {
@@ -84,6 +85,7 @@ public class PlayerManager {
             @Override
             public void loadFailed(FriendlyException exception) {
                 logger.logException(exception);
+                stop(channel.getGuild());
             }
         });
 

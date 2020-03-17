@@ -16,8 +16,6 @@ public class LeaveCommand implements Command {
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         getBotAndUserVoiceChannel(event.getMember());
-
-        event.getGuild().getAudioManager().closeAudioConnection();
         PlayerManager.getInstance().stop(event.getGuild());
     }
 

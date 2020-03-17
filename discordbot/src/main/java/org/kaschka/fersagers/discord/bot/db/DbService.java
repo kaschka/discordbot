@@ -31,7 +31,7 @@ public class DbService {
 
     public long getMusicChannel(long guildId) {
         if(cache.containsKey(guildId)) {
-            return guildId;
+            return cache.get(guildId);
         } else {
             try {
                 Long id = dbService.getMusicChannel(guildId).execute().body();
