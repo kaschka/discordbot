@@ -20,7 +20,7 @@ public class NewGuildCommand implements Command {
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertGuildCommand(args, event);
 
-        long musicChannel = Long.valueOf(args.get(0));
+        long musicChannel = Long.parseLong(args.get(0));
         dbService.addNewGuild(event.getGuild().getIdLong(), musicChannel, 0);
         MessageUtils.sendMessageToUser(event.getAuthor(), "Created");
     }

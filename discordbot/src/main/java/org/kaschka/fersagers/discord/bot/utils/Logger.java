@@ -4,8 +4,6 @@ package org.kaschka.fersagers.discord.bot.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -26,7 +24,11 @@ public class Logger {
     }
 
     public void log(String string) {
-        logFormatted(String.format("%s", string));
+        logFormatted(string);
+    }
+
+    public void logException(Exception ex) {
+        logFormatted(String.format("Exception: %s", ex.getLocalizedMessage()));
     }
 
     public void logChatMessage(MessageReceivedEvent message) {

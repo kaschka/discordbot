@@ -37,11 +37,12 @@ public class ChatListener extends ListenerAdapter {
         logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
 
         if(!event.getAuthor().isBot()) {
-            final String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + PATTERN_QUOTE, "").split("\\s+");
+            final String message = event.getMessage().getContentRaw();
+            final String[] split = message.replaceFirst("(?i)" + PATTERN_QUOTE, "").split("\\s+");
             final String invoke = split[0].toLowerCase();
             final List<String> args = Arrays.asList(split).subList(1, split.length);
 
-            if(commandHandler.isCommand(invoke)) {
+            if(message.startsWith(PREFIX) && commandHandler.isCommand(invoke)) {
                 MessageUtils.logAndDeleteMessage(event);
                 commandHandler.handleCommand(event, invoke, args);
             } else {

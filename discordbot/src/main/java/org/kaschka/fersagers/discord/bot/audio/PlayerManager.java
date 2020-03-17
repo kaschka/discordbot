@@ -1,5 +1,8 @@
 package org.kaschka.fersagers.discord.bot.audio;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -10,10 +13,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
-
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerManager {
     private static final Logger logger = Logger.getInstance();
@@ -84,6 +83,7 @@ public class PlayerManager {
 
             @Override
             public void loadFailed(FriendlyException exception) {
+                logger.logException(exception);
             }
         });
 
