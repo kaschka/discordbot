@@ -1,4 +1,4 @@
-package org.kaschka.fersagers.discord.bot.configuration;
+package org.kaschka.fersagers.discord.bot.listener;
 
 
 import net.dv8tion.jda.api.events.GenericEvent;

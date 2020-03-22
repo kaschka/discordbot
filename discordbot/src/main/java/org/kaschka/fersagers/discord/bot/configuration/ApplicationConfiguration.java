@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.kaschka.fersagers.discord.bot.listener.ChatListener;
+import org.kaschka.fersagers.discord.bot.listener.JDAReadyListener;
+import org.kaschka.fersagers.discord.bot.listener.handler.MusicHandler;
 
 public class ApplicationConfiguration {
 
@@ -30,6 +32,7 @@ public class ApplicationConfiguration {
     private static void addEventListeners(ShardManager shardManager) {
         shardManager.addEventListener(new ChatListener());
         shardManager.addEventListener(new JDAReadyListener());
+        shardManager.addEventListener(new MusicHandler());
     }
 
     private static ShardManager getShardManager() {

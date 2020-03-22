@@ -28,8 +28,8 @@ public class ChatListener extends ListenerAdapter {
 
     public ChatListener() {
         commandHandler = new CommandHandler();
-        chatHandlers.add(new XDHandler());
         chatHandlers.add(new MusicHandler());
+        chatHandlers.add(new XDHandler());
     }
 
     @Override
