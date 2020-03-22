@@ -5,16 +5,13 @@ import java.util.List;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.EventListener;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.db.DbService;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-public class MusicHandler implements ChatHandler, EventListener {
+public class MusicHandler implements ChatHandler {
 
     private final static Logger logger = Logger.getInstance();
 
@@ -26,21 +23,30 @@ public class MusicHandler implements ChatHandler, EventListener {
 
     @Override
     public boolean handle(MessageReceivedEvent event) {
+        Message message = event.getMessage();
         if(event.getChannel().getIdLong() == dbService.getMusicChannel(event.getGuild().getIdLong())) {
-            if(isMusic(event.getMessage().getContentRaw())) {
-                event.getMessage().delete().queue();
-
-                MessageUtils.sendMessageToUser(event.getAuthor(), String.format("Only URLs are allowed in the %s channel!", event.getChannel().getName()));
-                logger.log(String.format("User %s@%s@%s wrote in %s Channel: %s",
-                        event.getAuthor().getName(),
-                        event.getGuild().getName(),
-                        event.getChannel().getName(),
-                        event.getChannel().getName(),
-                        event.getMessage().getContentRaw()));
+            if(isMusic(message.getContentRaw())) {
+                MessageUtils.sendMessageToUser(message.getAuthor(), String.format("Only URLs are allowed in the %s channel!", message.getChannel().getName()));
+                logAndDelete(message);
             }
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void handleOnStartup(List<Guild> guilds) {
+            new Thread(() -> {
+                for (Guild guild : guilds) {
+                    long musicChannelId = getMusicChannelId(guild.getIdLong());
+                    TextChannel musicChannel = guild.getTextChannelById(musicChannelId);
+                    List<Message> retrievedMessages = musicChannel.getHistoryAround(musicChannel.getLatestMessageId(), 50).complete().getRetrievedHistory();
+
+                    retrievedMessages.parallelStream()
+                            .filter(m -> isMusic(m.getContentRaw()))
+                            .forEach(this::logAndDelete);
+                }
+            }).start();
     }
 
     private boolean isMusic(String text) {
@@ -52,27 +58,21 @@ public class MusicHandler implements ChatHandler, EventListener {
         return !musicExceptionCase.startsWith("!musik");
     }
 
-    @Override
-    public void onEvent(GenericEvent event) {
-        if(event instanceof ReadyEvent) {
-            new Thread(() -> {
-                for (Guild guild : event.getJDA().getGuilds()) {
-                    long musicChannelId = getMusicChannelId(guild.getIdLong());
-                    TextChannel musicChannel = guild.getTextChannelById(musicChannelId);
-                    List<Message> retrievedMessages = musicChannel.getHistoryAround(musicChannel.getLatestMessageId(), 50).complete().getRetrievedHistory();
+    private void logAndDelete(Message message) {
+        logger.log(String.format("User %s@%s@%s wrote in %s Channel: %s",
+                message.getAuthor().getName(),
+                message.getGuild().getName(),
+                message.getChannel().getName(),
+                message.getChannel().getName(),
+                message.getContentRaw()));
 
-                    retrievedMessages.parallelStream()
-                            .filter(m -> isMusic(m.getContentRaw()))
-                            .forEach(m -> m.delete().queue());
-                }
-            }).start();
-        }
+        message.delete().queue();
     }
 
     private long getMusicChannelId(long id) {
         int tries = 0;
 
-        do {
+        while(tries <= 5) {
             tries++;
             try {
                 return dbService.getMusicChannel(id);
@@ -84,7 +84,7 @@ public class MusicHandler implements ChatHandler, EventListener {
                 }
             }
 
-        } while(tries <= 5);
+        }
 
         RuntimeException e = new RuntimeException("Could not Fetch GuildId");
         logger.logException(e);

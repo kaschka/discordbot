@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -50,5 +52,11 @@ public class ChatListener extends ListenerAdapter {
                 chatHandlers.stream().anyMatch(e -> e.handle(event));
             }
         }
+    }
+
+    @Override
+    public void onReady(ReadyEvent event) {
+        List<Guild> guilds = event.getJDA().getGuilds();
+        chatHandlers.stream().parallel().forEach(m -> m.handleOnStartup(guilds));
     }
 }
