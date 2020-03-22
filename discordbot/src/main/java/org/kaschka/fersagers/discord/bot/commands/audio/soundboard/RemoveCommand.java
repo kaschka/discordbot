@@ -22,19 +22,13 @@ public class RemoveCommand implements Command {
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         if(args.size() != 1) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-remove [id]");
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-remove [ID]");
             return;
         }
 
         dbService.deleteSound(args.get(0));
         MessageUtils.sendMessageToUser(event.getAuthor(), "Sound deleted!");
     }
-
-    @Override
-    public boolean isDirectMessageEnabled() {
-        return true;
-    }
-
     @Override
     public String getInvoke() {
         return "sound-delete";
@@ -42,7 +36,7 @@ public class RemoveCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "/sound-delete [id]: deletes the given sound";
+        return "/sound-delete [ID]: Deletes the given sound";
     }
 
     @Override

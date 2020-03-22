@@ -44,7 +44,7 @@ public class SoundBoardCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "/sound [id]: plays the given sound";
+        return "/sound [ID]: Plays the given sound";
     }
 
     @Override

@@ -22,17 +22,12 @@ public class AddCommand implements Command {
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         if(args.size() != 2) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-add [id] [url]");
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-add [ID] [URL]");
             return;
         }
 
         dbService.addSound(args.get(0), args.get(1));
         MessageUtils.sendMessageToUser(event.getAuthor(), "Sound added!");
-    }
-
-    @Override
-    public boolean isDirectMessageEnabled() {
-        return true;
     }
 
     @Override
@@ -42,7 +37,7 @@ public class AddCommand implements Command {
 
     @Override
     public String getHelp() {
-        return "/sound-add [id] [url]: adds the given sound";
+        return "/sound-add [ID] [URL]: Adds the given sound";
     }
 
     @Override
