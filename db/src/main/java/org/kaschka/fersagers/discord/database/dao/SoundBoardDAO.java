@@ -1,5 +1,7 @@
 package org.kaschka.fersagers.discord.database.dao;
 
+import java.util.List;
+
 import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,10 @@ public class SoundBoardDAO {
 
     public void setSound(Sound sound) {
         soundBoardRepository.save(sound);
+    }
+
+    public List<Sound> getAll() {
+        return soundBoardRepository.getAllBy();
     }
 
     public Sound getSound(String id) {

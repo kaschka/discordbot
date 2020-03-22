@@ -1,6 +1,7 @@
 package org.kaschka.fersagers.discord.bot.db;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -34,6 +35,38 @@ public class DbService {
     public void addNewGuild(long guildId, long musicChannel, long role) {
         try {
             dbService.createNewGuild(new GuildTO(guildId, musicChannel, role)).execute();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public SoundTO getSound(String id) {
+        try {
+            return dbService.getSound(id).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public List<SoundTO> getSounds() {
+        try {
+            return dbService.getSounds().execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public boolean deleteSound(String id) {
+        try {
+            return dbService.deleteSound(id).execute().isSuccessful();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public boolean addSound(String id, String url) {
+        try {
+            return dbService.createNewSound(new SoundTO(id, url)).execute().isSuccessful();
         } catch (IOException e) {
             throw new RuntimeException();
         }

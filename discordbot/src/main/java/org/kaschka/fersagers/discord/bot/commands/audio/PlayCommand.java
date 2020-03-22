@@ -27,7 +27,11 @@ public class PlayCommand implements Command {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
             return;
         }
+        playSound(event, args.get(0));
 
+    }
+
+    public static void playSound(MessageReceivedEvent event, String url) {
         AudioManager audioManager = event.getGuild().getAudioManager();
         VoiceChannel voiceChannel = getCurrentVoiceChannel(event.getMember());
         assertVoiceChannelNotNull(event.getAuthor(), event.getAuthor().getName(), voiceChannel);
@@ -38,12 +42,12 @@ public class PlayCommand implements Command {
             audioManager.openAudioConnection(voiceChannel);
         }
 
-        putInQueue(args, event.getMember());
+        putInQueue(url, event.getMember());
     }
 
-    private void putInQueue(List<String> args, Member member) {
+    private static void putInQueue(String url, Member member) {
             try {
-                PlayerManager.getInstance().loadAndPlay(getCurrentVoiceChannel(member), args.get(0));
+                PlayerManager.getInstance().loadAndPlay(getCurrentVoiceChannel(member), url);
             } catch (RuntimeException e) {
                 MessageUtils.sendMessageToUser(member.getUser(), "Queue is full! Please delete Tracks or wait.");
                 throw e;

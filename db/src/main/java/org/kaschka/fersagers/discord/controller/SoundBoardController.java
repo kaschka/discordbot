@@ -1,9 +1,13 @@
 package org.kaschka.fersagers.discord.controller;
 
+import java.util.List;
+
 import org.kaschka.fersagers.discord.database.dao.SoundBoardDAO;
 import org.kaschka.fersagers.discord.database.model.Sound;
+import org.kaschka.fersagers.discord.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +29,17 @@ public class SoundBoardController {
     @GetMapping("/sound/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Sound getSound(@PathVariable String id) {
-        return soundBoardDAO.getSound(id);
+        Sound sound = soundBoardDAO.getSound(id);
+        if(sound == null ||StringUtils.isEmpty(sound.getUrl())) {
+            throw new NotFoundException("Sound not Found");
+        }
+        return sound;
+    }
+
+    @GetMapping("/sound")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Sound> getSound() {
+        return soundBoardDAO.getAll();
     }
 
     @DeleteMapping("/sound/{id}")

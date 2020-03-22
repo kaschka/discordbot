@@ -1,22 +1,22 @@
-package org.kaschka.fersagers.discord.database.model;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+package org.kaschka.fersagers.discord.bot.db;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
-public class Sound {
-
-    @Id
-    @Column(name = "id", nullable = false)
+public class SoundTO {
     @JsonProperty("id")
-    private String id;
+    String id;
 
-    @Column(name = "url", nullable = false)
     @JsonProperty("url")
-    private String url;
+    String url;
+
+    public SoundTO() {
+
+    }
+
+    public SoundTO(String id, String url) {
+        this.id = id;
+        this.url = url;
+    }
 
     public String getId() {
         return id;

@@ -12,6 +12,10 @@ import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.SkipCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.AddCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.ListCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.RemoveCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.SoundBoardCommand;
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
@@ -30,6 +34,10 @@ public class CommandHandler {
         addCommand(new ShowCommand());
         addCommand(new SkipCommand());
         addCommand(new ClearCommand());
+        addCommand(new SoundBoardCommand());
+        addCommand(new AddCommand());
+        addCommand(new RemoveCommand());
+        addCommand(new ListCommand());
         addCommand(new FuckCommand());
         addCommand(new NewGuildCommand());
     }
