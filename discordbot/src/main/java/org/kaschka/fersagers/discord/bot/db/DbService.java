@@ -1,7 +1,9 @@
 package org.kaschka.fersagers.discord.bot.db;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import retrofit2.Retrofit;
@@ -15,9 +17,17 @@ public class DbService {
     private final Logger logger = Logger.getInstance();
 
     public DbService() {
-        Retrofit build = new Retrofit.Builder().baseUrl("http://localhost:8081").addConverterFactory(JacksonConverterFactory.create()).build();
-        dbService = build.create(DbServiceRetro.class);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .build();
 
+        final Retrofit build = new Retrofit.Builder()
+                        .baseUrl("http://localhost:8081")
+                        .addConverterFactory(JacksonConverterFactory.create())
+                        .client(okHttpClient)
+                        .build();
+
+        dbService = build.create(DbServiceRetro.class);
         cache = new PassiveExpiringMap<>(60*1000);
     }
 
