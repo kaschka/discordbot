@@ -24,7 +24,10 @@ public class ListCommand implements Command {
         stringBuilder.append("The following sounds are available:\n");
 
         for (SoundTO sound : sounds) {
-            stringBuilder.append("  -->  " + sound.getId() + "\n");
+            stringBuilder
+                    .append("    ->  ")
+                    .append(sound.getId())
+                    .append("\n");
         }
 
         MessageUtils.sendMessageToUser(event.getAuthor(), stringBuilder.toString());

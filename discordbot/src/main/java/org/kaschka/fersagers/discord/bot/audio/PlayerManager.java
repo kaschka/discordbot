@@ -69,13 +69,9 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                AudioTrack firstTrack = playlist.getSelectedTrack();
-
-                if (firstTrack == null) {
-                    firstTrack = playlist.getTracks().get(0);
+                for (AudioTrack track : playlist.getTracks()) {
+                    play(musicManager, track);
                 }
-
-                play(musicManager, firstTrack);
             }
 
             @Override
@@ -88,7 +84,6 @@ public class PlayerManager {
                 stop(channel.getGuild());
             }
         });
-
     }
 
     private void play(GuildMusicManager musicManager, AudioTrack track) {

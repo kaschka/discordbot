@@ -10,7 +10,6 @@ public class SoundTO {
     String url;
 
     public SoundTO() {
-
     }
 
     public SoundTO(String id, String url) {
