@@ -1,34 +1,37 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
 import java.util.List;
+
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
-import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
-import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertVoiceChannelNotNull;
+import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getCurrentVoiceChannel;
 
-public class LeaveCommand implements Command {
-
+public class JoinCommand implements Command {
     @Override
-    @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
-        getBotAndUserVoiceChannel(event.getMember());
-        PlayerManager.getInstance().stop(event.getGuild());
-        InMemoryConfiguration.isManuallyJoined.remove(event.getGuild().getIdLong());
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        VoiceChannel voiceChannel = getCurrentVoiceChannel(event.getMember());
+        assertVoiceChannelNotNull(event.getAuthor(), event.getAuthor().getName(), voiceChannel);
+        audioManager.openAudioConnection(voiceChannel);
+        InMemoryConfiguration.isManuallyJoined.put(event.getGuild().getIdLong(), true);
     }
 
     @Override
     public String getInvoke() {
-        return "leave";
+        return "join";
     }
+
 
     @Override
     public String getHelp() {
-        return "/leave: Stops the current track";
+        return "/join: Joins the current server channel";
     }
 
     @Override

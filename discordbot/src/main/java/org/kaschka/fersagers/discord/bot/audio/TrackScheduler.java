@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.Guild;
+import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 
 public class TrackScheduler extends AudioEventAdapter {
@@ -40,9 +41,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if(queue.isEmpty()) {
+        boolean isManuallyJoined = InMemoryConfiguration.isMannualyJoined(guild.getIdLong());
+        if(queue.isEmpty() && !isManuallyJoined) {
             guild.getAudioManager().closeAudioConnection();
-        } else {
+        } else  if(!isManuallyJoined) {
             nextTrack();
         }
     }

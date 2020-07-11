@@ -79,7 +79,7 @@ public class DbService {
             try {
                 Long id = dbService.getMusicChannel(guildId).execute().body();
                 cache.put(guildId, id);
-                return id;
+                return id == null ? 0 : id;
             } catch (IOException e) {
                 logger.logException(e);
                 throw new RuntimeException();

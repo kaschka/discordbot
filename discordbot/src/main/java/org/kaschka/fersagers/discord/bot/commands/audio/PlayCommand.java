@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
+import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
@@ -40,6 +41,7 @@ public class PlayCommand implements Command {
             MessageUtils.sendMessageToUser(event.getAuthor(),"Queueing Song.");
         } else {
             audioManager.openAudioConnection(voiceChannel);
+            InMemoryConfiguration.isManuallyJoined.put(event.getGuild().getIdLong(), false);
         }
 
         putInQueue(url, event.getMember());

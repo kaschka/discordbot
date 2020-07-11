@@ -8,6 +8,7 @@ import java.util.Map;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.commands.audio.ClearCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.JoinCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
@@ -34,6 +35,7 @@ public class CommandHandler {
         addCommand(new ShowCommand());
         addCommand(new SkipCommand());
         addCommand(new ClearCommand());
+        addCommand(new JoinCommand());
         addCommand(new SoundBoardCommand());
         addCommand(new AddCommand());
         addCommand(new RemoveCommand());
