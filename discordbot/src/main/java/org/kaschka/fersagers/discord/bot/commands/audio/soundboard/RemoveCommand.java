@@ -26,8 +26,9 @@ public class RemoveCommand implements Command {
             return;
         }
 
-        dbService.deleteSound(args.get(0));
-        MessageUtils.sendMessageToUser(event.getAuthor(), "Sound deleted!");
+        boolean success = dbService.deleteSound(args.get(0));
+        String message = success ? "Sound deleted!" : "Something went Wrong!";
+        MessageUtils.sendMessageToUser(event.getAuthor(), message);
     }
     @Override
     public String getInvoke() {
