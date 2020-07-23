@@ -34,11 +34,6 @@ public class ListCommand implements Command {
     }
 
     @Override
-    public boolean isDirectMessageEnabled() {
-        return true;
-    }
-
-    @Override
     public String getInvoke() {
         return "sound-list";
     }
