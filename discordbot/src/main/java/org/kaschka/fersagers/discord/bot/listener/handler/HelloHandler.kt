@@ -5,6 +5,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.kaschka.fersagers.discord.bot.utils.Logger
 import java.util.regex.Pattern
 
+private val HELLO_REGEX = Pattern.compile("^(h+e+l+o+\\?*)$", Pattern.CASE_INSENSITIVE)
+private val HI_REGEX = Pattern.compile("^(h+i+\\?*)$", Pattern.CASE_INSENSITIVE)
+private val HEY_REGEX = Pattern.compile("^(h+e+y\\?*)$", Pattern.CASE_INSENSITIVE)
+
+private val logger = Logger.getInstance()
+
 class HelloHandler : ChatHandler {
 
     enum class TRIGGER(val url: String) {
@@ -13,13 +19,6 @@ class HelloHandler : ChatHandler {
         HEY("https://tenor.com/view/hey-jimmy-fallon-gif-5247867"),
         NONE("")
     }
-
-    private val HELLO_REGEX = Pattern.compile("^(h+e+l+o+\\?*)$", Pattern.CASE_INSENSITIVE)
-    private val HI_REGEX = Pattern.compile("^(h+i+\\?*)$", Pattern.CASE_INSENSITIVE)
-    private val HEY_REGEX = Pattern.compile("^(h+e+y\\?*)$", Pattern.CASE_INSENSITIVE)
-
-    private val logger = Logger.getInstance()
-
 
     override fun handle(event: MessageReceivedEvent?): Boolean {
         val message = event?.message
