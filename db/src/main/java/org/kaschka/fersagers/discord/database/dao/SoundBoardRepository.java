@@ -13,5 +13,6 @@ public interface SoundBoardRepository extends CrudRepository<Sound, Integer> {
 
     @Transactional
     void removeByGuildIdAndName(long guildId, String name);
+    boolean existsByGuildIdAndName(long guildId, String name);
 
 }

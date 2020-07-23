@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -66,7 +67,8 @@ public class DbService {
 
     public boolean addSound(long guildId, String id, String url) {
         try {
-            return dbService.createNewSound(new SoundTO(guildId, id, url)).execute().isSuccessful();
+            Response<Void> execute = dbService.createNewSound(new SoundTO(guildId, id, url)).execute();
+            return execute.code() != 409;
         } catch (IOException e) {
             throw new RuntimeException();
         }

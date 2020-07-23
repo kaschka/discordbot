@@ -2,6 +2,8 @@ package org.kaschka.fersagers.discord.database.dao;
 
 import java.util.List;
 
+import javax.management.openmbean.KeyAlreadyExistsException;
+
 import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,11 @@ public class SoundBoardDAO {
     }
 
     public void setSound(Sound sound) {
-        soundBoardRepository.save(sound);
+        if(!soundBoardRepository.existsByGuildIdAndName(sound.getGuildId(), sound.getName())) {
+            soundBoardRepository.save(sound);
+        } else {
+            throw new KeyAlreadyExistsException("The combination of guild and name already exists!");
+        }
     }
 
     public List<Sound> getAll(long guildId) {

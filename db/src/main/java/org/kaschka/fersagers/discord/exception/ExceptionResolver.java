@@ -1,5 +1,6 @@
 package org.kaschka.fersagers.discord.exception;
 
+import javax.management.openmbean.KeyAlreadyExistsException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kaschka.fersagers.discord.logging.ErrorLogCreator;
@@ -21,6 +22,12 @@ public class ExceptionResolver {
     @ExceptionHandler(GuildAlreadyExistsException.class)
     public ResponseEntity<ErrorResultDTO> resolveGuildAlreadyExistsException(HttpServletRequest request, Exception ex) {
         return ErrorLogCreator.create(HttpStatus.CONFLICT, "guild.already.exists" ,ex.getMessage())
+                .log().createResponseEntity();
+    }
+
+    @ExceptionHandler(KeyAlreadyExistsException.class)
+    public ResponseEntity<ErrorResultDTO> resolveKeyAlreadyExistsException(HttpServletRequest request, Exception ex) {
+        return ErrorLogCreator.create(HttpStatus.CONFLICT, "key.already.exists" , ex.getMessage())
                 .log().createResponseEntity();
     }
 
