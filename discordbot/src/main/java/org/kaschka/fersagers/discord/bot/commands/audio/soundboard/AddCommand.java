@@ -26,7 +26,7 @@ public class AddCommand implements Command {
             return;
         }
 
-        dbService.addSound(args.get(0), args.get(1));
+        dbService.addSound(event.getGuild().getIdLong(), args.get(0), args.get(1));
         MessageUtils.sendMessageToUser(event.getAuthor(), "Sound added!");
     }
 

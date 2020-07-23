@@ -26,29 +26,29 @@ public class SoundBoardController {
         this.soundBoardDAO = soundBoardDAO;
     }
 
-    @GetMapping("/sound/{id}")
+    @GetMapping("/guild/{guildId}/sound/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public Sound getSound(@PathVariable String id) {
-        Sound sound = soundBoardDAO.getSound(id);
-        if(sound == null ||StringUtils.isEmpty(sound.getUrl())) {
+    public Sound getSound(@PathVariable long guildId, @PathVariable String name) {
+        Sound sound = soundBoardDAO.getSound(guildId, name);
+        if(sound == null || StringUtils.isEmpty(sound.getUrl())) {
             throw new NotFoundException("Sound not Found");
         }
         return sound;
     }
 
-    @GetMapping("/sound")
+    @GetMapping("/guild/{guildId}/sound")
     @ResponseStatus(HttpStatus.OK)
-    public List<Sound> getSound() {
-        return soundBoardDAO.getAll();
+    public List<Sound> getSound(@PathVariable long guildId) {
+        return soundBoardDAO.getAll(guildId);
     }
 
-    @DeleteMapping("/sound/{id}")
+    @DeleteMapping("/guild/{guildId}/sound/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteSound(@PathVariable String id) {
-        soundBoardDAO.removeSound(id);
+    public void deleteSound(@PathVariable long guildId, @PathVariable String name) {
+        soundBoardDAO.removeSound(guildId, name);
     }
 
-    @PostMapping("/sound")
+    @PostMapping("/guild/sound")
     @ResponseStatus(HttpStatus.CREATED)
     public void setSound(@RequestBody Sound sound) {
         soundBoardDAO.setSound(sound);

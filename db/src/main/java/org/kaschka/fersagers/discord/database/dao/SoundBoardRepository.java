@@ -8,10 +8,10 @@ import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SoundBoardRepository extends CrudRepository<Sound, Integer> {
-    Sound getById(String id);
-    List<Sound> getAllBy();
+    Sound getByGuildIdAndName(long guildId, String name);
+    List<Sound> getByGuildId(long guildId);
 
     @Transactional
-    void removeById(String id);
+    void removeByGuildIdAndName(long guildId, String name);
 
 }

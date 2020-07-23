@@ -18,7 +18,7 @@ public class ListCommand implements Command {
 
     @Override
     public void handle(List<String> args, MessageReceivedEvent event) {
-        List<SoundTO> sounds = dbService.getSounds();
+        List<SoundTO> sounds = dbService.getSounds(event.getGuild().getIdLong());
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("The following sounds are available:\n");
@@ -26,7 +26,7 @@ public class ListCommand implements Command {
         for (SoundTO sound : sounds) {
             stringBuilder
                     .append("    ->  ")
-                    .append(sound.getId())
+                    .append(sound.getName())
                     .append("\n");
         }
 

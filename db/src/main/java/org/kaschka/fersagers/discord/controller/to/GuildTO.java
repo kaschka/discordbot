@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GuildTO {
 
-    @JsonProperty("guildId")
-    private long guildId;
+    @JsonProperty("id")
+    private long id;
 
     @JsonProperty("musicChannel")
     private long musicChannel;
@@ -14,11 +14,11 @@ public class GuildTO {
     private long role;
 
     public long getId() {
-        return guildId;
+        return id;
     }
 
     public void setId(long id) {
-        this.guildId = id;
+        this.id = id;
     }
 
     public long getMusicChannel() {

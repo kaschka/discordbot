@@ -28,7 +28,7 @@ public class SoundBoardCommand implements Command {
             return;
         }
 
-        SoundTO sound = dbService.getSound(args.get(0));
+        SoundTO sound = dbService.getSound(event.getGuild().getIdLong(), args.get(0));
         if(sound == null) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Sound not found!");
         } else {

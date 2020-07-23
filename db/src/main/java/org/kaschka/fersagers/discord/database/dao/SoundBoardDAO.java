@@ -18,16 +18,16 @@ public class SoundBoardDAO {
         soundBoardRepository.save(sound);
     }
 
-    public List<Sound> getAll() {
-        return soundBoardRepository.getAllBy();
+    public List<Sound> getAll(long guildId) {
+        return soundBoardRepository.getByGuildId(guildId);
     }
 
-    public Sound getSound(String id) {
-        return soundBoardRepository.getById(id);
+    public Sound getSound(long guildId, String id) {
+        return soundBoardRepository.getByGuildIdAndName(guildId, id);
     }
 
-    public void removeSound(String id) {
-        soundBoardRepository.removeById(id);
+    public void removeSound(long guildId, String id) {
+        soundBoardRepository.removeByGuildIdAndName(guildId, id);
     }
 
 }

@@ -40,33 +40,33 @@ public class DbService {
         }
     }
 
-    public SoundTO getSound(String id) {
+    public SoundTO getSound(long guildId, String name) {
         try {
-            return dbService.getSound(id).execute().body();
+            return dbService.getSound(guildId, name).execute().body();
         } catch (IOException e) {
             throw new RuntimeException();
         }
     }
 
-    public List<SoundTO> getSounds() {
+    public List<SoundTO> getSounds(long guildId) {
         try {
-            return dbService.getSounds().execute().body();
+            return dbService.getSounds(guildId).execute().body();
         } catch (IOException e) {
             throw new RuntimeException();
         }
     }
 
-    public boolean deleteSound(String id) {
+    public boolean deleteSound(long guildId, String id) {
         try {
-            return dbService.deleteSound(id).execute().isSuccessful();
+            return dbService.deleteSound(guildId, id).execute().isSuccessful();
         } catch (IOException e) {
             throw new RuntimeException();
         }
     }
 
-    public boolean addSound(String id, String url) {
+    public boolean addSound(long guildId, String id, String url) {
         try {
-            return dbService.createNewSound(new SoundTO(id, url)).execute().isSuccessful();
+            return dbService.createNewSound(new SoundTO(guildId, id, url)).execute().isSuccessful();
         } catch (IOException e) {
             throw new RuntimeException();
         }

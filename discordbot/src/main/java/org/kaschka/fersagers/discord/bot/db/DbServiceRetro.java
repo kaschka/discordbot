@@ -16,15 +16,15 @@ public interface DbServiceRetro {
     @POST("/api/guild")
     Call<Void> createNewGuild(@Body GuildTO guildTO);
 
-    @POST("/api/sound")
+    @POST("/api/guild/sound")
     Call<Void> createNewSound(@Body SoundTO soundTO);
 
-    @GET("/api/sound/{id}")
-    Call<SoundTO> getSound(@Path("id") String id);
+    @GET("/api/guild/{guildId}/sound/{name}")
+    Call<SoundTO> getSound(@Path("guildId") long guildId, @Path("name") String name);
 
-    @GET("/api/sound")
-    Call<List<SoundTO>> getSounds();
+    @GET("/api/guild/{guildId}/sound")
+    Call<List<SoundTO>> getSounds(@Path("guildId") long guildId);
 
-    @DELETE("/api/sound/{id}")
-    Call<Void> deleteSound(@Path("id") String id);
+    @DELETE("/api/guild/{guildId}/sound/{name}")
+    Call<Void> deleteSound(@Path("guildId") long guildId, @Path("name") String name);
 }

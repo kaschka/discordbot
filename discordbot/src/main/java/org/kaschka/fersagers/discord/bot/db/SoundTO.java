@@ -3,8 +3,15 @@ package org.kaschka.fersagers.discord.bot.db;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SoundTO {
+
     @JsonProperty("id")
-    String id;
+    long id;
+
+    @JsonProperty("guildId")
+    long guildId;
+
+    @JsonProperty("name")
+    String name;
 
     @JsonProperty("url")
     String url;
@@ -12,17 +19,26 @@ public class SoundTO {
     public SoundTO() {
     }
 
-    public SoundTO(String id, String url) {
-        this.id = id;
+    public SoundTO(long guildId, String name, String url) {
+        this.guildId = guildId;
+        this.name = name;
         this.url = url;
     }
 
-    public String getId() {
-        return id;
+    public long getGuildId() {
+        return guildId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGuildId(long guildId) {
+        this.guildId = guildId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUrl() {

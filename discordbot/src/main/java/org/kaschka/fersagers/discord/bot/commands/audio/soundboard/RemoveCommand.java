@@ -26,7 +26,7 @@ public class RemoveCommand implements Command {
             return;
         }
 
-        boolean success = dbService.deleteSound(args.get(0));
+        boolean success = dbService.deleteSound(event.getGuild().getIdLong(), args.get(0));
         String message = success ? "Sound deleted!" : "Something went Wrong!";
         MessageUtils.sendMessageToUser(event.getAuthor(), message);
     }
