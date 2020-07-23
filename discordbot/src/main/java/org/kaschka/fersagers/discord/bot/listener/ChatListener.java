@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.kaschka.fersagers.discord.bot.commands.CommandHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.ChatHandler;
+import org.kaschka.fersagers.discord.bot.listener.handler.HelloHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.MusicHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.XDHandler;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
@@ -32,6 +33,7 @@ public class ChatListener extends ListenerAdapter {
         commandHandler = new CommandHandler();
         chatHandlers.add(new MusicHandler());
         chatHandlers.add(new XDHandler());
+        chatHandlers.add(new HelloHandler());
     }
 
     @Override
