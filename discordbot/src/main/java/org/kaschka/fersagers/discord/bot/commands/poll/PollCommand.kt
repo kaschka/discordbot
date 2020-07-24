@@ -79,6 +79,7 @@ class PollCommand() : Command {
         if(args.size < 2 || args.size % 2 != 0 || args[1].toInt() < 1 || args[1].toInt() > MAX_TIME) {
             MessageUtils.sendMessageToUser(event.author, "Invalid args.\n /poll [title] [minutes] [choices emoji]*")
             MessageUtils.sendMessageToUser(event.author, "-- Max $MAX_TIME minutes")
+            MessageUtils.sendMessageToUser(event.author, "You wrote: \n " + event.message.contentRaw)
             throw RuntimeException()
         }
     }

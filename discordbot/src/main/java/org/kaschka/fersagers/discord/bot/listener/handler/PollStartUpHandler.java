@@ -12,7 +12,16 @@ public class PollStartUpHandler implements StartUpHandler {
 
     @Override
     public void handleOnStartup() {
-        List<Poll> polls = db.getAllPolls();
-        polls.forEach(PollCommand.Refresher::refreshPoll);
+        new Thread(() -> {
+            try {
+                //Wait for db connection
+                Thread.sleep(60*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            List<Poll> polls = db.getAllPolls();
+            polls.forEach(PollCommand.Refresher::refreshPoll);
+
+        }).start();
     }
 }
