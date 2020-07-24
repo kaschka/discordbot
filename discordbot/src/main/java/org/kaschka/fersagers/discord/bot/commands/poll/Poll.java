@@ -1,6 +1,7 @@
 package org.kaschka.fersagers.discord.bot.commands.poll;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -58,7 +59,7 @@ public class Poll {
     }
 
     public String getHumanReadableDuration() {
-        return Duration.of(endTime-start, ChronoUnit.MILLIS)
+        return Duration.of(endTime- Instant.now().toEpochMilli(), ChronoUnit.MILLIS)
                 .toString()
                 .substring(2)
                 .replaceAll("(\\d[HMS])(?!$)", "$1 ")

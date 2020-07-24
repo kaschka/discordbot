@@ -2,11 +2,15 @@ package org.kaschka.fersagers.discord.bot.commands.poll
 
 import com.vdurmont.emoji.EmojiManager
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.kaschka.fersagers.discord.bot.commands.Command
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration
 import org.kaschka.fersagers.discord.bot.db.DbService
+import org.kaschka.fersagers.discord.bot.utils.Logger
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils
 import java.awt.Color
 import java.lang.Thread.sleep
@@ -18,10 +22,12 @@ class PollCommand() : Command {
     val MAX_TIME = 24*60
     val db = DbService()
 
+    private val logger = Logger.getInstance()
+
 
     override fun handle(args: MutableList<String>, event: MessageReceivedEvent) {
         assertPollCommand(args, event)
-        var poll = Poll()
+        val poll = Poll()
         poll.channelId  = event.channel.idLong
         poll.start = Instant.now().toEpochMilli()
         poll.endTime = Instant.now().plusMillis(Duration.ofMinutes(args[1].toLong()).toMillis()).toEpochMilli()
@@ -32,6 +38,7 @@ class PollCommand() : Command {
         val message = buildEmbedAndSendMessage(event, args, embedBuilder)
         poll.messageId = message.idLong
         db.addPoll(poll)
+        logger.log("Created Poll! Author: " + event.author + ", Title: " + args[0] + ", Time: " + args[1])
 
         addReactions(args, message)
         refreshPoll(poll)
