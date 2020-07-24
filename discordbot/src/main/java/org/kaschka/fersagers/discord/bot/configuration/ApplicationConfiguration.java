@@ -58,13 +58,13 @@ public class ApplicationConfiguration {
         list.add(GatewayIntent.DIRECT_MESSAGES);
         list.add(GatewayIntent.GUILD_VOICE_STATES);
         list.add(GatewayIntent.GUILD_MESSAGES);
+        list.add(GatewayIntent.GUILD_EMOJIS);
         return list;
     }
 
     private static List<CacheFlag> getDisabledCacheFlags() {
         List<CacheFlag> list = new ArrayList();
         list.add(CacheFlag.ACTIVITY);
-        list.add(CacheFlag.EMOTE);
         list.add(CacheFlag.CLIENT_STATUS);
         return list;
     }

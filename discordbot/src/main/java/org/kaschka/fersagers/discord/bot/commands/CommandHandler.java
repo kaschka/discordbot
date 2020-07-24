@@ -42,6 +42,7 @@ public class CommandHandler {
         addCommand(new ListCommand());
         addCommand(new FuckCommand());
         addCommand(new NewGuildCommand());
+        addCommand(new PollCommand());
     }
 
     private void addCommand(Command command) {
