@@ -19,8 +19,8 @@ import java.time.Instant
 
 class PollCommand() : Command {
 
-    val MAX_TIME = 24*60
-    val db = DbService()
+    private val MAX_TIME = 24*60
+    private val db = DbService()
 
     private val logger = Logger.getInstance()
 
@@ -38,7 +38,7 @@ class PollCommand() : Command {
         val message = buildEmbedAndSendMessage(event, args, embedBuilder)
         poll.messageId = message.idLong
         db.addPoll(poll)
-        logger.log("Created Poll! Author: " + event.author + ", Title: " + args[0] + ", Time: " + args[1])
+        logger.log("Created Poll! Author: " + event.author.name + ", Title: " + args[0] + ", Time: " + args[1] + "m")
 
         addReactions(args, message)
         refreshPoll(poll)
@@ -101,6 +101,7 @@ class PollCommand() : Command {
 
     companion object Refresher {
         val db = DbService()
+        private val logger = Logger.getInstance()
 
         fun refreshPoll(poll: Poll) {
             Thread {
