@@ -9,13 +9,8 @@ import org.kaschka.fersagers.discord.bot.utils.MessageUtils
 import java.awt.Color
 import java.lang.Thread.sleep
 import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.regex.Pattern
 
 class PollCommand : Command {
-
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("mm").withZone(ZoneId.systemDefault());
 
     override fun handle(args: MutableList<String>, event: MessageReceivedEvent) {
         assertPollCommand(args, event)
@@ -37,7 +32,7 @@ class PollCommand : Command {
                 sleep(60 * 1000)
                 minutesLeftVar -= 1
                 }
-            embedBuilder.setFooter("Poll is over!")
+            embedBuilder.setFooter("Poll is over!").setColor(Color.RED)
             result(embedBuilder, message)
             message.editMessage(embedBuilder.build()).queue()
         }.start()
@@ -56,8 +51,7 @@ class PollCommand : Command {
             }
         }
 
-        embedBuilder.addBlankField(false)
-        embedBuilder.addField("Result!", builder.toString(), false)
+        embedBuilder.addBlankField(false).addField("Result!", builder.toString(), false)
         message.editMessage(embedBuilder.build()).queue()
     }
 
@@ -90,14 +84,12 @@ class PollCommand : Command {
         val emojisLong = mutableListOf<Long>()
         for (string in strings) {
             if (string.startsWith("<")) {
-                var split = string.split(":")
-                emojisLong.add(split[2].removeSuffix(">").toLong())
+                emojisLong.add(string.split(":")[2].removeSuffix(">").toLong())
             }
         }
 
         val emojis = mutableListOf<Emote>()
         emojisLong.forEach{ guild.getEmoteById(it)?.let { notNull -> emojis.add(notNull) } }
-
         return emojis
     }
 
