@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
+import org.jetbrains.annotations.NotNull;
+import org.kaschka.fersagers.discord.bot.commands.poll.Poll;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -88,5 +90,32 @@ public class DbService {
             }
         }
 
+    }
+
+    public void addPoll(@NotNull Poll poll) {
+        try {
+            dbService.addPoll(poll).execute();
+        } catch (IOException e) {
+            logger.logException(e);
+            throw new RuntimeException();
+        }
+    }
+
+    public List<Poll> getAllPolls() {
+        try {
+            return dbService.getPolls().execute().body();
+        } catch (IOException e) {
+            logger.logException(e);
+            throw new RuntimeException();
+        }
+    }
+
+    public void deletePoll(@NotNull Poll poll) {
+        try {
+            dbService.deletePoll(poll.getChannelId(), poll.getMessageId()).execute();
+        } catch (IOException e) {
+            logger.logException(e);
+            throw new RuntimeException();
+        }
     }
 }

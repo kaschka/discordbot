@@ -17,6 +17,7 @@ import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.AddCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.ListCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.RemoveCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.SoundBoardCommand;
+import org.kaschka.fersagers.discord.bot.commands.poll.PollCommand;
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;

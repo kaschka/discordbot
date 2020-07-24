@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.kaschka.fersagers.discord.bot.listener.ChatListener;
-import org.kaschka.fersagers.discord.bot.listener.JDAReadyListener;
+import org.kaschka.fersagers.discord.bot.listener.StartUpListener;
 
 public class ApplicationConfiguration {
 
@@ -35,7 +35,7 @@ public class ApplicationConfiguration {
 
     private static void addEventListeners(ShardManager shardManager) {
         shardManager.addEventListener(new ChatListener());
-        shardManager.addEventListener(new JDAReadyListener());
+        shardManager.addEventListener(new StartUpListener());
     }
 
     private static ShardManager getShardManager() {

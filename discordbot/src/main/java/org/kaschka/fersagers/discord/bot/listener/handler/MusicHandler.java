@@ -11,7 +11,7 @@ import org.kaschka.fersagers.discord.bot.db.DbService;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
-public class MusicHandler implements ChatHandler {
+public class MusicHandler implements ChatHandler, StartUpHandler {
 
     private final static Logger logger = Logger.getInstance();
 
@@ -83,7 +83,6 @@ public class MusicHandler implements ChatHandler {
                     ex.printStackTrace();
                 }
             }
-
         }
 
         RuntimeException e = new RuntimeException("Could not Fetch GuildId");
