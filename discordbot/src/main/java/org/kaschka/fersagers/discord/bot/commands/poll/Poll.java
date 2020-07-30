@@ -59,10 +59,23 @@ public class Poll {
     }
 
     public String getHumanReadableDuration() {
-        return Duration.of(endTime- Instant.now().toEpochMilli(), ChronoUnit.MILLIS)
-                .toString()
-                .substring(2)
-                .replaceAll("(\\d[HMS])(?!$)", "$1 ")
-                .toLowerCase();
+        Duration duration = Duration.of(endTime - Instant.now().toEpochMilli(), ChronoUnit.MILLIS);
+        if(duration.toDays() > 0) {
+            return duration.toDays() + "d";
+        }
+
+        if(duration.toHours() > 0) {
+            return duration.toHours() + "h";
+        }
+
+        if(duration.toMinutes() > 0) {
+            return duration.toMinutes() + "m";
+        }
+
+        if(duration.toMillis() > 1000) {
+            return duration.toMillis() * 1000 + "s";
+        }
+
+        return "Less then 1s";
     }
 }

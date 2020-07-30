@@ -2,11 +2,10 @@ package org.kaschka.fersagers.discord.bot.commands.poll
 
 import com.vdurmont.emoji.EmojiManager
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.Emote
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.*
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.exceptions.ErrorResponseException
+import net.dv8tion.jda.api.requests.ErrorResponse
 import org.kaschka.fersagers.discord.bot.commands.Command
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration
 import org.kaschka.fersagers.discord.bot.db.DbService
@@ -101,12 +100,19 @@ class PollCommand() : Command {
 
     companion object Refresher {
         val db = DbService()
-        private val logger = Logger.getInstance()
 
         fun refreshPoll(poll: Poll) {
             Thread {
-                val message = ApplicationConfiguration.SHARD_MANAGER.getTextChannelById(poll.channelId)?.retrieveMessageById(poll.messageId)?.complete()
-                if (message != null) {
+                var message: Message? = null
+                try {
+                    message = ApplicationConfiguration.SHARD_MANAGER.getTextChannelById(poll.channelId)?.retrieveMessageById(poll.messageId)?.complete()
+                } catch (ex : ErrorResponseException) {
+                    if(ex.errorCode == ErrorResponse.UNKNOWN_MESSAGE.code) {
+                        db.deletePoll(poll)
+                    }
+                }
+
+                if(message != null) {
                     val embedBuilder = createEmbedBuilderFromEmbed(message.embeds[0])
                     while (Instant.now().isBefore(Instant.ofEpochMilli(poll.endTime))) {
                         embedBuilder.setFooter("Time left: " + poll.humanReadableDuration)

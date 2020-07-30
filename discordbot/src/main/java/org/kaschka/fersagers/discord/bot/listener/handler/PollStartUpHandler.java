@@ -12,7 +12,6 @@ public class PollStartUpHandler implements StartUpHandler {
 
     @Override
     public void handleOnStartup() {
-        new Thread(() -> {
             try {
                 //Wait for db connection
                 Thread.sleep(60*1000);
@@ -21,7 +20,5 @@ public class PollStartUpHandler implements StartUpHandler {
             }
             List<Poll> polls = db.getAllPolls();
             polls.forEach(PollCommand.Refresher::refreshPoll);
-
-        }).start();
     }
 }
