@@ -2,7 +2,7 @@ package org.kaschka.fersagers.discord.bot.commands.audio;
 
 import java.util.List;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
+import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
@@ -17,7 +17,7 @@ public class LeaveCommand implements Command {
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         getBotAndUserVoiceChannel(event.getMember());
-        PlayerManager.getInstance().stop(event.getGuild());
+        AudioPlayerManager.getInstance().stop(event.getGuild());
         InMemoryConfiguration.isManuallyJoined.remove(event.getGuild().getIdLong());
     }
 

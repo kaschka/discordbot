@@ -44,9 +44,8 @@ public class TrackScheduler extends AudioEventAdapter {
         boolean isManuallyJoined = InMemoryConfiguration.isMannualyJoined(guild.getIdLong());
         if(queue.isEmpty() && !isManuallyJoined) {
             guild.getAudioManager().closeAudioConnection();
-        } else  if(!isManuallyJoined) {
-            nextTrack();
         }
+        nextTrack();
     }
 
     @Override

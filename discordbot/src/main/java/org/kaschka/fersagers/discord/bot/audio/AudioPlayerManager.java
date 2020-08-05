@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -14,18 +13,18 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 
-public class PlayerManager {
+public class AudioPlayerManager {
     private static final Logger logger = Logger.getInstance();
-    private static PlayerManager INSTANCE;
-    private final AudioPlayerManager playerManager;
+    private static AudioPlayerManager INSTANCE;
+    private final com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager audioPlayerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
 
-    private PlayerManager() {
+    private AudioPlayerManager() {
         this.musicManagers = new HashMap<>();
-        this.playerManager = new DefaultAudioPlayerManager();
+        this.audioPlayerManager = new DefaultAudioPlayerManager();
 
-        AudioSourceManagers.registerRemoteSources(playerManager);
-        AudioSourceManagers.registerLocalSource(playerManager);
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+        AudioSourceManagers.registerLocalSource(audioPlayerManager);
     }
 
     public synchronized void clear() {
@@ -40,7 +39,7 @@ public class PlayerManager {
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
         if (musicManager == null) {
-            musicManager = new GuildMusicManager(playerManager, guild);
+            musicManager = new GuildMusicManager(audioPlayerManager, guild);
             musicManagers.put(guildId, musicManager);
         }
 
@@ -58,12 +57,12 @@ public class PlayerManager {
 
     public void loadAndPlay(VoiceChannel channel, String trackUrl) throws RuntimeException {
         GuildMusicManager musicManager = getGuildMusicManager(channel.getGuild());
-        if(musicManager.scheduler.getQueue().size() >= 10) {
+        if(musicManager.scheduler.getQueue().size() >= 100) {
             logger.log("Queue is full!");
             throw new RuntimeException("Full queue");
         }
 
-        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+        audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 play(musicManager, track);
@@ -92,9 +91,9 @@ public class PlayerManager {
         musicManager.scheduler.queue(track);
     }
 
-    public static synchronized PlayerManager getInstance() {
+    public static synchronized AudioPlayerManager getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new PlayerManager();
+            INSTANCE = new AudioPlayerManager();
         }
         return INSTANCE;
     }

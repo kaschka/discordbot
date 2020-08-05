@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.audio.PlayerManager;
+import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
@@ -34,9 +34,9 @@ public class ShowCommand implements Command {
         if(!isInVoiceChannel(member, connectedChannel)) {
             MessageUtils.sendMessageToUser(user, "You are not in the same voicechannel as the Bot!");
         } else {
-            BlockingQueue<AudioTrack> queue = PlayerManager.getInstance().getGuildMusicManager(guild).scheduler.getQueue();
+            BlockingQueue<AudioTrack> queue = AudioPlayerManager.getInstance().getGuildMusicManager(guild).scheduler.getQueue();
 
-            String current = PlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
+            String current = AudioPlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
             String queueString =  "";
 
             if(queue.size() > 0) {

@@ -33,7 +33,7 @@ public class SoundBoardCommand implements Command {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Sound not found!");
         } else {
             String url = sound.getUrl();
-            PlayCommand.playSound(event, url);
+            PlayCommand.playSound(event, url, -1);
         }
     }
 
