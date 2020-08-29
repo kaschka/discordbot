@@ -14,8 +14,8 @@ import static org.kaschka.fersagers.discord.bot.configuration.permission.Permiss
 
 public class HelpCommand implements Command {
 
-    private List<String> orderedCommandStrings;
-    private Map<String, Command> commands;
+    private final List<String> orderedCommandStrings;
+    private final Map<String, Command> commands;
 
     public HelpCommand(List<String> orderedCommandStrings, Map<String, Command> commands) {
         this.orderedCommandStrings = orderedCommandStrings;
@@ -27,10 +27,11 @@ public class HelpCommand implements Command {
         Stream<String> filteredStream = orderedCommandStrings.stream();
 
         if(!(args.size() > 0 && args.get(0).equals("all"))) {
-            filteredStream = orderedCommandStrings.stream()
+            filteredStream = filteredStream
                     .filter(e -> hasPermission(commands.get(e).requiredPermissions(), event.getMember()) ||
                             commands.get(e).requiredPermissions().hasPermission(Role.EVERYONE) ||
-                            commands.get(e).requiredPermissions().hasPermission(event.getAuthor().getIdLong()));
+                            commands.get(e).requiredPermissions().hasPermission(event.getAuthor().getIdLong())
+                    );
         }
 
         String helpString = filteredStream

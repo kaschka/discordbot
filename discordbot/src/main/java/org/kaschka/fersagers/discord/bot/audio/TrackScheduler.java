@@ -34,7 +34,7 @@ public class TrackScheduler extends AudioEventAdapter {
         player.startTrack(queue.poll(), true);
     }
 
-    public void stop() {
+    public void clearQueue() {
         queue.clear();
         player.stopTrack();
     }

@@ -50,7 +50,7 @@ public class AudioPlayerManager {
 
     public void stop(Guild guild) {
         if (musicManagers.containsKey(guild.getIdLong())) {
-            musicManagers.get(guild.getIdLong()).scheduler.stop();
+            musicManagers.get(guild.getIdLong()).scheduler.clearQueue();
         }
         guild.getAudioManager().closeAudioConnection();
     }

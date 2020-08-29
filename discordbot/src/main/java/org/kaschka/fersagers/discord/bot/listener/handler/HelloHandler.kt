@@ -45,14 +45,18 @@ class HelloHandler : ChatHandler {
     }
 
     private fun getTriggerString(string: String) : TRIGGER {
-        if(containsHello(string)) {
-            return TRIGGER.HELLO
-        } else if (containsHi(string)) {
-            return TRIGGER.HI
-        } else if (containsHey(string)) {
-            return TRIGGER.HEY
+        return when {
+            containsHello(string) -> {
+                TRIGGER.HELLO
+            }
+            containsHi(string) -> {
+                TRIGGER.HI
+            }
+            containsHey(string) -> {
+                TRIGGER.HEY
+            }
+            else -> TRIGGER.NONE
         }
-        return TRIGGER.NONE
     }
 
     private fun answerOnHello(message: Message, trigger: TRIGGER) {

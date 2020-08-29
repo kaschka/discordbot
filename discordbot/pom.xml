@@ -13,7 +13,7 @@
         <jdk.version>1.8</jdk.version>
         <jda.version>4.2.0_172</jda.version>
         <aspectj.version>1.9.4</aspectj.version>
-        <kotlin.version>1.3.72</kotlin.version>
+        <kotlin.version>1.4.0</kotlin.version>
 
         <mainClass>org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration</mainClass>
     </properties>

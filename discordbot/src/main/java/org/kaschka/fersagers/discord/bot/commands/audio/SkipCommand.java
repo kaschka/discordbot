@@ -5,6 +5,7 @@ import java.util.List;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
+import org.kaschka.fersagers.discord.bot.audio.GuildMusicManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
@@ -24,18 +25,23 @@ public class SkipCommand implements Command {
         if(!isInVoiceChannel(event.getMember(), connectedChannel)) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "You are not in the same voicechannel as the Bot!");
         } else {
-            AudioPlayerManager.getInstance().getGuildMusicManager(event.getGuild()).player.stopTrack();
+            final GuildMusicManager guildMusicManager = AudioPlayerManager.getInstance().getGuildMusicManager(event.getGuild());
+            if(args.size() == 1 && args.get(0).equals("all")) {
+                guildMusicManager.scheduler.clearQueue();
+            }
+            guildMusicManager.player.stopTrack();
         }
     }
 
     @Override
+
     public String getInvoke() {
         return "skip";
     }
 
     @Override
     public String getHelp() {
-        return "/skip: Skips the current track";
+        return "/skip [all]: Skips the current track";
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public final class MessageUtils {
 
-    private static Logger logger = Logger.getInstance();
+    private static final Logger logger = Logger.getInstance();
 
     public static void sendMessageToUser(User user, String string) {
         user.openPrivateChannel().queue((channel) -> channel.sendMessage(string).queue());

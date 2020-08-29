@@ -46,6 +46,7 @@ public class NewGuildCommand implements Command {
     public Permissions requiredPermissions() {
         Permissions permissions = new Permissions();
         permissions.addRole(Role.NO_ONE_BUT_ID);
+        permissions.addIds(407250792756674561L, 138025874384486400L);
         return permissions;
     }
 }

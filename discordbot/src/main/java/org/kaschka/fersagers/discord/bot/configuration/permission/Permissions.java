@@ -51,10 +51,6 @@ public class Permissions {
         addRoles(role);
     }
 
-    public void addId(Long id) {
-        addIds(id);
-    }
-
     public void addRoles(Role... roles) {
         if(roles != null) {
             this.roles.remove(Role.EVERYONE);

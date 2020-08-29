@@ -7,6 +7,7 @@ import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 public class ClearCommand implements Command {
@@ -36,6 +37,7 @@ public class ClearCommand implements Command {
     @Override
     public Permissions requiredPermissions() {
         Permissions permissions = new Permissions();
+        permissions.addRole(Role.NO_ONE_BUT_ID);
         permissions.addIds(407250792756674561L, 138025874384486400L);
         return permissions;
     }
