@@ -2,6 +2,9 @@ package org.kaschka.fersagers.discord.bot.listener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -13,7 +16,8 @@ import org.kaschka.fersagers.discord.bot.listener.handler.StartUpMessageHandler;
 
 public class StartUpListener extends ListenerAdapter {
 
-    private final static List<StartUpHandler> startUpHandlers = new ArrayList<>();
+    private static final List<StartUpHandler> startUpHandlers = new ArrayList<>();
+    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 10, 10L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
     public StartUpListener() {
         startUpHandlers.add(new StartUpMessageHandler());
@@ -24,7 +28,10 @@ public class StartUpListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         List<Guild> guilds = event.getJDA().getGuilds();
-        startUpHandlers.stream().parallel().forEach(m -> m.handleOnStartup(guilds));
-        startUpHandlers.stream().parallel().forEach(StartUpHandler::handleOnStartup);
+        startUpHandlers.forEach(handler -> executor.submit(() -> handler.handleOnStartup(guilds)) );
+        startUpHandlers.forEach(handler -> executor.submit((Runnable) handler::handleOnStartup));
+
+        //clean up, as it only runs on startup
+        startUpHandlers.clear();
     }
 }

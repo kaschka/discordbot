@@ -16,26 +16,23 @@ import java.lang.Thread.sleep
 import java.time.Duration
 import java.time.Instant
 
-class PollCommand() : Command {
+class PollCommand : Command {
 
     private val MAX_TIME = 24*60
     private val db = DbService()
 
     private val logger = Logger.getInstance()
 
-
     override fun handle(args: MutableList<String>, event: MessageReceivedEvent) {
         assertPollCommand(args, event)
-        val poll = Poll()
-        poll.channelId  = event.channel.idLong
-        poll.start = Instant.now().toEpochMilli()
-        poll.endTime = Instant.now().plusMillis(Duration.ofMinutes(args[1].toLong()).toMillis()).toEpochMilli()
+        val poll = Poll(event.channel.idLong, Instant.now().toEpochMilli(), Instant.now().plusMillis(Duration.ofMinutes(args[1].toLong()).toMillis()).toEpochMilli())
 
         val embedBuilder = EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTimestamp(Instant.ofEpochMilli(poll.start))
+                .setTimestamp(Instant.ofEpochMilli(poll.startTime))
         val message = buildEmbedAndSendMessage(event, args, embedBuilder)
         poll.messageId = message.idLong
+
         db.addPoll(poll)
         logger.log("Created Poll! Author: " + event.author.name + ", Title: " + args[0] + ", Time: " + args[1] + "m")
 
@@ -151,7 +148,7 @@ class PollCommand() : Command {
             val builder = StringBuilder()
             var none = true
             sorted.forEach {
-                if(it.count > 1) {
+                if(it.count > 1 && it.retrieveUsers().stream().anyMatch{user -> user.isBot}) {
                     if (it.reactionEmote.isEmote) {
                         none = false
                         builder.append("<:" + it.reactionEmote.emote.name + ":" + it.reactionEmote.emote.id + "> --> " + (it.count - 1) + "\n")

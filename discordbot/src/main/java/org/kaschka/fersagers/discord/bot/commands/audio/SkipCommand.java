@@ -26,10 +26,14 @@ public class SkipCommand implements Command {
             MessageUtils.sendMessageToUser(event.getAuthor(), "You are not in the same voicechannel as the Bot!");
         } else {
             final GuildMusicManager guildMusicManager = AudioPlayerManager.getInstance().getGuildMusicManager(event.getGuild());
-            if(args.size() == 1 && args.get(0).equals("all")) {
-                guildMusicManager.scheduler.clearQueue();
-            }
+            skipAll(args, guildMusicManager);
             guildMusicManager.player.stopTrack();
+        }
+    }
+
+    private void skipAll(List<String> args, GuildMusicManager guildMusicManager) {
+        if(args.size() == 1 && args.get(0).equals("all")) {
+            guildMusicManager.scheduler.clearQueue();
         }
     }
 

@@ -33,12 +33,9 @@ public class FuckCommand implements Command {
         assertVoiceChannelNotNull(event.getAuthor(), memberName, channelBefore);
         VoiceChannel newChannel = getChannel(guild, channelBefore.getParent(), channelName);
 
-        new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                guild.moveVoiceMember(member, newChannel).completeAfter(500, TimeUnit.MILLISECONDS);
-                guild.moveVoiceMember(member, channelBefore).completeAfter(500, TimeUnit.MILLISECONDS);
-            }
-        }).start();
+        guild.moveVoiceMember(member, newChannel).completeAfter(500, TimeUnit.MILLISECONDS);
+        guild.moveVoiceMember(member, channelBefore).completeAfter(500, TimeUnit.MILLISECONDS);
+
     }
 
     private VoiceChannel getChannel(Guild guild, Category parent, String name) {

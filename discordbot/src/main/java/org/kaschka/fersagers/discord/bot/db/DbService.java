@@ -16,7 +16,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class DbService {
 
     private final DbServiceRetro dbService;
-    private final PassiveExpiringMap<Long, Long> cache;
+    private final PassiveExpiringMap<Long, Long> musicChannelCache;
 
     private final Logger logger = Logger.getInstance();
 
@@ -32,7 +32,7 @@ public class DbService {
                         .build();
 
         dbService = build.create(DbServiceRetro.class);
-        cache = new PassiveExpiringMap<>(60*1000);
+        musicChannelCache = new PassiveExpiringMap<>(60*1000);
     }
 
     public void addNewGuild(long guildId, long musicChannel, long role) {
@@ -77,12 +77,12 @@ public class DbService {
     }
 
     public long getMusicChannel(long guildId) {
-        if(cache.containsKey(guildId)) {
-            return cache.get(guildId);
+        if(musicChannelCache.containsKey(guildId)) {
+            return musicChannelCache.get(guildId);
         } else {
             try {
                 Long id = dbService.getMusicChannel(guildId).execute().body();
-                cache.put(guildId, id);
+                musicChannelCache.put(guildId, id);
                 return id == null ? 0 : id;
             } catch (IOException e) {
                 logger.logException(e);

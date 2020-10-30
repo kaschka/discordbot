@@ -36,17 +36,15 @@ public class MusicHandler implements ChatHandler, StartUpHandler {
 
     @Override
     public void handleOnStartup(List<Guild> guilds) {
-            new Thread(() -> {
-                for (Guild guild : guilds) {
-                    long musicChannelId = getMusicChannelId(guild.getIdLong());
-                    TextChannel musicChannel = guild.getTextChannelById(musicChannelId);
-                    List<Message> retrievedMessages = musicChannel.getHistoryAround(musicChannel.getLatestMessageId(), 50).complete().getRetrievedHistory();
+        for (Guild guild : guilds) {
+            long musicChannelId = getMusicChannelId(guild.getIdLong());
+            TextChannel musicChannel = guild.getTextChannelById(musicChannelId);
+            List<Message> retrievedMessages = musicChannel.getHistoryAround(musicChannel.getLatestMessageId(), 50).complete().getRetrievedHistory();
 
-                    retrievedMessages.parallelStream()
-                            .filter(m -> isMusic(m.getContentRaw()))
-                            .forEach(this::logAndDelete);
-                }
-            }).start();
+            retrievedMessages.parallelStream()
+                    .filter(m -> isMusic(m.getContentRaw()))
+                    .forEach(this::logAndDelete);
+        }
     }
 
     private boolean isMusic(String text) {

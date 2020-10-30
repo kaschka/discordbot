@@ -9,13 +9,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Poll {
     private int id;
     @JsonProperty("start")
-    private long start;
+    private long startTime;
     @JsonProperty("endTime")
     private long endTime;
     private long messageId;
     private long channelId;
 
-    public Poll() {
+    public Poll() {}
+
+    public Poll(long channelId, long startTime, long endTime) {
+        this.channelId = channelId;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public long getChannelId() {
@@ -34,12 +39,12 @@ public class Poll {
         this.id = id;
     }
 
-    public long getStart() {
-        return start;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setStart(long start) {
-        this.start = start;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public long getEndTime() {
