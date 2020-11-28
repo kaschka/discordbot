@@ -2,12 +2,10 @@ package org.kaschka.fersagers.discord.bot.utils;
 
 import java.util.List;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
 public class DiscordUtils {
     public static VoiceChannel getCurrentVoiceChannel(Member member) {
@@ -23,7 +21,7 @@ public class DiscordUtils {
 
     public static Member getMemberByName(MessageReceivedEvent event, String name) throws RuntimeException {
         List<Member> membersByName = event.getGuild().getMembersByName(name, true);
-        if(membersByName.isEmpty()) {
+        if (membersByName.isEmpty()) {
             MessageUtils.sendMessageToUser(event.getAuthor(), String.format("User '%s' does not exist", name));
             throw new RuntimeException();
         }
@@ -38,7 +36,7 @@ public class DiscordUtils {
         VoiceChannel connectedChannelBot = member.getGuild().getAudioManager().getConnectedChannel();
         VoiceChannel connectedChannelMember = getCurrentVoiceChannel(member);
 
-        if(connectedChannelMember == null || connectedChannelBot != connectedChannelMember) {
+        if (connectedChannelMember == null || connectedChannelBot != connectedChannelMember) {
             MessageUtils.sendMessageToUser(member.getUser(), "You and the Bot are not in the same voicechannel!");
             throw new RuntimeException("Command was run while Bot was not in a Channel");
         }

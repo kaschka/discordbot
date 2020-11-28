@@ -24,7 +24,7 @@ public class RequiresPermissionsImpl {
     @Around("callAt(rp)")
     public void around(ProceedingJoinPoint joinPoint, RequiresPermission rp) throws Throwable {
         Object target = joinPoint.getTarget();
-        if(target instanceof Command) {
+        if (target instanceof Command) {
             Permissions permission = ((Command) target).requiredPermissions();
 
             Object[] args = joinPoint.getArgs();
@@ -32,10 +32,12 @@ public class RequiresPermissionsImpl {
                 if (arg instanceof MessageReceivedEvent) {
                     MessageReceivedEvent event = (MessageReceivedEvent) arg;
 
-                    if (caseTextChannel(joinPoint, permission, event))
+                    if (caseTextChannel(joinPoint, permission, event)) {
                         return;
-                    if (caseDirectMessage(joinPoint, permission, event))
+                    }
+                    if (caseDirectMessage(joinPoint, permission, event)) {
                         return;
+                    }
                     MessageUtils.sendMessageToUser(event.getAuthor(), "Insufficient Permissions!");
                     break;
                 }
@@ -46,7 +48,7 @@ public class RequiresPermissionsImpl {
     }
 
     private boolean caseTextChannel(ProceedingJoinPoint joinPoint, Permissions permission, MessageReceivedEvent event) throws Throwable {
-        if(event.isFromType(ChannelType.TEXT)) {
+        if (event.isFromType(ChannelType.TEXT)) {
             Member member = event.getMember();
             if (hasPermission(permission, member)) {
                 joinPoint.proceed();
@@ -57,8 +59,8 @@ public class RequiresPermissionsImpl {
     }
 
     private boolean caseDirectMessage(ProceedingJoinPoint joinPoint, Permissions permission, MessageReceivedEvent event) throws Throwable {
-        if(event.isFromType(ChannelType.PRIVATE)) {
-            if(hasPermission(permission, event.getMember())) {
+        if (event.isFromType(ChannelType.PRIVATE)) {
+            if (hasPermission(permission, event.getMember())) {
                 joinPoint.proceed();
                 return true;
             }

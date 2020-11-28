@@ -14,7 +14,7 @@ public final class MessageUtils {
     }
 
     public static void logAndDeleteMessage(MessageReceivedEvent event) {
-        if(!event.isFromType(ChannelType.PRIVATE)) {
+        if (!event.isFromType(ChannelType.PRIVATE)) {
             event.getMessage().delete().queue();
         }
         logger.logChatMessage(event);

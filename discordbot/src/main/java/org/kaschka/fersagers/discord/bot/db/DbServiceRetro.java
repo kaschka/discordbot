@@ -38,5 +38,4 @@ public interface DbServiceRetro {
     @DELETE("/api/poll/{messageId}/channel/{channelId}")
     Call<Void> deletePoll(@Path("channelId") long channelId, @Path("messageId") long messageId);
 
-
 }

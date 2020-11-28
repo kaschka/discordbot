@@ -57,7 +57,7 @@ public class AudioPlayerManager {
 
     public void loadAndPlay(VoiceChannel channel, String trackUrl) throws RuntimeException {
         GuildMusicManager musicManager = getGuildMusicManager(channel.getGuild());
-        if(musicManager.scheduler.getQueue().size() >= 100) {
+        if (musicManager.scheduler.getQueue().size() >= 100) {
             logger.log("Queue is full!");
             throw new RuntimeException("Full queue");
         }

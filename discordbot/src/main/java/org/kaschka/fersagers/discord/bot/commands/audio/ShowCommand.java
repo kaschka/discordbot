@@ -31,22 +31,22 @@ public class ShowCommand implements Command {
 
         VoiceChannel connectedChannel = DiscordUtils.getBotAndUserVoiceChannel(member);
 
-        if(!isInVoiceChannel(member, connectedChannel)) {
+        if (!isInVoiceChannel(member, connectedChannel)) {
             MessageUtils.sendMessageToUser(user, "You are not in the same voicechannel as the Bot!");
         } else {
             BlockingQueue<AudioTrack> queue = AudioPlayerManager.getInstance().getGuildMusicManager(guild).scheduler.getQueue();
 
             String current = AudioPlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
-            String queueString =  "";
+            String queueString = "";
 
-            if(queue.size() > 0) {
+            if (queue.size() > 0) {
                 queueString = queue.stream()
                         .map(track -> "\n-> " + track.getInfo().title)
                         .collect(Collectors.joining()
                         );
             }
 
-            current +=  queueString;
+            current += queueString;
             MessageUtils.sendMessageToUser(user, "Current playing: " + current);
 
         }

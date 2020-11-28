@@ -26,13 +26,13 @@ public class DbService {
                 .build();
 
         final Retrofit build = new Retrofit.Builder()
-                        .baseUrl("http://localhost:8081")
-                        .addConverterFactory(JacksonConverterFactory.create())
-                        .client(okHttpClient)
-                        .build();
+                .baseUrl("http://localhost:8081")
+                .addConverterFactory(JacksonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
 
         dbService = build.create(DbServiceRetro.class);
-        musicChannelCache = new PassiveExpiringMap<>(60*1000);
+        musicChannelCache = new PassiveExpiringMap<>(60 * 1000);
     }
 
     public void addNewGuild(long guildId, long musicChannel, long role) {
@@ -77,7 +77,7 @@ public class DbService {
     }
 
     public long getMusicChannel(long guildId) {
-        if(musicChannelCache.containsKey(guildId)) {
+        if (musicChannelCache.containsKey(guildId)) {
             return musicChannelCache.get(guildId);
         } else {
             try {

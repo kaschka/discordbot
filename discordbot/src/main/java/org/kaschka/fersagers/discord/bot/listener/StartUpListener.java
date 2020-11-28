@@ -28,7 +28,7 @@ public class StartUpListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         List<Guild> guilds = event.getJDA().getGuilds();
-        startUpHandlers.forEach(handler -> executor.submit(() -> handler.handleOnStartup(guilds)) );
+        startUpHandlers.forEach(handler -> executor.submit(() -> handler.handleOnStartup(guilds)));
         startUpHandlers.forEach(handler -> executor.submit((Runnable) handler::handleOnStartup));
 
         //clean up, as it only runs on startup

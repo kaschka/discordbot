@@ -24,7 +24,7 @@ class HelloHandler : ChatHandler {
         val message = event?.message
         if (message != null) {
             val trigger = getTriggerString(message.contentRaw)
-            if(trigger != TRIGGER.NONE) {
+            if (trigger != TRIGGER.NONE) {
                 answerOnHello(message, trigger)
                 return true
             }
@@ -44,7 +44,7 @@ class HelloHandler : ChatHandler {
         return HEY_REGEX.matcher(string).find();
     }
 
-    private fun getTriggerString(string: String) : TRIGGER {
+    private fun getTriggerString(string: String): TRIGGER {
         return when {
             containsHello(string) -> {
                 TRIGGER.HELLO

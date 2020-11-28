@@ -22,7 +22,7 @@ public class SkipCommand implements Command {
     public void handle(List<String> args, MessageReceivedEvent event) {
         VoiceChannel connectedChannel = getBotAndUserVoiceChannel(event.getMember());
 
-        if(!isInVoiceChannel(event.getMember(), connectedChannel)) {
+        if (!isInVoiceChannel(event.getMember(), connectedChannel)) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "You are not in the same voicechannel as the Bot!");
         } else {
             final GuildMusicManager guildMusicManager = AudioPlayerManager.getInstance().getGuildMusicManager(event.getGuild());
@@ -32,7 +32,7 @@ public class SkipCommand implements Command {
     }
 
     private void skipAll(List<String> args, GuildMusicManager guildMusicManager) {
-        if(args.size() == 1 && args.get(0).equals("all")) {
+        if (args.size() == 1 && args.get(0).equals("all")) {
             guildMusicManager.scheduler.clearQueue();
         }
     }

@@ -27,13 +27,13 @@ public class Permissions {
     }
 
     public static boolean hasPermission(Permissions permissions, Member member) {
-        if(member == null) {
+        if (member == null) {
             return false;
         }
 
         boolean role = false;
 
-        if(!permissions.roles.contains(Role.NO_ONE_BUT_ID)) {
+        if (!permissions.roles.contains(Role.NO_ONE_BUT_ID)) {
             List<String> hasRoles = new ArrayList<>();
             member.getRoles().forEach(e -> hasRoles.add(e.getName()));
             hasRoles.add(Role.EVERYONE.getName());
@@ -52,14 +52,14 @@ public class Permissions {
     }
 
     public void addRoles(Role... roles) {
-        if(roles != null) {
+        if (roles != null) {
             this.roles.remove(Role.EVERYONE);
             this.roles.addAll(Arrays.asList(roles));
         }
     }
 
     public void addIds(long... ids) {
-        if(roles != null) {
+        if (roles != null) {
             this.roles.remove(Role.EVERYONE);
             this.ids.addAll(Arrays.asList(ArrayUtils.toObject(ids)));
         }

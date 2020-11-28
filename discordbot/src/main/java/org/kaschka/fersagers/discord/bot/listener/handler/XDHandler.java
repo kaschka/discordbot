@@ -15,7 +15,7 @@ public class XDHandler implements ChatHandler {
     @Override
     public boolean handle(MessageReceivedEvent event) {
         Message message = event.getMessage();
-        if(containsXD(message.getContentRaw())) {
+        if (containsXD(message.getContentRaw())) {
             fixXDCase(message);
             return true;
         }

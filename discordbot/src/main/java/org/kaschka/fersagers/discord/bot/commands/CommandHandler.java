@@ -62,7 +62,7 @@ public class CommandHandler {
     }
 
     public void handleCommand(MessageReceivedEvent event, String invoke, List<String> args) {
-        if(event.isFromType(ChannelType.PRIVATE) && !isDirectMessageEnabled(invoke)) {
+        if (event.isFromType(ChannelType.PRIVATE) && !isDirectMessageEnabled(invoke)) {
             answerOnDirectMessage(event);
         } else {
             commands.get(invoke).handle(args, event);
@@ -70,7 +70,7 @@ public class CommandHandler {
     }
 
     private void answerOnDirectMessage(MessageReceivedEvent event) {
-            logger.logChatMessage(event);
-            MessageUtils.sendMessageToUser(event.getAuthor(), ApplicationConfiguration.STATUS);
+        logger.logChatMessage(event);
+        MessageUtils.sendMessageToUser(event.getAuthor(), ApplicationConfiguration.STATUS);
     }
 }

@@ -24,8 +24,8 @@ public class MusicHandler implements ChatHandler, StartUpHandler {
     @Override
     public boolean handle(MessageReceivedEvent event) {
         Message message = event.getMessage();
-        if(event.getChannel().getIdLong() == dbService.getMusicChannel(event.getGuild().getIdLong())) {
-            if(isMusic(message.getContentRaw())) {
+        if (event.getChannel().getIdLong() == dbService.getMusicChannel(event.getGuild().getIdLong())) {
+            if (isMusic(message.getContentRaw())) {
                 MessageUtils.sendMessageToUser(message.getAuthor(), String.format("Only URLs are allowed in the %s channel!", message.getChannel().getName()));
                 logAndDelete(message);
             }
@@ -70,13 +70,13 @@ public class MusicHandler implements ChatHandler, StartUpHandler {
     private long getMusicChannelId(long id) {
         int tries = 0;
 
-        while(tries <= 5) {
+        while (tries <= 5) {
             tries++;
             try {
                 return dbService.getMusicChannel(id);
             } catch (Exception e) {
                 try {
-                    Thread.sleep((long) (1000*Math.pow(2, tries)));
+                    Thread.sleep((long) (1000 * Math.pow(2, tries)));
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }

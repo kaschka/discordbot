@@ -65,19 +65,19 @@ public class Poll {
 
     public String getHumanReadableDuration() {
         Duration duration = Duration.of(endTime - Instant.now().toEpochMilli(), ChronoUnit.MILLIS);
-        if(duration.toDays() > 0) {
+        if (duration.toDays() > 0) {
             return duration.toDays() + "d";
         }
 
-        if(duration.toHours() > 0) {
+        if (duration.toHours() > 0) {
             return duration.toHours() + "h";
         }
 
-        if(duration.toMinutes() > 0) {
+        if (duration.toMinutes() > 0) {
             return duration.toMinutes() + "m";
         }
 
-        if(duration.toMillis() > 1000) {
+        if (duration.toMillis() > 1000) {
             return duration.toMillis() * 1000 + "s";
         }
 

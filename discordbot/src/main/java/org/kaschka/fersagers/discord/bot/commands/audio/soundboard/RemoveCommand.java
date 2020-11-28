@@ -21,7 +21,7 @@ public class RemoveCommand implements Command {
     @Override
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
-        if(args.size() != 1) {
+        if (args.size() != 1) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-remove [ID]");
             return;
         }
@@ -30,6 +30,7 @@ public class RemoveCommand implements Command {
         String message = success ? "Sound deleted!" : "Something went Wrong!";
         MessageUtils.sendMessageToUser(event.getAuthor(), message);
     }
+
     @Override
     public String getInvoke() {
         return "sound-delete";

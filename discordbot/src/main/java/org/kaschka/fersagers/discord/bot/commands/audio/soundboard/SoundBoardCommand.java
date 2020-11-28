@@ -23,13 +23,13 @@ public class SoundBoardCommand implements Command {
     @Override
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
-        if(args.size() != 1) {
+        if (args.size() != 1) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound [ID]");
             return;
         }
 
         SoundTO sound = dbService.getSound(event.getGuild().getIdLong(), args.get(0));
-        if(sound == null) {
+        if (sound == null) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Sound not found!");
         } else {
             String url = sound.getUrl();

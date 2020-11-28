@@ -14,10 +14,10 @@ public class Logger {
 
     private static ThreadLocal<String> logSessionId = new ThreadLocal<>();
 
-    private Logger(){}
+    private Logger() {}
 
     public static synchronized Logger getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new Logger();
         }
         return INSTANCE;
@@ -33,26 +33,30 @@ public class Logger {
 
     public void logChatMessage(MessageReceivedEvent message) {
         switch (message.getChannelType()) {
-            case PRIVATE: logFormatted(
-                    String.format(
-                            "[Private] %s: %s",
-                            message.getAuthor().getName(),
-                            message.getMessage()
-                    )); break;
+            case PRIVATE:
+                logFormatted(
+                        String.format(
+                                "[Private] %s: %s",
+                                message.getAuthor().getName(),
+                                message.getMessage()
+                        ));
+                break;
 
-            case TEXT: logFormatted(
-                    String.format(
-                            "[%s@%s] %s: %s",
-                            message.getGuild().getName(),
-                            message.getChannel().getName(),
-                            message.getAuthor().getName(),
-                            message.getMessage()
-                    )); break;
+            case TEXT:
+                logFormatted(
+                        String.format(
+                                "[%s@%s] %s: %s",
+                                message.getGuild().getName(),
+                                message.getChannel().getName(),
+                                message.getAuthor().getName(),
+                                message.getMessage()
+                        ));
+                break;
         }
     }
 
     public void setLogChannel(TextChannel channel) {
-        if(logChannel == null) {
+        if (logChannel == null) {
             logChannel = channel;
         }
     }

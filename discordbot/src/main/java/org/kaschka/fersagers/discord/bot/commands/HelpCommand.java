@@ -26,14 +26,13 @@ public class HelpCommand implements Command {
     public void handle(List<String> args, MessageReceivedEvent event) {
         Stream<String> filteredStream = orderedCommandStrings.stream();
 
-        if(!(args.size() > 0 && args.get(0).equals("all"))) {
+        if (!(args.size() > 0 && args.get(0).equals("all"))) {
             filteredStream = filteredStream
                     .filter(e -> hasPermission(commands.get(e).requiredPermissions(), event.getMember()) ||
                             commands.get(e).requiredPermissions().hasPermission(Role.EVERYONE) ||
                             commands.get(e).requiredPermissions().hasPermission(event.getAuthor().getIdLong())
                     );
         }
-
         String helpString = filteredStream
                 .map(e -> commands.get(e).getHelp())
                 .map(e -> "\n-> " + e)

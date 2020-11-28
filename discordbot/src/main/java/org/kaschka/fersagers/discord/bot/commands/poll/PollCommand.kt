@@ -18,7 +18,7 @@ import java.time.Instant
 
 class PollCommand : Command {
 
-    private val MAX_TIME = 24*60
+    private val MAX_TIME = 24 * 60
     private val db = DbService()
 
     private val logger = Logger.getInstance()
@@ -40,12 +40,12 @@ class PollCommand : Command {
         refreshPoll(poll)
     }
 
-    private fun addReactions(args: MutableList<String>, message : Message) {
-        filterUniCodeEmojis(args).forEach{ message.addReaction(it).queue()}
-        filterGuildEmojis(args, message.guild).forEach{ message.addReaction(it).queue()}
+    private fun addReactions(args: MutableList<String>, message: Message) {
+        filterUniCodeEmojis(args).forEach { message.addReaction(it).queue() }
+        filterGuildEmojis(args, message.guild).forEach { message.addReaction(it).queue() }
     }
 
-    private fun buildEmbedAndSendMessage(event: MessageReceivedEvent, args: MutableList<String>, embedBuilder : EmbedBuilder): Message {
+    private fun buildEmbedAndSendMessage(event: MessageReceivedEvent, args: MutableList<String>, embedBuilder: EmbedBuilder): Message {
         val builder = StringBuilder()
         for (i in 2 until args.size - 1 step 2) {
             builder.append(args[i + 1] + " --> " + args[i] + "\n")
@@ -55,7 +55,7 @@ class PollCommand : Command {
         return event.channel.sendMessage(embedBuilder.build()).complete()
     }
 
-    private fun filterUniCodeEmojis(strings: MutableList<String>) : List<String> {
+    private fun filterUniCodeEmojis(strings: MutableList<String>): List<String> {
         val emojis = mutableListOf<String>()
         for (string in strings) {
             if (EmojiManager.isEmoji(string)) {
@@ -65,7 +65,7 @@ class PollCommand : Command {
         return emojis
     }
 
-    private fun filterGuildEmojis(strings: MutableList<String>, guild : Guild) : List<Emote> {
+    private fun filterGuildEmojis(strings: MutableList<String>, guild: Guild): List<Emote> {
         val emojisLong = mutableListOf<Long>()
         for (string in strings) {
             if (string.startsWith("<")) {
@@ -74,12 +74,12 @@ class PollCommand : Command {
         }
 
         val emojis = mutableListOf<Emote>()
-        emojisLong.forEach{ guild.getEmoteById(it)?.let { notNull -> emojis.add(notNull) } }
+        emojisLong.forEach { guild.getEmoteById(it)?.let { notNull -> emojis.add(notNull) } }
         return emojis
     }
 
     private fun assertPollCommand(args: List<String>, event: MessageReceivedEvent) {
-        if(args.size < 2 || args.size % 2 != 0 || args[1].toInt() < 1 || args[1].toInt() > MAX_TIME) {
+        if (args.size < 2 || args.size % 2 != 0 || args[1].toInt() < 1 || args[1].toInt() > MAX_TIME) {
             MessageUtils.sendMessageToUser(event.author, "Invalid args.\n /poll [title] [minutes] [choices emoji]*")
             MessageUtils.sendMessageToUser(event.author, "-- Max $MAX_TIME minutes")
             MessageUtils.sendMessageToUser(event.author, "You wrote: \n " + event.message.contentRaw)
@@ -103,13 +103,13 @@ class PollCommand : Command {
                 var message: Message? = null
                 try {
                     message = ApplicationConfiguration.SHARD_MANAGER.getTextChannelById(poll.channelId)?.retrieveMessageById(poll.messageId)?.complete()
-                } catch (ex : ErrorResponseException) {
-                    if(ex.errorCode == ErrorResponse.UNKNOWN_MESSAGE.code) {
+                } catch (ex: ErrorResponseException) {
+                    if (ex.errorCode == ErrorResponse.UNKNOWN_MESSAGE.code) {
                         db.deletePoll(poll)
                     }
                 }
 
-                if(message != null) {
+                if (message != null) {
                     val embedBuilder = createEmbedBuilderFromEmbed(message.embeds[0])
                     while (Instant.now().isBefore(Instant.ofEpochMilli(poll.endTime))) {
                         embedBuilder.setFooter("Time left: " + poll.humanReadableDuration)
@@ -124,7 +124,7 @@ class PollCommand : Command {
             }.start()
         }
 
-        private fun createEmbedBuilderFromEmbed(embed : MessageEmbed) : EmbedBuilder {
+        private fun createEmbedBuilderFromEmbed(embed: MessageEmbed): EmbedBuilder {
             val embedBuilder = EmbedBuilder()
             for (field in embed.fields) {
                 embedBuilder.addField(field.name, field.value, false)
@@ -134,21 +134,21 @@ class PollCommand : Command {
             embedBuilder.setTitle(embed.title)
             embedBuilder.setDescription(embed.description)
 
-            if(embed.author != null) {
+            if (embed.author != null) {
                 embedBuilder.setAuthor(embed.author.toString())
             }
 
             return embedBuilder;
         }
 
-        private fun result(embedBuilder : EmbedBuilder, message: Message) {
+        private fun result(embedBuilder: EmbedBuilder, message: Message) {
             //poll the message again to retrieve the current reactions
             val newMessage = message.channel.retrieveMessageById(message.id).complete()
             val sorted = newMessage.reactions.sortedByDescending { it.count }
             val builder = StringBuilder()
             var none = true
             sorted.forEach {
-                if(it.count > 1 && it.retrieveUsers().stream().anyMatch{user -> user.isBot}) {
+                if (it.count > 1 && it.retrieveUsers().stream().anyMatch { user -> user.isBot }) {
                     if (it.reactionEmote.isEmote) {
                         none = false
                         builder.append("<:" + it.reactionEmote.emote.name + ":" + it.reactionEmote.emote.id + "> --> " + (it.count - 1) + "\n")
@@ -158,7 +158,7 @@ class PollCommand : Command {
                     }
                 }
             }
-            if(!none) {
+            if (!none) {
                 embedBuilder.addBlankField(false).addField("Result!", builder.toString(), false)
             } else {
                 embedBuilder.addBlankField(false).addField("Noone voted!", "", false)

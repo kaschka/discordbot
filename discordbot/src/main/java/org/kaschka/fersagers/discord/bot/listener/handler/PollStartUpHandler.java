@@ -14,7 +14,7 @@ public class PollStartUpHandler implements StartUpHandler {
     public void handleOnStartup() {
         try {
             //Wait for db connection
-            Thread.sleep(60*1000);
+            Thread.sleep(60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

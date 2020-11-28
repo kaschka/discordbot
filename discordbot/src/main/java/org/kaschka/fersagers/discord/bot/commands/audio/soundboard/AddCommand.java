@@ -21,12 +21,12 @@ public class AddCommand implements Command {
     @Override
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
-        if(args.size() != 2) {
+        if (args.size() != 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\nUse /sound-add [ID] [URL]");
             return;
         }
 
-        if(dbService.addSound(event.getGuild().getIdLong(), args.get(0), args.get(1))) {
+        if (dbService.addSound(event.getGuild().getIdLong(), args.get(0), args.get(1))) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Sound added!");
         } else {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Sound already exists!");

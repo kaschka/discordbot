@@ -3,7 +3,7 @@ package org.kaschka.fersagers.discord.bot.db;
 public class GuildTO {
 
     public GuildTO(long guildId, long musicChannel, long role) {
-        this.guildId= guildId;
+        this.guildId = guildId;
         this.musicChannel = musicChannel;
         this.role = role;
     }

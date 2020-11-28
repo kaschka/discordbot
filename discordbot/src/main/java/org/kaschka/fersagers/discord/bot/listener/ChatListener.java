@@ -41,7 +41,7 @@ public class ChatListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if(!event.getAuthor().isBot()) {
+        if (!event.getAuthor().isBot()) {
             executor.submit(() -> {
                 logger.setLogSessionId(RandomStringUtils.randomAlphanumeric(8));
                 final String message = event.getMessage().getContentRaw();
@@ -55,6 +55,7 @@ public class ChatListener extends ListenerAdapter {
                 } else {
                     // calls all handlers until one returns true
                     chatHandlers.stream().anyMatch(e -> e.handle(event));
+
                 }
             });
         }
@@ -66,28 +67,29 @@ public class ChatListener extends ListenerAdapter {
 
         int start = 0, end = 0;
         for (int i = 1; i < split.length; i++) {
-            if(split[i].startsWith("{")) {
+            if (split[i].startsWith("{")) {
                 //remember the location of the first bracket
                 start = i;
             }
             //remember the location of the second bracket, if its on start or end
             //If a element looks like: {someText} it's both, the start and the end position.
-            if(split[i].startsWith("}") || split[i].endsWith("}")) {
+            if (split[i].startsWith("}") || split[i].endsWith("}")) {
                 end = i;
             }
 
             //if both bracket locations are found, group all string elements between those two brackets
-            if(end != 0 && start != 0) {
+            if (end != 0 && start != 0) {
                 StringBuilder s = new StringBuilder();
-                for(int j = start; j<=end; j++) {
-                    if(s.length() != 0) {
+                for (int j = start; j <= end; j++) {
+                    if (s.length() != 0) {
                         s.append(" ");
                     }
                     s.append(split[j]);
                 }
-                end = 0; start = 0;
+                end = 0;
+                start = 0;
                 args.add(s.toString());
-            //if no brackets are found yet, we must have a single element
+                //if no brackets are found yet, we must have a single element
             } else if (end == 0 && start == 0) {
                 args.add(split[i]);
             }
@@ -95,7 +97,7 @@ public class ChatListener extends ListenerAdapter {
 
         //after the elements are grouped, remove the unnecessary brackets
         for (int i = 0; i < args.size(); i++) {
-           args.set(i, args.get(i).replaceAll("[{}]", ""));
+            args.set(i, args.get(i).replaceAll("[{}]", ""));
         }
         return args;
     }

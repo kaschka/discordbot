@@ -21,7 +21,7 @@ public class ApplicationConfiguration {
     public static final String STATUS = "Beep, Boop, I am a bot!";
 
     public static void main(String[] args) {
-        if(args.length > 1) {
+        if (args.length > 1) {
             throw new IllegalArgumentException("To many args!");
         } else if (args.length == 0) {
             throw new IllegalArgumentException("Api Key Required!");

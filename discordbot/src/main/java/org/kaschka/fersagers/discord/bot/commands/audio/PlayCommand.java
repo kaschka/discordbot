@@ -28,7 +28,7 @@ public class PlayCommand implements Command {
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertPlayCommand(args, event);
-        if(!UrlValidator.getInstance().isValid(args.get(URL_ARG_NUMBER))) {
+        if (!UrlValidator.getInstance().isValid(args.get(URL_ARG_NUMBER))) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
             return;
         }
@@ -50,7 +50,7 @@ public class PlayCommand implements Command {
         assertVoiceChannelNotNull(event.getAuthor(), event.getAuthor().getName(), voiceChannel);
 
         if (audioManager.isConnected()) {
-            MessageUtils.sendMessageToUser(event.getAuthor(),"Queueing Song.");
+            MessageUtils.sendMessageToUser(event.getAuthor(), "Queueing Song.");
         } else {
             audioManager.openAudioConnection(voiceChannel);
             InMemoryConfiguration.isManuallyJoined.put(event.getGuild().getIdLong(), false);
@@ -60,7 +60,7 @@ public class PlayCommand implements Command {
     }
 
     private static void putInQueue(String url, Member member, int amount) {
-        if(amount <= 0) {
+        if (amount <= 0) {
             amount = 1;
         }
 
@@ -76,7 +76,7 @@ public class PlayCommand implements Command {
     }
 
     private void assertPlayCommand(List<String> args, MessageReceivedEvent event) {
-        if (args.size() < 1 ||args.size() > 2) {
+        if (args.size() < 1 || args.size() > 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /play [URL] [Times]");
             throw new RuntimeException();
         }
