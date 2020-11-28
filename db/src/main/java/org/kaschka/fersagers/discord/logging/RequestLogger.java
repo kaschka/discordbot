@@ -36,7 +36,7 @@ public class RequestLogger implements Filter {
             log += String.format("duration: %s, ", (System.currentTimeMillis() - time));
 
             HttpServletResponse response = (HttpServletResponse) servletResponse;
-            log += String.format("HTTP-Statuscode: %s" , response.getStatus());
+            log += String.format("HTTP-Statuscode: %s", response.getStatus());
             logger.info(log);
         }
     }

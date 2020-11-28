@@ -30,7 +30,7 @@ public class SoundBoardController {
     @ResponseStatus(HttpStatus.OK)
     public Sound getSound(@PathVariable long guildId, @PathVariable String name) {
         Sound sound = soundBoardDAO.getSound(guildId, name);
-        if(sound == null || StringUtils.isEmpty(sound.getUrl())) {
+        if (sound == null || StringUtils.isEmpty(sound.getUrl())) {
             throw new NotFoundException("Sound not Found");
         }
         return sound;

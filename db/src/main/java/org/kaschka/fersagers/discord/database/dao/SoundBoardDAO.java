@@ -17,7 +17,7 @@ public class SoundBoardDAO {
     }
 
     public void setSound(Sound sound) {
-        if(!soundBoardRepository.existsByGuildIdAndName(sound.getGuildId(), sound.getName())) {
+        if (!soundBoardRepository.existsByGuildIdAndName(sound.getGuildId(), sound.getName())) {
             soundBoardRepository.save(sound);
         } else {
             throw new KeyAlreadyExistsException("The combination of guild and name already exists!");

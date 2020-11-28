@@ -13,9 +13,9 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"org.kaschka.fersagers"})
-@EntityScan(basePackages = {"org.kaschka.fersagers"})
-@ComponentScan(basePackages = { "org.kaschka.fersagers"})
+@EnableJpaRepositories(basePackages = { "org.kaschka.fersagers" })
+@EntityScan(basePackages = { "org.kaschka.fersagers" })
+@ComponentScan(basePackages = { "org.kaschka.fersagers" })
 public class ApplicationConfiguration {
 
     public static void main(String[] args) {

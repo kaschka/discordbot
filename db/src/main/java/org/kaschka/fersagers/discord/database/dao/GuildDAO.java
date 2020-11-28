@@ -36,7 +36,7 @@ public class GuildDAO {
 
     public Guild getGuild(long id) {
         Guild guild = guildRepository.getById(id);
-        if(guild != null) {
+        if (guild != null) {
             return guild;
         }
         throw new NotFoundException("guild.not.found");

@@ -24,6 +24,7 @@ public class ErrorLogCreator {
     public static ErrorLogCreator create(HttpStatus status, String description) {
         return new ErrorLogCreator(status, description, null);
     }
+
     public static ErrorLogCreator create(HttpStatus status, String description, String detailedDescription) {
         return new ErrorLogCreator(status, description, detailedDescription);
     }
