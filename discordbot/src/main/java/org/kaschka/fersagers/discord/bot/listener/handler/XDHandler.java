@@ -9,7 +9,7 @@ import org.kaschka.fersagers.discord.bot.utils.Logger;
 
 public class XDHandler implements ChatHandler {
 
-    private static final Pattern XD_REGEX = Pattern.compile("(?!(xD(?!\\s)))\\b(([xX])+([dD])+)+", Pattern.MULTILINE);
+    private static final Pattern XD_REGEX = Pattern.compile("(?!(xD))\\b(([xX])+([dD])+)+", Pattern.MULTILINE);
     private final static Logger logger = Logger.getInstance();
 
     @Override
