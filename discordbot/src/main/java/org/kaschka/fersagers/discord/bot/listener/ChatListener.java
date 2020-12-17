@@ -50,7 +50,7 @@ public class ChatListener extends ListenerAdapter {
 
                 if (message.startsWith(PREFIX) && commandHandler.isCommand(invoke)) {
                     MessageUtils.logAndDeleteMessage(event);
-                    final ArrayList<String> args = parseArgs(split);
+                    final List<String> args = parseArgs(split);
                     commandHandler.handleCommand(event, invoke, args);
                 } else {
                     // calls all handlers until one returns true
@@ -61,44 +61,64 @@ public class ChatListener extends ListenerAdapter {
         }
     }
 
-    @NotNull
-    private ArrayList<String> parseArgs(String[] split) {
-        final ArrayList<String> args = new ArrayList<>();
+    private List<String> parseArgs(String[] unfilteredArgs) {
+        final List<String> extractedArgs = new ArrayList<>();
+        int firstBracketPosition = 0, lastBracketPosition = 0;
 
-        int start = 0, end = 0;
-        for (int i = 1; i < split.length; i++) {
-            if (split[i].startsWith("{")) {
-                //remember the location of the first bracket
-                start = i;
-            }
-            //remember the location of the second bracket, if its on start or end
-            //If a element looks like: {someText} it's both, the start and the end position.
-            if (split[i].startsWith("}") || split[i].endsWith("}")) {
-                end = i;
+        for (int i = 1; i < unfilteredArgs.length; i++) {
+            if (isOpeningBracket(unfilteredArgs[i])) {
+                firstBracketPosition = i;
             }
 
-            //if both bracket locations are found, group all string elements between those two brackets
-            if (end != 0 && start != 0) {
-                StringBuilder s = new StringBuilder();
-                for (int j = start; j <= end; j++) {
-                    if (s.length() != 0) {
-                        s.append(" ");
-                    }
-                    s.append(split[j]);
-                }
-                end = 0;
-                start = 0;
-                args.add(s.toString());
+            if (isClosingBracket(unfilteredArgs[i])) {
+                lastBracketPosition = i;
+            }
+
+            if (bothBracketsFound(firstBracketPosition, lastBracketPosition)) {
+                firstBracketPosition = 0;
+                lastBracketPosition = 0;
+                extractedArgs.add(getArgBetweenBrackets(unfilteredArgs, firstBracketPosition, lastBracketPosition));
+
                 //if no brackets are found yet, we must have a single element
-            } else if (end == 0 && start == 0) {
-                args.add(split[i]);
+            } else if (noBracketsFound(firstBracketPosition, lastBracketPosition)) {
+                extractedArgs.add(unfilteredArgs[i]);
             }
         }
 
-        //after the elements are grouped, remove the unnecessary brackets
+        removeBrackets(extractedArgs);
+        return extractedArgs;
+    }
+
+    private boolean bothBracketsFound(int firstBracketPosition, int lastBracketPosition) {
+        return firstBracketPosition != 0 && lastBracketPosition != 0;
+    }
+
+    private boolean noBracketsFound(int firstBracketPosition, int lastBracketPosition) {
+        return firstBracketPosition == 0 && lastBracketPosition == 0;
+    }
+
+    private boolean isClosingBracket(String string) {
+        return string.startsWith("}") || string.endsWith("}");
+    }
+
+    private boolean isOpeningBracket(String string) {
+        return string.startsWith("{");
+    }
+
+    private String getArgBetweenBrackets(String[] unfilteredArgs, int firstBracketPosition, int lastBracketPosition) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = firstBracketPosition; i <= lastBracketPosition; i++) {
+            if (stringBuilder.length() != 0) {
+                stringBuilder.append(" ");
+            }
+            stringBuilder.append(unfilteredArgs[i]);
+        }
+        return stringBuilder.toString();
+    }
+
+    private void removeBrackets(List<String> args) {
         for (int i = 0; i < args.size(); i++) {
             args.set(i, args.get(i).replaceAll("[{}]", ""));
         }
-        return args;
     }
 }
