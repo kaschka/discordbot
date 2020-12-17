@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DiscordUtils {
+
     public static VoiceChannel getCurrentVoiceChannel(Member member) {
         return member.getVoiceState().getChannel();
     }

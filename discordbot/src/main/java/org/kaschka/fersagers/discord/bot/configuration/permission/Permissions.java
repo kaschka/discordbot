@@ -12,6 +12,13 @@ public class Permissions {
     private List<Role> roles;
     private List<Long> ids;
 
+    public static final Permissions STANDARD_PERMISSIONS;
+
+    static {
+        STANDARD_PERMISSIONS = new Permissions();
+        STANDARD_PERMISSIONS.addRole(Role.BOT_PERMISSIONS);
+    }
+
     public Permissions() {
         this.roles = new ArrayList<>(0);
         this.ids = new ArrayList<>(0);

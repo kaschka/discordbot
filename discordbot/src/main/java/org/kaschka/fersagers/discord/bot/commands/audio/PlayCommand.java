@@ -10,9 +10,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertVoiceChannelNotNull;
@@ -90,12 +88,5 @@ public class PlayCommand implements Command {
     @Override
     public String getHelp() {
         return "/play [URL]: Plays the sound of the given url";
-    }
-
-    @Override
-    public Permissions requiredPermissions() {
-        Permissions permissions = new Permissions();
-        permissions.addRole(Role.BOT_PERMISSIONS);
-        return permissions;
     }
 }

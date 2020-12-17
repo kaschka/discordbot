@@ -12,9 +12,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.DiscordUtils;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
@@ -60,12 +58,5 @@ public class ShowCommand implements Command {
     @Override
     public String getHelp() {
         return "/show: Shows the current playlist";
-    }
-
-    @Override
-    public Permissions requiredPermissions() {
-        Permissions permissions = new Permissions();
-        permissions.addRole(Role.BOT_PERMISSIONS);
-        return permissions;
     }
 }

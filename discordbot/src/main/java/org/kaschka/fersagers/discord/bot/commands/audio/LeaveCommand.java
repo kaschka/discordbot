@@ -6,9 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
 
@@ -30,12 +28,5 @@ public class LeaveCommand implements Command {
     @Override
     public String getHelp() {
         return "/leave: Stops the current track";
-    }
-
-    @Override
-    public Permissions requiredPermissions() {
-        Permissions permissions = new Permissions();
-        permissions.addRole(Role.BOT_PERMISSIONS);
-        return permissions;
     }
 }

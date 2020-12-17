@@ -18,6 +18,6 @@ public interface Command {
     String getHelp();
 
     default Permissions requiredPermissions() {
-        return new Permissions();
+        return Permissions.STANDARD_PERMISSIONS;
     }
 }
