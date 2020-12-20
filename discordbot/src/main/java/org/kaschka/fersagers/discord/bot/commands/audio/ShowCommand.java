@@ -33,20 +33,21 @@ public class ShowCommand implements Command {
             MessageUtils.sendMessageToUser(user, "You are not in the same voicechannel as the Bot!");
         } else {
             BlockingQueue<AudioTrack> queue = AudioPlayerManager.getInstance().getGuildMusicManager(guild).scheduler.getQueue();
-
-            String current = AudioPlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title;
+            StringBuilder current = new StringBuilder();
             String queueString = "";
 
-            if (queue.size() > 0) {
-                queueString = queue.stream()
-                        .map(track -> "\n-> " + track.getInfo().title)
-                        .collect(Collectors.joining()
-                        );
+            if (AudioPlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack() != null) {
+                current.append(AudioPlayerManager.getInstance().getGuildMusicManager(guild).player.getPlayingTrack().getInfo().title);
+                if (queue.size() > 0) {
+                    queueString = queue.stream()
+                            .map(track -> "\n-> " + track.getInfo().title)
+                            .collect(Collectors.joining()
+                            );
+                }
             }
 
-            current += queueString;
-            MessageUtils.sendMessageToUser(user, "Current playing: " + current);
-
+            current.append(queueString);
+            MessageUtils.sendMessageToUser(user, "Current playing: " + current.toString());
         }
     }
 
