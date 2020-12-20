@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.db.DbService;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
@@ -17,6 +18,7 @@ public class NewGuildCommand implements Command {
     }
 
     @Override
+    @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertGuildCommand(args, event);
 
