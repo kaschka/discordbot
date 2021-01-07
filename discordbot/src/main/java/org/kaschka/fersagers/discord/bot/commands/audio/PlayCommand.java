@@ -3,6 +3,7 @@ package org.kaschka.fersagers.discord.bot.commands.audio;
 import java.util.List;
 
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -21,25 +22,15 @@ public class PlayCommand implements Command {
     private static final int URL_ARG_NUMBER = 0;
     private static final int AMOUNT_ARG_NUMBER = 1;
 
-
     @Override
     @RequiresPermission
     public void handle(List<String> args, MessageReceivedEvent event) {
         assertPlayCommand(args, event);
-        if (!UrlValidator.getInstance().isValid(args.get(URL_ARG_NUMBER))) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Only URLs are allowed!");
-            return;
-        }
-        int amount = 0;
-        try {
-            if (args.size() >= 2) {
-                amount = Integer.parseInt(args.get(AMOUNT_ARG_NUMBER));
-            }
-        } catch (Exception e) {
-            MessageUtils.sendMessageToUser(event.getAuthor(), "Please provide a valid Number!");
-        }
-        playSound(event, args.get(URL_ARG_NUMBER), amount);
 
+        if (isValidUrl(args.get(URL_ARG_NUMBER), event.getAuthor())) {
+            int amount = getAmount(args, event.getAuthor());
+            playSound(event, args.get(URL_ARG_NUMBER), amount);
+        }
     }
 
     public static void playSound(MessageReceivedEvent event, String url, int amount) {
@@ -73,11 +64,30 @@ public class PlayCommand implements Command {
         }
     }
 
+    private int getAmount(List<String> args, User author) {
+        try {
+            if (args.size() >= 2) {
+                return Integer.parseInt(args.get(AMOUNT_ARG_NUMBER));
+            }
+        } catch (Exception e) {
+            MessageUtils.sendMessageToUser(author, "Please provide a valid Number!");
+        }
+        return 0;
+    }
+
     private void assertPlayCommand(List<String> args, MessageReceivedEvent event) {
         if (args.size() < 1 || args.size() > 2) {
             MessageUtils.sendMessageToUser(event.getAuthor(), "Invalid args.\n Use /play [URL] [Times]");
             throw new RuntimeException();
         }
+    }
+
+    private boolean isValidUrl(String url, User author) {
+        if (!UrlValidator.getInstance().isValid(url)) {
+            MessageUtils.sendMessageToUser(author, "Only URLs are allowed!");
+            return false;
+        }
+        return true;
     }
 
     @Override

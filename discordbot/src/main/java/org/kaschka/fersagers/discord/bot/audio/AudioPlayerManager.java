@@ -2,6 +2,8 @@ package org.kaschka.fersagers.discord.bot.audio;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -18,6 +20,13 @@ public class AudioPlayerManager {
     private static AudioPlayerManager INSTANCE;
     private final com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager audioPlayerManager;
     private final Map<Long, GuildMusicManager> musicManagers;
+
+    private final static int MAX_QUEUE_SIZE = 100;
+
+    private final static Pattern youtubeRegex = Pattern.compile(
+            "^.*?(youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=|\\&v=)([^#\\&\\?]*)(?:(\\?t|&start)=(\\d+))?.*",
+            Pattern.CASE_INSENSITIVE);
+    private final static int START_TIME_REGEX_GROUP = 4;
 
     private AudioPlayerManager() {
         this.musicManagers = new HashMap<>();
@@ -57,7 +66,7 @@ public class AudioPlayerManager {
 
     public void loadAndPlay(VoiceChannel channel, String trackUrl) throws RuntimeException {
         GuildMusicManager musicManager = getGuildMusicManager(channel.getGuild());
-        if (musicManager.scheduler.getQueue().size() >= 100) {
+        if (musicManager.scheduler.getQueue().size() >= MAX_QUEUE_SIZE) {
             logger.log("Queue is full!");
             throw new RuntimeException("Full queue");
         }
@@ -65,6 +74,7 @@ public class AudioPlayerManager {
         audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+                track.setPosition(getStartTimeMillisFromUrl(trackUrl));
                 play(musicManager, track);
             }
 
@@ -85,6 +95,20 @@ public class AudioPlayerManager {
                 stop(channel.getGuild());
             }
         });
+    }
+
+    private int getStartTimeMillisFromUrl(String trackUrl) {
+        Matcher matcher = youtubeRegex.matcher(trackUrl);
+
+        if (!matcher.matches()) {
+            return 0;
+        }
+
+        try {
+            return Integer.parseInt(matcher.group(START_TIME_REGEX_GROUP)) * 1000;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private void play(GuildMusicManager musicManager, AudioTrack track) {
