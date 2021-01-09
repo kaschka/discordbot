@@ -1,6 +1,7 @@
 package org.kaschka.fersagers.discord.bot.listener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -54,7 +55,8 @@ public class ChatListener extends ListenerAdapter {
 
                 if (message.startsWith(PREFIX) && commandHandler.isCommand(invoke)) {
                     MessageUtils.logAndDeleteMessage(event);
-                    final List<String> args = argParser.parse(split);
+                    final String[] unfilteredArgsWithoutInvoke = Arrays.copyOfRange(split, 1, split.length);
+                    final List<String> args = argParser.parse(unfilteredArgsWithoutInvoke);
                     commandHandler.handleCommand(event, invoke, args);
                 } else {
                     // calls all handlers until one returns true
