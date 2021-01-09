@@ -26,13 +26,17 @@ public class ChatListener extends ListenerAdapter {
     private final static String PREFIX = "/";
     private static final String PATTERN_QUOTE = Pattern.quote(PREFIX);
 
+    private final ArgParser argParser;
+
     private final static Logger logger = Logger.getInstance();
 
     private final static List<ChatHandler> chatHandlers = new ArrayList<>();
 
     private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 255, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
 
-    public ChatListener() {
+    public ChatListener(ArgParser argParser) {
+        this.argParser = argParser;
+
         commandHandler = new CommandHandler();
         chatHandlers.add(new MusicHandler());
         chatHandlers.add(new XDHandler());
@@ -50,7 +54,7 @@ public class ChatListener extends ListenerAdapter {
 
                 if (message.startsWith(PREFIX) && commandHandler.isCommand(invoke)) {
                     MessageUtils.logAndDeleteMessage(event);
-                    final List<String> args = parseArgs(split);
+                    final List<String> args = argParser.parse(split);
                     commandHandler.handleCommand(event, invoke, args);
                 } else {
                     // calls all handlers until one returns true
@@ -58,67 +62,6 @@ public class ChatListener extends ListenerAdapter {
 
                 }
             });
-        }
-    }
-
-    private List<String> parseArgs(String[] unfilteredArgs) {
-        final List<String> extractedArgs = new ArrayList<>();
-        int firstBracketPosition = 0, lastBracketPosition = 0;
-
-        for (int i = 1; i < unfilteredArgs.length; i++) {
-            if (isOpeningBracket(unfilteredArgs[i])) {
-                firstBracketPosition = i;
-            }
-
-            if (isClosingBracket(unfilteredArgs[i])) {
-                lastBracketPosition = i;
-            }
-
-            if (bothBracketsFound(firstBracketPosition, lastBracketPosition)) {
-                firstBracketPosition = 0;
-                lastBracketPosition = 0;
-                extractedArgs.add(getArgBetweenBrackets(unfilteredArgs, firstBracketPosition, lastBracketPosition));
-
-                //if no brackets are found yet, we must have a single element
-            } else if (noBracketsFound(firstBracketPosition, lastBracketPosition)) {
-                extractedArgs.add(unfilteredArgs[i]);
-            }
-        }
-
-        removeBrackets(extractedArgs);
-        return extractedArgs;
-    }
-
-    private boolean bothBracketsFound(int firstBracketPosition, int lastBracketPosition) {
-        return firstBracketPosition != 0 && lastBracketPosition != 0;
-    }
-
-    private boolean noBracketsFound(int firstBracketPosition, int lastBracketPosition) {
-        return firstBracketPosition == 0 && lastBracketPosition == 0;
-    }
-
-    private boolean isClosingBracket(String string) {
-        return string.startsWith("}") || string.endsWith("}");
-    }
-
-    private boolean isOpeningBracket(String string) {
-        return string.startsWith("{");
-    }
-
-    private String getArgBetweenBrackets(String[] unfilteredArgs, int firstBracketPosition, int lastBracketPosition) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = firstBracketPosition; i <= lastBracketPosition; i++) {
-            if (stringBuilder.length() != 0) {
-                stringBuilder.append(" ");
-            }
-            stringBuilder.append(unfilteredArgs[i]);
-        }
-        return stringBuilder.toString();
-    }
-
-    private void removeBrackets(List<String> args) {
-        for (int i = 0; i < args.size(); i++) {
-            args.set(i, args.get(i).replaceAll("[{}]", ""));
         }
     }
 }
