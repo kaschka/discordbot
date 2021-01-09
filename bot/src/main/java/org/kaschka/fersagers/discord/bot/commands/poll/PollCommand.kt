@@ -1,6 +1,6 @@
 package org.kaschka.fersagers.discord.bot.commands.poll
 
-import com.vdurmont.emoji.EmojiManager
+import emoji4j.EmojiUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.*
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -58,7 +58,7 @@ class PollCommand : Command {
     private fun filterUniCodeEmojis(strings: MutableList<String>): List<String> {
         val emojis = mutableListOf<String>()
         for (string in strings) {
-            if (EmojiManager.isEmoji(string)) {
+            if (EmojiUtils.isEmoji(string)) {
                 emojis.add(string)
             }
         }
