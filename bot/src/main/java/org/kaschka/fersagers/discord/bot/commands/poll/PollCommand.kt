@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException
 import net.dv8tion.jda.api.requests.ErrorResponse
 import org.kaschka.fersagers.discord.bot.commands.Command
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration
+import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission
 import org.kaschka.fersagers.discord.bot.db.DbService
 import org.kaschka.fersagers.discord.bot.utils.Logger
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils
@@ -23,6 +24,7 @@ class PollCommand : Command {
 
     private val logger = Logger.getInstance()
 
+    @RequiresPermission
     override fun handle(args: MutableList<String>, event: MessageReceivedEvent) {
         assertPollCommand(args, event)
         val poll = Poll(event.channel.idLong, Instant.now().toEpochMilli(), Instant.now().plusMillis(Duration.ofMinutes(args[1].toLong()).toMillis()).toEpochMilli())

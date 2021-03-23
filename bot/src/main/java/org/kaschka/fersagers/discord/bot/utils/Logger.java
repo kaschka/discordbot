@@ -1,11 +1,11 @@
 package org.kaschka.fersagers.discord.bot.utils;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Logger {
 
@@ -14,7 +14,8 @@ public class Logger {
 
     private static ThreadLocal<String> logSessionId = new ThreadLocal<>();
 
-    private Logger() {}
+    private Logger() {
+    }
 
     public static synchronized Logger getInstance() {
         if (INSTANCE == null) {

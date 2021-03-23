@@ -1,7 +1,5 @@
 package org.kaschka.fersagers.discord.bot.listener.handler;
 
-import java.util.List;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -10,6 +8,8 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.kaschka.fersagers.discord.bot.db.DbService;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import java.util.List;
 
 public class MusicHandler implements ChatHandler, StartUpHandler {
 

@@ -1,11 +1,5 @@
 package org.kaschka.fersagers.discord.bot.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,6 +7,12 @@ import org.kaschka.fersagers.discord.bot.listener.handler.MusicHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.PollStartUpHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.StartUpHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.StartUpMessageHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class StartUpListener extends ListenerAdapter {
 

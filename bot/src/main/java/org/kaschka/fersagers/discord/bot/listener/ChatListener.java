@@ -1,13 +1,5 @@
 package org.kaschka.fersagers.discord.bot.listener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -19,6 +11,14 @@ import org.kaschka.fersagers.discord.bot.listener.handler.MusicHandler;
 import org.kaschka.fersagers.discord.bot.listener.handler.XDHandler;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class ChatListener extends ListenerAdapter {
 

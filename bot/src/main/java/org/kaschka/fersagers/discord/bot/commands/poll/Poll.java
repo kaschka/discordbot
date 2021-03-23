@@ -1,10 +1,10 @@
 package org.kaschka.fersagers.discord.bot.commands.poll;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Poll {
     private int id;
@@ -15,7 +15,8 @@ public class Poll {
     private long messageId;
     private long channelId;
 
-    public Poll() {}
+    public Poll() {
+    }
 
     public Poll(long channelId, long startTime, long endTime) {
         this.channelId = channelId;
@@ -78,7 +79,7 @@ public class Poll {
         }
 
         if (duration.toMillis() > 1000) {
-            return duration.toMillis() * 1000 + "s";
+            return "< 1m";
         }
 
         return "Less then 1s";

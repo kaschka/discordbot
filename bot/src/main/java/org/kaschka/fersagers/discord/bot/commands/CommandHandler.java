@@ -1,18 +1,8 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.commands.audio.ClearCommand;
-import org.kaschka.fersagers.discord.bot.commands.audio.JoinCommand;
-import org.kaschka.fersagers.discord.bot.commands.audio.LeaveCommand;
-import org.kaschka.fersagers.discord.bot.commands.audio.PlayCommand;
-import org.kaschka.fersagers.discord.bot.commands.audio.ShowCommand;
-import org.kaschka.fersagers.discord.bot.commands.audio.SkipCommand;
+import org.kaschka.fersagers.discord.bot.commands.audio.*;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.AddCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.ListCommand;
 import org.kaschka.fersagers.discord.bot.commands.audio.soundboard.RemoveCommand;
@@ -21,6 +11,11 @@ import org.kaschka.fersagers.discord.bot.commands.poll.PollCommand;
 import org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CommandHandler {
 

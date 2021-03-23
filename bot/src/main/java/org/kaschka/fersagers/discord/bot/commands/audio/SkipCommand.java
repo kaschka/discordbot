@@ -1,7 +1,5 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
-import java.util.List;
-
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
@@ -9,6 +7,8 @@ import org.kaschka.fersagers.discord.bot.audio.GuildMusicManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import java.util.List;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getBotAndUserVoiceChannel;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.isInVoiceChannel;

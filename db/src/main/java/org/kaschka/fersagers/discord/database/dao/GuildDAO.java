@@ -1,7 +1,5 @@
 package org.kaschka.fersagers.discord.database.dao;
 
-import java.util.List;
-
 import org.kaschka.fersagers.discord.controller.to.GuildTO;
 import org.kaschka.fersagers.discord.database.model.Guild;
 import org.kaschka.fersagers.discord.database.model.Role;
@@ -10,6 +8,8 @@ import org.kaschka.fersagers.discord.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class GuildDAO {

@@ -1,12 +1,8 @@
 package org.kaschka.fersagers.discord.database.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "poll")

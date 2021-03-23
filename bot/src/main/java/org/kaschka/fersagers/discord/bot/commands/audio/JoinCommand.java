@@ -1,13 +1,13 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
-import java.util.List;
-
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
 import org.kaschka.fersagers.discord.bot.configuration.InMemoryConfiguration;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
+
+import java.util.List;
 
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.assertVoiceChannelNotNull;
 import static org.kaschka.fersagers.discord.bot.utils.DiscordUtils.getCurrentVoiceChannel;

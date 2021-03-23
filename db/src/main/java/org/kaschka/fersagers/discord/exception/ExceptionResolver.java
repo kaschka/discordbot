@@ -1,14 +1,14 @@
 package org.kaschka.fersagers.discord.exception;
 
-import javax.management.openmbean.KeyAlreadyExistsException;
-import javax.servlet.http.HttpServletRequest;
-
 import org.kaschka.fersagers.discord.logging.ErrorLogCreator;
 import org.kaschka.fersagers.discord.logging.ErrorResultDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.management.openmbean.KeyAlreadyExistsException;
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ExceptionResolver {

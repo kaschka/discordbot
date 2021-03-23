@@ -1,10 +1,10 @@
 package org.kaschka.fersagers.discord.bot.listener.handler;
 
-import java.util.List;
-
 import org.kaschka.fersagers.discord.bot.commands.poll.Poll;
 import org.kaschka.fersagers.discord.bot.commands.poll.PollCommand;
 import org.kaschka.fersagers.discord.bot.db.DbService;
+
+import java.util.List;
 
 public class PollStartUpHandler implements StartUpHandler {
 

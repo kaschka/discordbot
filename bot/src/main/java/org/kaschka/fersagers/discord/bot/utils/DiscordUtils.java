@@ -1,11 +1,11 @@
 package org.kaschka.fersagers.discord.bot.utils;
 
-import java.util.List;
-
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import java.util.List;
 
 public class DiscordUtils {
 

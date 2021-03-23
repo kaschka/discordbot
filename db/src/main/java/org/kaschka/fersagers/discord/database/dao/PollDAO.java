@@ -1,10 +1,10 @@
 package org.kaschka.fersagers.discord.database.dao;
 
-import java.util.List;
-
 import org.kaschka.fersagers.discord.database.model.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class PollDAO {

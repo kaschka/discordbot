@@ -1,11 +1,11 @@
 package org.kaschka.fersagers.discord.database.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Sound {

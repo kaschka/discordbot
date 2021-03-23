@@ -1,11 +1,10 @@
 package org.kaschka.fersagers.discord.database.dao;
 
-import java.util.List;
-
-import javax.management.openmbean.KeyAlreadyExistsException;
-
 import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.stereotype.Component;
+
+import javax.management.openmbean.KeyAlreadyExistsException;
+import java.util.List;
 
 @Component
 public class SoundBoardDAO {

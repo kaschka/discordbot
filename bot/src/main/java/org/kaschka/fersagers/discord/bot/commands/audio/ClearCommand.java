@@ -1,7 +1,5 @@
 package org.kaschka.fersagers.discord.bot.commands.audio;
 
-import java.util.List;
-
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.audio.AudioPlayerManager;
 import org.kaschka.fersagers.discord.bot.commands.Command;
@@ -9,6 +7,8 @@ import org.kaschka.fersagers.discord.bot.configuration.permission.Permissions;
 import org.kaschka.fersagers.discord.bot.configuration.permission.RequiresPermission;
 import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
 import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
+import java.util.List;
 
 public class ClearCommand implements Command {
 

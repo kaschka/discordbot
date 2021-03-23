@@ -1,13 +1,13 @@
 package org.kaschka.fersagers.discord.bot.commands;
 
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
+import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kaschka.fersagers.discord.bot.configuration.permission.Role;
-import org.kaschka.fersagers.discord.bot.utils.MessageUtils;
 
 import static org.kaschka.fersagers.discord.bot.configuration.permission.Permissions.hasPermission;
 

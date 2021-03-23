@@ -1,14 +1,10 @@
 package org.kaschka.fersagers.discord.bot.db;
 
-import java.util.List;
-
 import org.kaschka.fersagers.discord.bot.commands.poll.Poll;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
+
+import java.util.List;
 
 public interface DbServiceRetro {
     @GET("/api/guild/{guildId}/music")

@@ -1,9 +1,5 @@
 package org.kaschka.fersagers.discord.bot.db;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +8,10 @@ import org.kaschka.fersagers.discord.bot.utils.Logger;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class DbService {
 

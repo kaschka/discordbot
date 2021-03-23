@@ -1,10 +1,5 @@
 package org.kaschka.fersagers.discord.bot.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.security.auth.login.LoginException;
-
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -13,6 +8,10 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.kaschka.fersagers.discord.bot.listener.ArgParser;
 import org.kaschka.fersagers.discord.bot.listener.ChatListener;
 import org.kaschka.fersagers.discord.bot.listener.StartUpListener;
+
+import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationConfiguration {
 

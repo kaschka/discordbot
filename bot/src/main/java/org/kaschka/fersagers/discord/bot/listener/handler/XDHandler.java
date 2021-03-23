@@ -1,11 +1,11 @@
 package org.kaschka.fersagers.discord.bot.listener.handler;
 
-import java.util.regex.Pattern;
-
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kaschka.fersagers.discord.bot.utils.Logger;
+
+import java.util.regex.Pattern;
 
 public class XDHandler implements ChatHandler {
 

@@ -1,11 +1,10 @@
 package org.kaschka.fersagers.discord.database.dao;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.data.repository.CrudRepository;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 public interface SoundBoardRepository extends CrudRepository<Sound, Integer> {
     Sound getByGuildIdAndName(long guildId, String name);
