@@ -11,9 +11,10 @@
 
     <properties>
         <jdk.version>11</jdk.version>
-        <jda.version>4.2.0_219</jda.version>
+        <jda.version>4.2.1_253</jda.version>
+        <lava.version>1.3.76</lava.version>
         <aspectj.version>1.9.6</aspectj.version>
-        <kotlin.version>1.4.10</kotlin.version>
+        <kotlin.version>1.4.30</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 
         <mainClass>org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration</mainClass>
@@ -25,6 +26,11 @@
             <artifactId>JDA</artifactId>
             <version>${jda.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sedmelluq</groupId>
+            <artifactId>lavaplayer</artifactId>
+            <version>${lava.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -35,12 +41,6 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sedmelluq</groupId>
-            <artifactId>lavaplayer</artifactId>
-            <version>1.3.61</version>
         </dependency>
 
         <dependency>
@@ -223,6 +223,11 @@
             <id>central</id>
             <name>bintray</name>
             <url>https://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
         </repository>
     </repositories>
 

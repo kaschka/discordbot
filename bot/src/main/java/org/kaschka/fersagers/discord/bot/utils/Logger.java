@@ -30,6 +30,9 @@ public class Logger {
 
     public void logException(Exception ex) {
         logFormatted(String.format("Exception: %s", ex.getLocalizedMessage()));
+        if(ex.getCause() != null) {
+            logFormatted(String.format("Exception: %s", ex.getCause()));
+        }
     }
 
     public void logChatMessage(MessageReceivedEvent message) {

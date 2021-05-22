@@ -2,6 +2,7 @@ package org.kaschka.fersagers.discord.bot.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.Guild;
@@ -46,6 +47,11 @@ public class TrackScheduler extends AudioEventAdapter {
             guild.getAudioManager().closeAudioConnection();
         }
         nextTrack();
+    }
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        Logger.getInstance().logException(exception);
     }
 
     @Override
