@@ -66,6 +66,7 @@ public class ApplicationConfiguration {
         List<CacheFlag> list = new ArrayList();
         list.add(CacheFlag.ACTIVITY);
         list.add(CacheFlag.CLIENT_STATUS);
+        list.add(CacheFlag.ONLINE_STATUS);
         return list;
     }
 }

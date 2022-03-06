@@ -15,8 +15,6 @@
     </modules>
 
     <properties>
-        <jdk.version>1.8</jdk.version>
-        <jda.version>4.1.0_88</jda.version>
-        <aspectj.version>1.9.4</aspectj.version>
+        <jdk.version>17</jdk.version>
     </properties>
 </project>
