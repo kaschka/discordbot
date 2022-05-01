@@ -21,7 +21,7 @@ public class ChatListener extends ListenerAdapter {
 
     private final CommandHandler commandHandler;
 
-    private final static String PREFIX = "/";
+    private final static String PREFIX = "!";
     private static final String PATTERN_QUOTE = Pattern.quote(PREFIX);
 
     private final ArgParser argParser;
