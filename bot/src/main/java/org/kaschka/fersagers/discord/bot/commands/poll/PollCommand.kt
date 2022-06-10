@@ -1,8 +1,10 @@
 package org.kaschka.fersagers.discord.bot.commands.poll
 
-import emoji4j.EmojiUtils
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.exceptions.ErrorResponseException
 import net.dv8tion.jda.api.requests.ErrorResponse
@@ -23,6 +25,20 @@ class PollCommand : Command {
     private val db = DbService()
 
     private val logger = Logger.getInstance()
+
+    //https://raw.githubusercontent.com/DrKLO/Telegram/master/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+    private val emojiRegex = Regex(
+        "(?:[\uD83C\uDF00-\uD83D\uDDFF]|[\uD83E\uDD00-\uD83E\uDDFF]|" +
+                "[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|" +
+                "[\u2600-\u26FF]\uFE0F?|[\u2700-\u27BF]\uFE0F?|\u24C2\uFE0F?|" +
+                "[\uD83C\uDDE6-\uD83C\uDDFF]{1,2}|" +
+                "[\uD83C\uDD70\uD83C\uDD71\uD83C\uDD7E\uD83C\uDD7F\uD83C\uDD8E\uD83C\uDD91-\uD83C\uDD9A]\uFE0F?|" +
+                "[\u0023\u002A\u0030-\u0039]\uFE0F?\u20E3|[\u2194-\u2199\u21A9-\u21AA]\uFE0F?|[\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55]\uFE0F?|" +
+                "[\u2934\u2935]\uFE0F?|[\u3030\u303D]\uFE0F?|[\u3297\u3299]\uFE0F?|" +
+                "[\uD83C\uDE01\uD83C\uDE02\uD83C\uDE1A\uD83C\uDE2F\uD83C\uDE32-\uD83C\uDE3A\uD83C\uDE50\uD83C\uDE51]\uFE0F?|" +
+                "[\u203C\u2049]\uFE0F?|[\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE]\uFE0F?|" +
+                "[\u00A9\u00AE]\uFE0F?|[\u2122\u2139]\uFE0F?|\uD83C\uDC04\uFE0F?|\uD83C\uDCCF\uFE0F?|" +
+                "[\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA]\uFE0F?)+")
 
     @RequiresPermission
     override fun handle(args: MutableList<String>, event: MessageReceivedEvent) {
@@ -54,13 +70,13 @@ class PollCommand : Command {
         }
 
         embedBuilder.addField(event.author.name + " asks: " + args[0], builder.toString(), false)
-        return event.channel.sendMessage(embedBuilder.build()).complete()
+        return event.channel.sendMessageEmbeds(embedBuilder.build()).complete()
     }
 
     private fun filterUniCodeEmojis(strings: MutableList<String>): List<String> {
         val emojis = mutableListOf<String>()
         for (string in strings) {
-            if (EmojiUtils.isEmoji(string)) {
+            if (isEmoji(string)) {
                 emojis.add(string)
             }
         }
@@ -78,6 +94,10 @@ class PollCommand : Command {
         val emojis = mutableListOf<Emote>()
         emojisLong.forEach { guild.getEmoteById(it)?.let { notNull -> emojis.add(notNull) } }
         return emojis
+    }
+
+    private fun isEmoji(string: String): Boolean {
+        return emojiRegex.matches(string)
     }
 
     private fun assertPollCommand(args: List<String>, event: MessageReceivedEvent) {
@@ -115,13 +135,13 @@ class PollCommand : Command {
                     val embedBuilder = createEmbedBuilderFromEmbed(message.embeds[0])
                     while (Instant.now().isBefore(Instant.ofEpochMilli(poll.endTime))) {
                         embedBuilder.setFooter("Time left: " + poll.humanReadableDuration)
-                        message.editMessage(embedBuilder.build()).complete()
+                        message.editMessageEmbeds(embedBuilder.build()).complete()
                         sleep(60 * 1000)
                     }
                     db.deletePoll(poll)
                     embedBuilder.setFooter("Poll is over!").setColor(Color.RED)
                     result(embedBuilder, message)
-                    message.editMessage(embedBuilder.build()).queue()
+                    message.editMessageEmbeds(embedBuilder.build()).queue()
                 }
             }.start()
         }
