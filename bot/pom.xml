@@ -11,10 +11,10 @@
 
     <properties>
         <jdk.version>17</jdk.version>
-        <jda.version>4.4.0_350</jda.version>
+        <jda.version>4.4.1_353</jda.version>
         <lava.version>1.3.78</lava.version>
         <aspectj.version>1.9.9.1</aspectj.version>
-        <kotlin.version>1.6.21</kotlin.version>
+        <kotlin.version>1.7.20</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 
         <mainClass>org.kaschka.fersagers.discord.bot.configuration.ApplicationConfiguration</mainClass>
