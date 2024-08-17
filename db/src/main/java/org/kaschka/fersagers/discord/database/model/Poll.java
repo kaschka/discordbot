@@ -1,8 +1,8 @@
 package org.kaschka.fersagers.discord.database.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "poll")

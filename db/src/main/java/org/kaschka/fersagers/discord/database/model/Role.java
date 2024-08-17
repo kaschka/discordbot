@@ -1,7 +1,7 @@
 package org.kaschka.fersagers.discord.database.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Role {

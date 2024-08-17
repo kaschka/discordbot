@@ -2,8 +2,8 @@ package org.kaschka.fersagers.discord.database.dao;
 
 import org.kaschka.fersagers.discord.database.model.Sound;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface SoundBoardRepository extends CrudRepository<Sound, Integer> {

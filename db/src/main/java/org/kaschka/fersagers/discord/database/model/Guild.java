@@ -1,6 +1,7 @@
 package org.kaschka.fersagers.discord.database.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity

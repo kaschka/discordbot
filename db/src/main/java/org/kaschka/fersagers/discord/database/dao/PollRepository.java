@@ -2,8 +2,8 @@ package org.kaschka.fersagers.discord.database.dao;
 
 import org.kaschka.fersagers.discord.database.model.Poll;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface PollRepository extends CrudRepository<Poll, Integer> {
